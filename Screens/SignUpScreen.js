@@ -35,13 +35,13 @@ export default function SignUpScreen() {
 
                 <View style={style.textInputContainer}>
                     <View style={style.textInput}>
-                        <TextInput autoComplete={false} autoCapitalize={false} placeholder='User Name' />
+                        <TextInput placeholder='User Name' />
                     </View>
                     <View style={style.textInput}>
-                        <TextInput autoComplete={false} autoCapitalize={false} placeholder='Email' />
+                        <TextInput placeholder='Email' />
                     </View>
                     <View style={style.textInput}>
-                        <TextInput autoComplete={false} autoCapitalize={false} placeholder='Password' />
+                        <TextInput secureTextEntry={true} placeholder='Password' />
                     </View>
                 </View>
 

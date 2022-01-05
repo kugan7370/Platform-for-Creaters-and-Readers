@@ -34,16 +34,16 @@ export default function SignInScreen() {
 
                 <View style={style.textInputContainer}>
                     <View style={style.textInput}>
-                        <TextInput autoComplete={false} autoCapitalize={false} placeholder='Email' />
+                        <TextInput placeholder='Email' />
                     </View>
                     <View style={style.textInput}>
-                        <TextInput autoComplete={false} autoCapitalize={false} placeholder='Password' />
+                        <TextInput placeholder='Password' />
                     </View>
                 </View>
 
                 {/* {button} */}
                 <View style={style.button}>
-                    <Button title='Sign In'></Button>
+                    <Button onPress={() => navigation.push('Blog')} title='Sign In'></Button>
                     <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }}>
                         <Text>Don't you have account? </Text>
                         <TouchableOpacity onPress={() => navigation.push('SignUp')}>
