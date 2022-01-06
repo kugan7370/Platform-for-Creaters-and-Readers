@@ -1,13 +1,36 @@
-import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons, Feather } from '@expo/vector-icons';
 
+
+
+
 export default function BlogPosts() {
+
+    const [isLiked, setisLiked] = useState(false)
+    const [isBookmark, setisBookmark] = useState(false)
+    const handleLike = () => {
+        if (!isLiked) {
+            setisLiked(true)
+        }
+        else {
+            setisLiked(false)
+        }
+    }
+
+    const handleBookMark = () => {
+        if (!isBookmark) {
+            setisBookmark(true)
+        }
+        else {
+            setisBookmark(false)
+        }
+    }
     return (
         <View style={style.container}>
             <PostHeader />
             <PostContent />
-            <PostFooter />
+            <PostFooter handleBookMark={handleBookMark} isBookmark={isBookmark} isLiked={isLiked} handleLike={handleLike} />
         </View>
     )
 }
@@ -48,20 +71,25 @@ export const PostContent = () => (
 
 
 
-export const PostFooter = () => (
+export const PostFooter = ({ handleLike, isLiked, handleBookMark, isBookmark }) => (
     <View style={style.postFooterContainer}>
-        <View>
+        <View style={{ width: 80 }}>
             <Text style={style.categoryText}>Technology</Text>
+            <Text></Text>
         </View>
 
         <View style={style.footerFlex}>
             <View style={style.likeContainer}>
-                <Ionicons name="heart-outline" size={24} color="black" />
+                <TouchableOpacity onPress={handleLike} >
+                    {isLiked ? <Ionicons name="heart" size={24} color="red" /> : <Ionicons name="heart-outline" size={24} color="black" />}
+                </TouchableOpacity>
                 <Text>12</Text>
             </View>
 
             <View style={style.bookmarkIcon}>
-                <Ionicons name="bookmark-outline" size={20} color="black" />
+                <TouchableOpacity onPress={handleBookMark}>
+                    {isBookmark ? <Ionicons name="bookmark" size={20} color="black" /> : <Ionicons name="bookmark-outline" size={20} color="black" />}
+                </TouchableOpacity>
             </View>
         </View>
     </View>
@@ -99,11 +127,19 @@ const style = StyleSheet.create({
         fontSize: 12,
         marginLeft: 10
     },
-
+    proImageContainer: {
+        height: 30,
+        width: 30,
+    },
+    proImage: {
+        height: '100%',
+        width: '100%',
+        borderRadius: 30
+    },
 
     //  ------PostContent--------------------
     imageContainer: {
-        height: 80,
+        height: 90,
         width: 100,
 
     },
@@ -117,15 +153,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
 
     },
-    proImageContainer: {
-        height: 30,
-        width: 30,
-    },
-    proImage: {
-        height: '100%',
-        width: '100%',
-        borderRadius: 30
-    },
+
     PostTitleContainer: {
         marginLeft: 20,
     },
@@ -139,7 +167,8 @@ const style = StyleSheet.create({
 
     // ----------------post Footer------------
     postFooterContainer: {
-        flexDirection: 'row', marginTop: 20
+        flexDirection: 'row', marginTop: 20,
+
     },
     categoryText: {
         color: 'gray', fontSize: 12
