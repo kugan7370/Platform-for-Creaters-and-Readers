@@ -61,9 +61,9 @@ export const PostContent = () => (
         </View>
 
         <View style={style.PostTitleContainer} >
-            <View style={style.PostTitleSubContainer}>
-                <Text style={style.postTitle}>What are the techonogies for front-end development</Text>
-            </View>
+
+            <Text style={style.postTitle}>What are the techonogies for front-end development</Text>
+
         </View>
 
     </View>
@@ -73,11 +73,13 @@ export const PostContent = () => (
 
 export const PostFooter = ({ handleLike, isLiked, handleBookMark, isBookmark }) => (
     <View style={style.postFooterContainer}>
+        {/* {category} */}
         <View style={{ width: 80 }}>
             <Text style={style.categoryText}>Technology</Text>
             <Text></Text>
         </View>
 
+        {/* {like} */}
         <View style={style.footerFlex}>
             <View style={style.likeContainer}>
                 <TouchableOpacity onPress={handleLike} >
@@ -155,11 +157,11 @@ const style = StyleSheet.create({
     },
 
     PostTitleContainer: {
-        marginLeft: 20,
+
+        flex: 1,
+        marginLeft: 20
     },
-    PostTitleSubContainer: {
-        paddingHorizontal: 10, width: '88%'
-    },
+
     postTitle: {
         fontWeight: '700',
         fontSize: 15,
