@@ -6,12 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 
 
 export default function BlogHeader() {
+
     const navigation = useNavigation();
     return (
         <View style={style.container}>
             <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
                 <View style={style.headContainer}>
-                    <TouchableOpacity onPress={() => navigation.push('SignIn')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
                         <Ionicons name="menu" size={30} color="black" />
                     </TouchableOpacity>
 
@@ -28,12 +29,14 @@ export default function BlogHeader() {
 
 const style = StyleSheet.create({
     container: {
-        marginHorizontal: 15,
+        // marginHorizontal: 15,
     },
     headContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingHorizontal: 15
+
     },
     headText: {
         fontSize: 18,

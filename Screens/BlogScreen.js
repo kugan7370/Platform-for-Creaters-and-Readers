@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+
 import BlogHeader from '../Components/Blog/BlogHeader'
 import BlogPosts from '../Components/Blog/BlogPosts'
 import BlogSearch from '../Components/Blog/BlogSearch'

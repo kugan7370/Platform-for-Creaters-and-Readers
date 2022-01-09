@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { Ionicons, Feather } from '@expo/vector-icons';
+import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 
 export default function BlogPosts() {
+    const navigation = useNavigation();
 
     const [isLiked, setisLiked] = useState(false)
     const [isBookmark, setisBookmark] = useState(false)
@@ -29,7 +31,7 @@ export default function BlogPosts() {
     return (
         <View style={style.container}>
             <PostHeader />
-            <PostContent />
+            <PostContent navigation={navigation} />
             <PostFooter handleBookMark={handleBookMark} isBookmark={isBookmark} isLiked={isLiked} handleLike={handleLike} />
         </View>
     )
@@ -54,8 +56,9 @@ export const PostHeader = () => (
 );
 
 
-export const PostContent = () => (
-    <View style={style.flexDivider}>
+export const PostContent = ({ navigation }) => (
+
+    <TouchableOpacity style={style.flexDivider} onPress={() => navigation.navigate('Detail')}>
         <View style={style.imageContainer}>
             <Image style={style.titleImage} source={{ uri: 'https://techbooky.com/wp-content/uploads/2018/04/technology-and-us-scaled.jpg' }}></Image>
         </View>
@@ -63,38 +66,47 @@ export const PostContent = () => (
         <View style={style.PostTitleContainer} >
 
             <Text style={style.postTitle}>What are the techonogies for front-end development</Text>
-
+            <View style={{ marginTop: 20, backgroundColor: '#f7f7f7', alignSelf: 'flex-start', borderRadius: 5, paddingVertical: 2 }}>
+                <Text style={style.categoryText}>Technology</Text>
+            </View>
         </View>
 
-    </View>
+
+
+    </TouchableOpacity>
 );
 
 
 
 export const PostFooter = ({ handleLike, isLiked, handleBookMark, isBookmark }) => (
     <View style={style.postFooterContainer}>
-        {/* {category} */}
-        <View style={{ width: 80 }}>
-            <Text style={style.categoryText}>Technology</Text>
-            <Text></Text>
-        </View>
+        <TouchableOpacity >
+            <FontAwesome5 name="comment" size={20} color="black" />
+        </TouchableOpacity>
+
+
 
         {/* {like} */}
-        <View style={style.footerFlex}>
-            <View style={style.likeContainer}>
-                <TouchableOpacity onPress={handleLike} >
-                    {isLiked ? <Ionicons name="heart" size={24} color="red" /> : <Ionicons name="heart-outline" size={24} color="black" />}
-                </TouchableOpacity>
-                <Text>12</Text>
-            </View>
-
-            <View style={style.bookmarkIcon}>
-                <TouchableOpacity onPress={handleBookMark}>
-                    {isBookmark ? <Ionicons name="bookmark" size={20} color="black" /> : <Ionicons name="bookmark-outline" size={20} color="black" />}
-                </TouchableOpacity>
-            </View>
+        <View style={style.likeContainer}>
+            <TouchableOpacity onPress={handleLike}  >
+                {isLiked ? <Ionicons name="heart" size={20} color="red" /> : <Ionicons name="heart-outline" size={20} color="black" />}
+            </TouchableOpacity>
+            <Text>{isLiked ? 13 : 12}</Text>
         </View>
-    </View>
+        {/* {bookmark} */}
+
+        <TouchableOpacity style={style.bookmarkIcon} onPress={handleBookMark}>
+            {isBookmark ? <Ionicons name="bookmark" size={20} color="black" /> : <Ionicons name="bookmark-outline" size={20} color="black" />}
+        </TouchableOpacity>
+
+
+
+
+
+
+
+
+    </View >
 );
 
 
@@ -107,16 +119,17 @@ export const PostFooter = ({ handleLike, isLiked, handleBookMark, isBookmark }) 
 const style = StyleSheet.create({
     container: {
         marginBottom: 10,
-        marginHorizontal: 15,
         borderRadius: 10,
         backgroundColor: '#fafafa',
-        padding: 10,
+
+        paddingHorizontal: 10,
         paddingTop: 20
     },
     // ----------PostHeader--------------------
     headerContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginHorizontal: 15,
     },
     headerFlex: {
         flexDirection: 'row', marginBottom: 20
@@ -153,7 +166,7 @@ const style = StyleSheet.create({
     },
     flexDivider: {
         flexDirection: 'row',
-
+        marginHorizontal: 15,
     },
 
     PostTitleContainer: {
@@ -170,19 +183,25 @@ const style = StyleSheet.create({
     // ----------------post Footer------------
     postFooterContainer: {
         flexDirection: 'row', marginTop: 20,
-
+        justifyContent: 'space-between',
+        backgroundColor: '#fcfcfc',
+        elevation: 0.5,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        borderRadius: 5
     },
     categoryText: {
-        color: 'gray', fontSize: 12
+        color: 'gray', fontSize: 12,
+        letterSpacing: 1
     },
     footerFlex: {
         marginLeft: 30, flexDirection: 'row', justifyContent: 'space-evenly', flex: 1
     },
     likeContainer: {
-        flexDirection: 'row', marginRight: 40,
+        flexDirection: 'row',
     },
     bookmarkIcon: {
-        marginRight: 42
+
     }
 
 })
