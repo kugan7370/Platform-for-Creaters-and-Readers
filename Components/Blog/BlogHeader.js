@@ -3,11 +3,22 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../../Firebase';
+import { signOut } from 'firebase/auth';
 
 
 export default function BlogHeader() {
-
     const navigation = useNavigation();
+
+
+    const userSignOut = () => {
+        signOut(auth).then(() => {
+            navigation.navigate('SignIn');
+        })
+    }
+
+
+
     return (
         <View style={style.container}>
             <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
@@ -17,9 +28,9 @@ export default function BlogHeader() {
                     </TouchableOpacity>
 
                     <Text style={style.headText}>Blogs</Text>
-                    <View style={style.imageContainer}>
+                    <TouchableOpacity onPress={userSignOut} style={style.imageContainer}>
                         <Image style={style.image} source={{ uri: 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg' }} />
-                    </View>
+                    </TouchableOpacity>
 
                 </View>
             </SafeAreaView >

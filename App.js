@@ -1,7 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Navigation from './Navigation/Navigation';
 
+LogBox.ignoreLogs([
+  "setting a timer",
+  "AsyncStorage has been extracted from react-native core and will be removed in a future release."
+]);
 
 export default function App() {
   return (

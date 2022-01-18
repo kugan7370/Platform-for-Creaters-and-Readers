@@ -11,6 +11,7 @@ export default function BlogPosts() {
 
     const [isLiked, setisLiked] = useState(false)
     const [isBookmark, setisBookmark] = useState(false)
+
     const handleLike = () => {
         if (!isLiked) {
             setisLiked(true)
@@ -28,6 +29,7 @@ export default function BlogPosts() {
             setisBookmark(false)
         }
     }
+
     return (
         <View style={style.container}>
             <PostHeader />
@@ -45,7 +47,14 @@ export const PostHeader = () => (
             </View>
             <View>
                 <Text style={style.profileName}>Kugan_Priyan</Text>
-                <Text style={style.date}>32 min ago</Text>
+                <View style={{ flexDirection: 'row' }}>
+
+                    <Ionicons style={{ marginLeft: 10 }} name="time" size={15} color="gray" />
+
+
+                    <Text style={style.date}>32 min ago</Text>
+                </View>
+
             </View>
         </View>
 
@@ -140,7 +149,7 @@ const style = StyleSheet.create({
     date: {
         color: 'gray',
         fontSize: 12,
-        marginLeft: 10
+        marginLeft: 3
     },
     proImageContainer: {
         height: 30,
@@ -187,7 +196,7 @@ const style = StyleSheet.create({
         backgroundColor: '#fcfcfc',
         elevation: 0.5,
         paddingVertical: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 15,
         borderRadius: 5
     },
     categoryText: {
