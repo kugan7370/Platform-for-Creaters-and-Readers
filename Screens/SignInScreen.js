@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
@@ -32,23 +32,18 @@ export default function SignInScreen() {
             <View style={{ marginHorizontal: 40 }}>
                 {/* {sign text} */}
 
+
+
                 <View style={style.textContainer}>
-                    <Text style={style.text}>Sign In</Text>
+                    <Text style={style.text}>Welcome back!</Text>
                 </View>
 
-                <View style={{ alignItems: 'center', marginVertical: 50 }}>
-                    <Text style={{ color: 'gray', fontSize: 20 }}>or</Text>
+                <View style={{ height: 200, width: '100%', alignItems: 'center' }}>
+                    <Image source={{ uri: 'https://i.pinimg.com/originals/47/94/73/479473ee35eff3744b072724e7a70e7a.png' }} style={{ height: '100%', width: '100%', resizeMode: 'contain' }}></Image>
                 </View>
 
-                {/* {social media} */}
-                <View style={style.Social}>
-                    <View style={{ ...style.facebookContainer, backgroundColor: '#475993' }}>
-                        <FontAwesome name="google-plus-square" size={40} color="white" />
-                    </View>
-                    <View style={style.facebookContainer}>
-                        <FontAwesome name="facebook-square" size={40} color="white" />
-                    </View>
-                </View>
+
+
 
                 {/* forms*/}
 
@@ -65,7 +60,7 @@ export default function SignInScreen() {
                 >
                     {({ handleBlur, handleChange, handleSubmit, values, errors, isValid }) => (
 
-                        <View style={{ marginTop: 40 }}>
+                        <View style={{ marginTop: 20 }}>
                             <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
                                 <TextInput style={style.textField} onBlur={handleBlur('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
                             </View>
@@ -78,11 +73,29 @@ export default function SignInScreen() {
                                 <Text style={{ color: '#2d9efa' }}>Forgot Password?</Text>
                             </View>
 
-                            <View style={{ marginTop: 50, }}>
+                            <View style={{ marginTop: 40, }}>
                                 <Button disabled={!isValid} onPress={handleSubmit} title="Sign in" ></Button>
                             </View>
 
-                            <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'center' }} >
+                            <View style={{ alignItems: 'center', marginVertical: 20 }}>
+                                <Text style={{ color: 'gray' }}>or connect using</Text>
+                            </View>
+
+
+                            {/* {social media} */}
+                            <View style={style.Social}>
+                                <View style={style.facebookContainer}>
+                                    <FontAwesome name="facebook" size={20} color="white" />
+                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
+                                </View>
+                                <View style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
+                                    <FontAwesome name="google" size={20} color="white" />
+                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
+                                </View>
+
+                            </View>
+
+                            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }} >
                                 <Text>Don't have an account?</Text>
                                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                                     <Text style={{ color: '#2d9efa' }}> Sign Up</Text>
@@ -106,13 +119,14 @@ export default function SignInScreen() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f0f0f0'
+        backgroundColor: 'white'
 
 
     },
     textContainer: {
         alignItems: 'center',
-        marginTop: 100,
+        marginTop: 80,
+        marginBottom: 20
     }
     ,
     text: {
@@ -124,8 +138,8 @@ const style = StyleSheet.create({
     },
     Social: {
         flexDirection: 'row',
-        // marginTop: 100,
-        justifyContent: 'space-between'
+        justifyContent: 'space-around',
+
 
     },
     facebookContainer: {
@@ -134,6 +148,10 @@ const style = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 10,
+        flexDirection: 'row',
+        backgroundColor: '#475993'
+
 
 
 
@@ -148,10 +166,11 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#FAFAFA',
         height: 50,
-        backgroundColor: '#dedede',
+        backgroundColor: 'white',
         borderRadius: 5,
         justifyContent: 'center',
         marginBottom: 10,
+        elevation: 1
     },
     textField: {
         paddingHorizontal: 10,

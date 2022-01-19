@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, ScrollView, Alert, Image } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
@@ -63,22 +63,14 @@ export default function SignUpScreen() {
                 {/* {sign text} */}
 
                 <View style={style.textContainer}>
-                    <Text style={style.text}>Sign Up</Text>
+                    <Text style={style.text}>Let's Get Started!</Text>
                 </View>
 
-                <View style={{ alignItems: 'center', marginVertical: 50 }}>
-                    <Text style={{ color: 'gray', fontSize: 20 }}>or</Text>
-                </View>
+                {/* <View style={{ height: 200, width: '100%', alignItems: 'center', }}>
+                    <Image source={{ uri: 'https://i.pinimg.com/originals/47/94/73/479473ee35eff3744b072724e7a70e7a.png' }} style={{ height: '100%', width: '100%', resizeMode: 'cover' }}></Image>
+                </View> */}
 
-                {/* {social media} */}
-                <View style={style.Social}>
-                    <View style={{ ...style.facebookContainer, backgroundColor: '#475993' }}>
-                        <FontAwesome name="google-plus-square" size={40} color="white" />
-                    </View>
-                    <View style={style.facebookContainer}>
-                        <FontAwesome name="facebook-square" size={40} color="white" />
-                    </View>
-                </View>
+
 
                 {/* Form */}
 
@@ -94,10 +86,14 @@ export default function SignUpScreen() {
                         userSignUp(values.email, values.password, values.username);
                     }}
                     validationSchema={SignupSchema}
+                    validateOnMount={true}
                 >
                     {({ handleBlur, handleChange, handleSubmit, values, errors, isValid }) => (
 
+
                         <View style={{ marginTop: 40 }}>
+
+
                             <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
                                 <TextInput style={style.textField} onBlur={handleBlur('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
                             </View>
@@ -116,6 +112,24 @@ export default function SignUpScreen() {
 
                             <View style={{ marginTop: 50, }}>
                                 <Button disabled={!isValid} onPress={handleSubmit} title="Sign up"  ></Button>
+                            </View>
+
+                            <View style={{ alignItems: 'center', marginVertical: 40 }}>
+                                <Text style={{ color: 'gray' }}>or connect using</Text>
+                            </View>
+
+
+                            {/* {social media} */}
+                            <View style={style.Social}>
+                                <View style={style.facebookContainer}>
+                                    <FontAwesome name="facebook" size={20} color="white" />
+                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
+                                </View>
+                                <View style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
+                                    <FontAwesome name="google" size={20} color="white" />
+                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
+                                </View>
+
                             </View>
 
                             <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'center' }} >
@@ -142,7 +156,7 @@ export default function SignUpScreen() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f0f0f0'
+        backgroundColor: '#ffffff'
 
 
     },
@@ -170,6 +184,9 @@ const style = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 10,
+        flexDirection: 'row',
+        backgroundColor: '#475993'
 
 
 
@@ -179,10 +196,11 @@ const style = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#FAFAFA',
         height: 50,
-        backgroundColor: '#dedede',
+        backgroundColor: 'white',
         borderRadius: 5,
         justifyContent: 'center',
         marginBottom: 10,
+        elevation: 1
 
     },
     textField: {
