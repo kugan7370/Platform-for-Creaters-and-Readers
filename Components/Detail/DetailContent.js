@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
-import { View, Text, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import { Ionicons, SimpleLineIcons, } from '@expo/vector-icons';
-import { borderColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
+
+import { collection, collectionGroup, onSnapshot } from 'firebase/firestore';
+import { auth, db } from '../../Firebase';
 
 
 export default function DetailContent() {
     const [isFollow, setisFollow] = useState(false)
+
+
+
+
 
 
     const handleFollow = () => {
@@ -149,5 +155,6 @@ const style = StyleSheet.create({
         elevation: 1,
         borderColor: '#580abf',
         borderWidth: 1
-    }
+    },
+
 })

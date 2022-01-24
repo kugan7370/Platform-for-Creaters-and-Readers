@@ -11,30 +11,30 @@ const profile = 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021
 
 export default function BlogHeader() {
     const navigation = useNavigation();
-    const [user, setuser] = useState(null);
+    // const [user, setuser] = useState(null);
 
 
-    const getuser = async () => {
+    // const getuser = async () => {
 
-        const q = query(collection(db, 'users'), where('uid', '==', auth.currentUser.uid));
-        const docSnap = await getDocs(q);
+    //     const q = query(collection(db, 'users'), where('uid', '==', auth.currentUser.uid));
+    //     const docSnap = await getDocs(q);
 
-        docSnap.docs.map((doc) => {
+    //     docSnap.docs.map((doc) => {
 
-            setuser({
+    //         setuser({
 
-                pro_pic: doc.data().pro_pic,
-                username: doc.data().username,
-            })
+    //             pro_pic: doc.data().pro_pic,
+    //             username: doc.data().username,
+    //         })
 
-        })
+    //     })
 
-    }
+    // }
 
 
-    useEffect(() => {
-        getuser();
-    }, [])
+    // useEffect(() => {
+    //     getuser();
+    // }, [])
 
 
 
@@ -56,7 +56,7 @@ export default function BlogHeader() {
 
                     <Text style={style.headText}>Blogs</Text>
                     <TouchableOpacity onPress={userSignOut} style={style.imageContainer}>
-                        <Image style={style.image} source={{ uri: user ? user.pro_pic : profile }} />
+                        <Image style={style.image} source={{ uri: profile }} />
                     </TouchableOpacity>
 
                 </View>

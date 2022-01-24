@@ -84,7 +84,8 @@ export default function AddDetails() {
             DocUrl = downloadDocUrl;
         }
 
-        await addDoc(collection(db, 'users', auth.currentUser.uid, 'blogs'), {
+
+        await addDoc(collection(db, 'blogs'), {
             title: blogTitle,
             description,
             category,

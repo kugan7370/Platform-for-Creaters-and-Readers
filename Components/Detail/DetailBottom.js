@@ -1,7 +1,49 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, ScrollView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import { collection, collectionGroup, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { auth, db } from '../../Firebase';
+// import * as MediaLibrary from 'expo-media-library';
+// import * as FileSystem from 'expo-file-system';
+// import * as Permissions from 'expo-permissions';
+import { WebView } from 'react-native-webview';
+import PDFReader from 'rn-pdf-reader-js';
+import Constants from 'expo-constants';
+
 export default function DetailBottom() {
+
+    const [file, setFile] = useState('');
+
+    const viewpdf = () => {
+        return (
+            <WebView
+                style={{ flex: 1 }}
+                source={{ uri: 'https://expo.dev' }}
+            />
+        )
+    }
+
+
+
+    // {get uri from firebase}
+    const getpdfUri = async () => {
+        const ref = collection(db, 'blogs')
+        const q = query(ref, where('uid', '==', auth.currentUser.uid))
+        onSnapshot(q, (snapshot) => {
+            snapshot.docs.map((doc) => {
+
+                setFile(doc.data().file);
+
+            })
+
+        })
+
+    }
+
+    useEffect(() => {
+        getpdfUri();
+    }, [])
+
     return (
         <View style={style.container}>
             <View style={style.bottunContainer}>
@@ -10,7 +52,9 @@ export default function DetailBottom() {
             </View>
             <View style={style.bottunContainer}>
                 <Ionicons name="md-download-outline" size={24} color="white" />
-                <Text style={{ color: 'white', marginLeft: 15 }}>Download Now</Text>
+                <TouchableOpacity onPress={viewpdf}>
+                    <Text style={{ color: 'white', marginLeft: 15 }}>Download Now</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )

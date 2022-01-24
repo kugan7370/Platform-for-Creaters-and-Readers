@@ -5,11 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
-import { auth, db } from '../Firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db, googleProvider } from '../Firebase';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
 const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
+
 // {Validation yup}
 const SignupSchema = yup.object().shape({
     email: yup.string().trim().email().required('email is requid'),
@@ -20,6 +21,7 @@ const SignupSchema = yup.object().shape({
 
 export default function SignUpScreen() {
     const navigation = useNavigation();
+
 
 
     const userSignUp = (email, password, username) => {
@@ -86,7 +88,7 @@ export default function SignUpScreen() {
                         userSignUp(values.email, values.password, values.username);
                     }}
                     validationSchema={SignupSchema}
-                    validateOnMount={true}
+
                 >
                     {({ handleBlur, handleChange, handleSubmit, values, errors, isValid }) => (
 
@@ -125,10 +127,10 @@ export default function SignUpScreen() {
                                     <FontAwesome name="facebook" size={20} color="white" />
                                     <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
                                 </View>
-                                <View style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
+                                <TouchableOpacity style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
                                     <FontAwesome name="google" size={20} color="white" />
                                     <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
-                                </View>
+                                </TouchableOpacity>
 
                             </View>
 
