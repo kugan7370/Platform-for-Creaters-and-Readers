@@ -19,10 +19,10 @@ export default function DetailBottom() {
 
     return (
         <View style={style.container}>
-            <View style={style.bottunContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('PdfView')} style={style.bottunContainer}>
                 <Ionicons name="book-outline" size={24} color="white" />
                 <Text style={{ color: 'white', marginLeft: 15 }}>Read Now</Text>
-            </View>
+            </TouchableOpacity>
             <View style={style.bottunContainer}>
                 <Ionicons name="md-download-outline" size={24} color="white" />
                 <TouchableOpacity onPress={() => navigation.navigate('Download')}>
