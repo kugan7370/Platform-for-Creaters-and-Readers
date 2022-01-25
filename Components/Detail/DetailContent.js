@@ -9,11 +9,6 @@ import { auth, db } from '../../Firebase';
 export default function DetailContent() {
     const [isFollow, setisFollow] = useState(false)
 
-
-
-
-
-
     const handleFollow = () => {
         if (!isFollow) {
             setisFollow(true)

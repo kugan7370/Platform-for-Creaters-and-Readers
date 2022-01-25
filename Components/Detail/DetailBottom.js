@@ -1,48 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Touchable, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { collection, collectionGroup, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 // import * as MediaLibrary from 'expo-media-library';
 // import * as FileSystem from 'expo-file-system';
 // import * as Permissions from 'expo-permissions';
-import { WebView } from 'react-native-webview';
-import PDFReader from 'rn-pdf-reader-js';
-import Constants from 'expo-constants';
+// import { WebView } from 'react-native-webview';
+// import PDFReader from 'rn-pdf-reader-js';
+// import Constants from 'expo-constants';
+// import Pdf from 'react-native-pdf';
+// import { WebView } from 'react-native-webview';
+import { useNavigation } from '@react-navigation/native';
 
 export default function DetailBottom() {
+    const navigation = useNavigation();
 
-    const [file, setFile] = useState('');
-
-    const viewpdf = () => {
-        return (
-            <WebView
-                style={{ flex: 1 }}
-                source={{ uri: 'https://expo.dev' }}
-            />
-        )
-    }
-
-
-
-    // {get uri from firebase}
-    const getpdfUri = async () => {
-        const ref = collection(db, 'blogs')
-        const q = query(ref, where('uid', '==', auth.currentUser.uid))
-        onSnapshot(q, (snapshot) => {
-            snapshot.docs.map((doc) => {
-
-                setFile(doc.data().file);
-
-            })
-
-        })
-
-    }
-
-    useEffect(() => {
-        getpdfUri();
-    }, [])
 
     return (
         <View style={style.container}>
@@ -52,7 +25,7 @@ export default function DetailBottom() {
             </View>
             <View style={style.bottunContainer}>
                 <Ionicons name="md-download-outline" size={24} color="white" />
-                <TouchableOpacity onPress={viewpdf}>
+                <TouchableOpacity onPress={() => navigation.navigate('Pdfview')}>
                     <Text style={{ color: 'white', marginLeft: 15 }}>Download Now</Text>
                 </TouchableOpacity>
             </View>
