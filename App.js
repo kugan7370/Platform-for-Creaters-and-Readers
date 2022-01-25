@@ -4,6 +4,8 @@ import Navigation from './Navigation/Navigation';
 import _ from 'lodash';
 import AuthNavigation from './Navigation/AuthNavigation';
 
+
+// {Ignore yellow warning in phone}
 LogBox.ignoreLogs(['Warning:...']); // ignore specific logs
 LogBox.ignoreAllLogs(); // ignore all logs
 const _console = _.clone(console);

@@ -55,7 +55,9 @@ export default function AddDetails() {
 
     const pickDoc = async () => {
         // No permissions request is necessary for launching the image library
-        let result = await DocumentPicker.getDocumentAsync();
+        let result = await DocumentPicker.getDocumentAsync({
+            type: "application/pdf",
+        });
         if (!result.cancelled) {
             setFile(result.uri);
         }
@@ -125,7 +127,7 @@ export default function AddDetails() {
                     AddSubmit(values.blogTitle, values.description, values.category, values.language);
                 }}
                 validationSchema={AddBlogSchema}
-                validateOnMount={true}
+            // validateOnMount={true}
             >
                 {({ handleBlur, handleChange, handleSubmit, values, errors, isValid }) => (
 
@@ -139,7 +141,7 @@ export default function AddDetails() {
 
                         <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Category</Text>
                         <Picker style={style.textBox} selectedValue={values.category} onValueChange={handleChange('category')} >
-                            <Picker.Item label="" value=" " />
+
                             <Picker.Item label="Technology" value="Technology" />
                             <Picker.Item label="Development" value="Development" />
                             <Picker.Item label="Life Style" value="Life Style" />
@@ -148,7 +150,7 @@ export default function AddDetails() {
 
                         <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Language</Text>
                         <Picker style={style.textBox} selectedValue={values.language} onValueChange={handleChange('language')} >
-                            <Picker.Item label="" value=" " />
+
                             <Picker.Item label="Eng" value="Eng" />
                             <Picker.Item label="Tamil" value="Tamil" />
                             <Picker.Item label="Singala" value="Singala" />

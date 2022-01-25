@@ -19,9 +19,7 @@ export default function SignInScreen() {
 
 
     const userSign = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password).then(() => {
-            navigation.navigate('Blog');
-        })
+        signInWithEmailAndPassword(auth, email, password)
     }
 
 

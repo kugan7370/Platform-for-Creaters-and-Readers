@@ -39,7 +39,7 @@ export default function SignUpScreen() {
             }).then(() => {
 
                 Alert.alert('Successfully Registered')
-                console.log("Successfully Registered", email, password);
+
 
 
 

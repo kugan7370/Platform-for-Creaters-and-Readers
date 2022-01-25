@@ -39,9 +39,7 @@ export default function BlogHeader() {
 
 
     const userSignOut = () => {
-        signOut(auth).then(() => {
-            navigation.navigate('SignIn');
-        })
+        signOut(auth)
     }
 
 
