@@ -5,7 +5,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../Firebase';
 
 
-const PdfScreen = () => {
+const DownloadScreen = () => {
 
     const [files, setFile] = useState()
 
@@ -16,7 +16,7 @@ const PdfScreen = () => {
         const q = query(ref, where('uid', '==', auth.currentUser.uid))
         onSnapshot(q, (snapshot) => {
             snapshot.docs.map((doc) => {
-                console.log(doc.data().file);
+
                 setFile(doc.data().file);
 
             })
@@ -48,4 +48,4 @@ const PdfScreen = () => {
     );
 };
 
-export default PdfScreen;
+export default DownloadScreen;

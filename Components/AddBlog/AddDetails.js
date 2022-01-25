@@ -69,7 +69,6 @@ export default function AddDetails() {
         if (image) {
             const response1 = await fetch(image);
             const blob1 = await response1.blob();
-            console.log('bolb', blob1);
             const imgRef = ref(storage, `images/blog/${new Date().getTime()}`);
             const snap = await uploadBytes(imgRef, blob1);
             const downloadUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));

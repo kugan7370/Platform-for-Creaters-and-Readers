@@ -25,7 +25,7 @@ export default function DetailBottom() {
             </View>
             <View style={style.bottunContainer}>
                 <Ionicons name="md-download-outline" size={24} color="white" />
-                <TouchableOpacity onPress={() => navigation.navigate('Pdfview')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Download')}>
                     <Text style={{ color: 'white', marginLeft: 15 }}>Download Now</Text>
                 </TouchableOpacity>
             </View>

@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Navigation from './Navigation/Navigation';
 import _ from 'lodash';
+import AuthNavigation from './Navigation/AuthNavigation';
 
 LogBox.ignoreLogs(['Warning:...']); // ignore specific logs
 LogBox.ignoreAllLogs(); // ignore all logs
@@ -15,7 +16,7 @@ console.warn = message => {
 export default function App() {
   return (
     <View style={styles.container}>
-      <Navigation />
+      <AuthNavigation />
     </View>
   );
 }
