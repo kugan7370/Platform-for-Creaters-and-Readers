@@ -13,19 +13,19 @@ import { auth, db } from '../../Firebase';
 // import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
 
-export default function DetailBottom() {
+export default function DetailBottom({ SelectedBlog }) {
     const navigation = useNavigation();
 
 
     return (
         <View style={style.container}>
-            <TouchableOpacity onPress={() => navigation.navigate('PdfView')} style={style.bottunContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('PdfView', { FileData: SelectedBlog })} style={style.bottunContainer}>
                 <Ionicons name="book-outline" size={24} color="white" />
                 <Text style={{ color: 'white', marginLeft: 15 }}>Read Now</Text>
             </TouchableOpacity>
             <View style={style.bottunContainer}>
                 <Ionicons name="md-download-outline" size={24} color="white" />
-                <TouchableOpacity onPress={() => navigation.navigate('Download')}>
+                <TouchableOpacity onPress={() => navigation.navigate('Download', { FileData: SelectedBlog })}>
                     <Text style={{ color: 'white', marginLeft: 15 }}>Download Now</Text>
                 </TouchableOpacity>
             </View>

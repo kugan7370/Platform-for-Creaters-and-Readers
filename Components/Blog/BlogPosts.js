@@ -31,11 +31,11 @@ export default function BlogPosts({ blog }) {
     }
 
     return (
-        <View style={style.container}>
+        <TouchableOpacity onPress={() => navigation.navigate('Detail', { blogDetail: blog })} style={style.container}>
             <PostHeader blog={blog} />
             <PostContent blog={blog} navigation={navigation} />
             <PostFooter handleBookMark={handleBookMark} isBookmark={isBookmark} isLiked={isLiked} handleLike={handleLike} />
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -67,7 +67,7 @@ export const PostHeader = ({ blog }) => (
 
 export const PostContent = ({ navigation, blog }) => (
 
-    <TouchableOpacity style={style.flexDivider} onPress={() => navigation.navigate('Detail')}>
+    <View style={style.flexDivider} >
         <View style={style.imageContainer}>
             <Image style={style.titleImage} source={{ uri: blog.titleImage }}></Image>
         </View>
@@ -82,7 +82,7 @@ export const PostContent = ({ navigation, blog }) => (
 
 
 
-    </TouchableOpacity>
+    </View>
 );
 
 

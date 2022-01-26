@@ -3,38 +3,30 @@ import React, { useEffect, useState } from 'react';
 import { WebView } from 'react-native-webview';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../Firebase';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const DownloadScreen = () => {
 
     const [files, setFile] = useState()
 
-
-    // {get uri from firebase}
-    const getpdfUri = async () => {
-        const ref = collection(db, 'blogs')
-        const q = query(ref, where('uid', '==', auth.currentUser.uid))
-        onSnapshot(q, (snapshot) => {
-            snapshot.docs.map((doc) => {
-
-                setFile(doc.data().file);
-
-            })
-
-        })
-
-    }
+    const route = useRoute();
+    const navigation = useNavigation();
+    const [SelectedFile, setSelectedFile] = useState()
 
     useEffect(() => {
-        getpdfUri();
+        let { FileData } = route.params;
+        setSelectedFile(FileData);
     }, [])
+
+
 
 
 
     return (
         <>
 
-            {files ? <WebView style={{ flex: 1 }} source={{ uri: files }}
+            {SelectedFile ? <WebView style={{ flex: 1 }} source={{ uri: SelectedFile.file }}
             /> : null}
 
         </>

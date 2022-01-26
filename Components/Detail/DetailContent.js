@@ -6,7 +6,7 @@ import { collection, collectionGroup, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 
 
-export default function DetailContent() {
+export default function DetailContent({ SelectedBlog }) {
     const [isFollow, setisFollow] = useState(false)
 
     const handleFollow = () => {
@@ -24,13 +24,13 @@ export default function DetailContent() {
 
             {/* {title Image} */}
             <View style={style.imageContainer}>
-                <Image style={style.image} source={{ uri: 'https://techbooky.com/wp-content/uploads/2018/04/technology-and-us-scaled.jpg' }} />
+                <Image style={style.image} source={{ uri: SelectedBlog.titleImage }} />
             </View>
 
 
             {/* {title} */}
             <View style={style.textContainer} >
-                <Text style={{ fontSize: 18, textAlign: 'center', fontWeight: 'bold', letterSpacing: 1.5, textTransform: 'capitalize' }}>What are the techonogies for front-end development</Text>
+                <Text style={{ fontSize: 18, textAlign: 'center', fontWeight: 'bold', letterSpacing: 1.5, textTransform: 'capitalize' }}>{SelectedBlog.title}</Text>
             </View>
 
 
@@ -38,10 +38,10 @@ export default function DetailContent() {
             <View style={style.headerContainer} >
                 <View style={style.headerFlex} >
                     <View style={style.proImageContainer}>
-                        <Image style={style.proImage} source={{ uri: 'https://images.unsplash.com/photo-1532074205216-d0e1f4b87368?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80' }}></Image>
+                        <Image style={style.proImage} source={{ uri: SelectedBlog.UserPic }}></Image>
                     </View>
                     <View>
-                        <Text style={style.profileName}>Kugan_Priyan</Text>
+                        <Text style={style.profileName}>{SelectedBlog.username}</Text>
                         <Text style={style.date}>32 min ago</Text>
                     </View>
                 </View>
@@ -66,9 +66,7 @@ export default function DetailContent() {
 
             <View>
                 <ScrollView style={{ height: 230, }}>
-                    <Text style={{ textAlign: 'justify', paddingVertical: 10, lineHeight: 25 }}>
-                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident.
-                    </Text>
+                    <Text style={{ textAlign: 'justify', paddingVertical: 10, lineHeight: 25 }}>{SelectedBlog.description}</Text>
                 </ScrollView>
 
             </View>
