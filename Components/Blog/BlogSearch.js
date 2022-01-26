@@ -23,7 +23,8 @@ const style = StyleSheet.create({
         backgroundColor: '#fcfcfc',
         paddingHorizontal: 10,
         borderColor: 'gray',
-        marginBottom: 20
+        marginBottom: 20,
+        // marginTop: 30
     },
     textInput: {
 

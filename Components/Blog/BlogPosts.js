@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-export default function BlogPosts() {
+export default function BlogPosts({ blog }) {
     const navigation = useNavigation();
 
     const [isLiked, setisLiked] = useState(false)
@@ -32,21 +32,21 @@ export default function BlogPosts() {
 
     return (
         <View style={style.container}>
-            <PostHeader />
-            <PostContent navigation={navigation} />
+            <PostHeader blog={blog} />
+            <PostContent blog={blog} navigation={navigation} />
             <PostFooter handleBookMark={handleBookMark} isBookmark={isBookmark} isLiked={isLiked} handleLike={handleLike} />
         </View>
     )
 }
 
-export const PostHeader = () => (
+export const PostHeader = ({ blog }) => (
     <View style={style.headerContainer} >
         <View style={style.headerFlex} >
             <View style={style.proImageContainer}>
-                <Image style={style.proImage} source={{ uri: 'https://images.unsplash.com/photo-1532074205216-d0e1f4b87368?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80' }}></Image>
+                <Image style={style.proImage} source={{ uri: blog.UserPic }}></Image>
             </View>
             <View>
-                <Text style={style.profileName}>Kugan_Priyan</Text>
+                <Text style={style.profileName}>{blog.username}</Text>
                 <View style={{ flexDirection: 'row' }}>
 
                     <Ionicons style={{ marginLeft: 10 }} name="time" size={15} color="gray" />
@@ -65,18 +65,18 @@ export const PostHeader = () => (
 );
 
 
-export const PostContent = ({ navigation }) => (
+export const PostContent = ({ navigation, blog }) => (
 
     <TouchableOpacity style={style.flexDivider} onPress={() => navigation.navigate('Detail')}>
         <View style={style.imageContainer}>
-            <Image style={style.titleImage} source={{ uri: 'https://techbooky.com/wp-content/uploads/2018/04/technology-and-us-scaled.jpg' }}></Image>
+            <Image style={style.titleImage} source={{ uri: blog.titleImage }}></Image>
         </View>
 
         <View style={style.PostTitleContainer} >
 
-            <Text style={style.postTitle}>What are the techonogies for front-end development</Text>
+            <Text style={style.postTitle}>{blog.title}</Text>
             <View style={{ marginTop: 20, backgroundColor: '#f7f7f7', alignSelf: 'flex-start', borderRadius: 5, paddingVertical: 2 }}>
-                <Text style={style.categoryText}>Technology</Text>
+                <Text style={style.categoryText}>{blog.category}</Text>
             </View>
         </View>
 
@@ -163,7 +163,7 @@ const style = StyleSheet.create({
 
     //  ------PostContent--------------------
     imageContainer: {
-        height: 90,
+        height: 100,
         width: 100,
 
     },

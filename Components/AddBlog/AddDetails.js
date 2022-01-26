@@ -5,10 +5,13 @@ import { Picker } from '@react-native-community/picker'
 import * as yup from 'yup'
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
-import { addDoc, collection, doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore'
 import { auth, db, storage } from '../../Firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { useNavigation } from '@react-navigation/native'
+import { SignInUser } from '../../Redux/Reducers/UserSlicer'
+import { useSelector } from 'react-redux'
+
 
 const uploadImage = 'https://cdn.iconscout.com/icon/premium/png-256-thumb/image-gallery-1733269-1478308.png'
 
@@ -21,6 +24,9 @@ const AddBlogSchema = yup.object().shape({
 
 export default function AddDetails() {
     const navigation = useNavigation();
+    const user = useSelector(SignInUser);
+
+
 
     const [image, setImage] = useState(uploadImage);
     const [File, setFile] = useState(null)
@@ -86,6 +92,8 @@ export default function AddDetails() {
         }
 
 
+
+
         await addDoc(collection(db, 'blogs'), {
             title: blogTitle,
             description,
@@ -94,12 +102,15 @@ export default function AddDetails() {
             createAt: serverTimestamp(),
             titleImage: ImgUrl,
             file: DocUrl,
-            uid: auth.currentUser.uid
+            uid: auth.currentUser.uid,
+            username: user.username,
+            UserPic: user.pro_pic,
 
         }).then(() => {
             Alert.alert('Successfully Added');
             navigation.navigate('Blog');
         })
+
     }
 
 
@@ -144,7 +155,12 @@ export default function AddDetails() {
 
                             <Picker.Item label="Technology" value="Technology" />
                             <Picker.Item label="Development" value="Development" />
-                            <Picker.Item label="Life Style" value="Life Style" />
+                            <Picker.Item label="Programming" value="Programming" />
+                            <Picker.Item label=" Web Development" value="Web Development" />
+                            <Picker.Item label="Lifestyle" value="Lifestyle" />
+                            <Picker.Item label="Books" value="Books" />
+                            <Picker.Item label="Motivation" value="Motivation" />
+                            <Picker.Item label="Productivity" value="Productivity" />
 
                         </Picker>
 
@@ -153,7 +169,7 @@ export default function AddDetails() {
 
                             <Picker.Item label="Eng" value="Eng" />
                             <Picker.Item label="Tamil" value="Tamil" />
-                            <Picker.Item label="Singala" value="Singala" />
+                            <Picker.Item label="Singalam" value="Singalam" />
                         </Picker>
 
                         <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Upload File</Text>
