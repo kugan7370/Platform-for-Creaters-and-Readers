@@ -9,7 +9,7 @@ import { auth, db, googleProvider } from '../Firebase';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
+// const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
 
 // {Validation yup}
 const SignupSchema = yup.object().shape({
@@ -22,19 +22,25 @@ const SignupSchema = yup.object().shape({
 export default function SignUpScreen() {
     const navigation = useNavigation();
 
+    // take random profile
+    const getRandomProfilePic = async () => {
+        const responce = await fetch('https://randomuser.me/api')
+        const data = await responce.json()
+
+        return data.results[0].picture.large
+
+    }
 
 
-    const userSignUp = (email, password, username) => {
+    const userSignUp = async (email, password, username) => {
 
         try {
-            createUserWithEmailAndPassword(auth, email, password).then(() => {
-                setDoc(doc(db, 'users', auth.currentUser.uid), {
-                    uid: auth.currentUser.uid,
-                    username,
-                    pro_pic,
-                    email,
-
-                })
+            await createUserWithEmailAndPassword(auth, email, password)
+            await setDoc(doc(db, 'users', auth.currentUser.uid), {
+                uid: auth.currentUser.uid,
+                username,
+                pro_pic: await getRandomProfilePic(),
+                email,
 
             }).then(() => {
 

@@ -1,19 +1,37 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { auth } from '../Firebase';
+import { auth, db } from '../Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { SignInStack, SignOutStack } from './Navigation';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
+import { SetSignInUsers } from '../Redux/Reducers/UserSlicer';
 
 
 
 export default function AuthNavigation() {
+    dispatch = useDispatch();
 
     const [currentUser, setCurrentUser] = useState(false);
 
-    const useHandler = () => {
+    const useHandler = async () => {
+
         onAuthStateChanged(auth, user => {
             if (user) {
+
+                const ref = collection(db, 'users')
+                const q = query(ref, where('uid', '==', auth.currentUser.uid))
+                const snap = onSnapshot(q, (snapshot) => {
+                    snapshot.docs.map((doc) => {
+                        dispatch(SetSignInUsers({
+                            SignInUserDetails: doc.data(),
+                        }))
+
+                    })
+
+                })
                 setCurrentUser(true);
+
             }
             else {
                 setCurrentUser(false);
@@ -21,10 +39,10 @@ export default function AuthNavigation() {
         })
     }
 
-
     useEffect(() => {
         useHandler();
-    })
+    }, [])
+
 
 
 

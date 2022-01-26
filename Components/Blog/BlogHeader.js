@@ -6,39 +6,20 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../Firebase';
 import { signOut } from 'firebase/auth';
 import { collection, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
+import { SetSignOut, SignInUser } from '../../Redux/Reducers/UserSlicer';
 
 const profile = 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg';
 
 export default function BlogHeader() {
     const navigation = useNavigation();
-    // const [user, setuser] = useState(null);
+    const dispatch = useDispatch();
 
 
-    // const getuser = async () => {
-
-    //     const q = query(collection(db, 'users'), where('uid', '==', auth.currentUser.uid));
-    //     const docSnap = await getDocs(q);
-
-    //     docSnap.docs.map((doc) => {
-
-    //         setuser({
-
-    //             pro_pic: doc.data().pro_pic,
-    //             username: doc.data().username,
-    //         })
-
-    //     })
-
-    // }
-
-
-    // useEffect(() => {
-    //     getuser();
-    // }, [])
-
-
+    const user = useSelector(SignInUser);
 
     const userSignOut = () => {
+        dispatch(SetSignOut())
         signOut(auth)
     }
 
@@ -54,7 +35,7 @@ export default function BlogHeader() {
 
                     <Text style={style.headText}>Blogs</Text>
                     <TouchableOpacity onPress={userSignOut} style={style.imageContainer}>
-                        <Image style={style.image} source={{ uri: profile }} />
+                        {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
                     </TouchableOpacity>
 
                 </View>
