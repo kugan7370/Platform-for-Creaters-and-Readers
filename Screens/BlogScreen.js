@@ -8,23 +8,23 @@ import BlogHeader from '../Components/Blog/BlogHeader'
 import BlogPosts from '../Components/Blog/BlogPosts'
 import BlogSearch from '../Components/Blog/BlogSearch'
 import { db } from '../Firebase'
-import { Blogs, SetBlogData } from '../Redux/Reducers/BlogSlicer'
+import { GetBlogs, SetBlogData } from '../Redux/Reducers/BlogSlicer'
 
 
 export default function BlogScreen() {
     const dispatch = useDispatch();
-    const blogs = useSelector(Blogs)
+    const blogs = useSelector(GetBlogs)
 
     const getBlogs = () => {
         const q = query((collection(db, 'blogs')), orderBy("createAt", "desc"))
-        onSnapshot(q, (snapshot) => {
-            let blogs = [];
+        const snapdata = onSnapshot(q, (snapshot) => {
+            let blogdata = [];
             snapshot.docs.map((doc) => {
-                blogs.push(doc.data())
+                blogdata.push(doc.data())
             })
 
             dispatch(SetBlogData({
-                BlogDatas: blogs,
+                BlogDatas: blogdata,
             }))
 
         })

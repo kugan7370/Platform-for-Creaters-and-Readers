@@ -15,6 +15,6 @@ const BlogSlicer = createSlice({
 });
 
 export const { SetBlogData } = BlogSlicer.actions;
-export const Blogs = (state) => state.Blog.BlogData;
+export const GetBlogs = (state) => state.Blog.BlogData;
 
 export default BlogSlicer.reducer;

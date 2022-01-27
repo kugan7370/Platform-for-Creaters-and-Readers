@@ -11,6 +11,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { useNavigation } from '@react-navigation/native'
 import { SignInUser } from '../../Redux/Reducers/UserSlicer'
 import { useSelector } from 'react-redux'
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 
 const uploadImage = 'https://cdn.iconscout.com/icon/premium/png-256-thumb/image-gallery-1733269-1478308.png'
@@ -99,7 +100,7 @@ export default function AddDetails() {
             description,
             category,
             language,
-            createAt: serverTimestamp(),
+            createAt: new Date(),
             titleImage: ImgUrl,
             file: DocUrl,
             uid: auth.currentUser.uid,

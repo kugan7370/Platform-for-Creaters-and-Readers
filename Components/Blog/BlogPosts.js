@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import Moment from 'moment';
 
 
 
@@ -31,36 +32,41 @@ export default function BlogPosts({ blog }) {
     }
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Detail', { blogDetail: blog })} style={style.container}>
-            <PostHeader blog={blog} />
-            <PostContent blog={blog} navigation={navigation} />
-            <PostFooter handleBookMark={handleBookMark} isBookmark={isBookmark} isLiked={isLiked} handleLike={handleLike} />
-        </TouchableOpacity>
+
+        <View style={style.container}>
+            {blog && <>
+                <PostHeader blog={blog} handleBookMark={handleBookMark} isBookmark={isBookmark} />
+                <TouchableOpacity onPress={() => navigation.navigate('Detail', { blogDetail: blog })}>
+                    <PostContent blog={blog} navigation={navigation} />
+                </TouchableOpacity>
+                {/* <PostFooter handleBookMark={handleBookMark} isBookmark={isBookmark} isLiked={isLiked} handleLike={handleLike} /> */}
+            </>}
+        </View>
     )
 }
 
-export const PostHeader = ({ blog }) => (
+export const PostHeader = ({ handleBookMark, isBookmark, blog }) => (
     <View style={style.headerContainer} >
         <View style={style.headerFlex} >
             <View style={style.proImageContainer}>
                 <Image style={style.proImage} source={{ uri: blog.UserPic }}></Image>
             </View>
             <View>
+
                 <Text style={style.profileName}>{blog.username}</Text>
+
                 <View style={{ flexDirection: 'row' }}>
 
                     <Ionicons style={{ marginLeft: 10 }} name="time" size={15} color="gray" />
-
-
-                    <Text style={style.date}>32 min ago</Text>
+                    <Text style={style.date}>{Moment(blog.createAt.toDate()).fromNow()}</Text>
                 </View>
 
             </View>
         </View>
 
-        <View>
-            <Feather name="more-vertical" size={20} color="black" />
-        </View>
+        <TouchableOpacity onPress={handleBookMark}>
+            {isBookmark ? <Ionicons name="bookmark" size={18} color="black" /> : <Ionicons name="bookmark-outline" size={18} color="black" />}
+        </TouchableOpacity>
     </View>
 );
 
@@ -87,36 +93,36 @@ export const PostContent = ({ navigation, blog }) => (
 
 
 
-export const PostFooter = ({ handleLike, isLiked, handleBookMark, isBookmark }) => (
-    <View style={style.postFooterContainer}>
-        <TouchableOpacity >
-            <FontAwesome5 name="comment" size={20} color="black" />
-        </TouchableOpacity>
+// export const PostFooter = ({ handleLike, isLiked, handleBookMark, isBookmark }) => (
+//     <View style={style.postFooterContainer}>
+//         <TouchableOpacity >
+//             <FontAwesome5 name="comment" size={20} color="black" />
+//         </TouchableOpacity>
 
 
 
-        {/* {like} */}
-        <View style={style.likeContainer}>
-            <TouchableOpacity onPress={handleLike}  >
-                {isLiked ? <Ionicons name="heart" size={20} color="red" /> : <Ionicons name="heart-outline" size={20} color="black" />}
-            </TouchableOpacity>
-            <Text>{isLiked ? 13 : 12}</Text>
-        </View>
-        {/* {bookmark} */}
+//         {/* {like} */}
+//         <View style={style.likeContainer}>
+//             <TouchableOpacity onPress={handleLike}  >
+//                 {isLiked ? <Ionicons name="heart" size={20} color="red" /> : <Ionicons name="heart-outline" size={20} color="black" />}
+//             </TouchableOpacity>
+//             <Text>{isLiked ? 13 : 12}</Text>
+//         </View>
+//         {/* {bookmark} */}
 
-        <TouchableOpacity style={style.bookmarkIcon} onPress={handleBookMark}>
-            {isBookmark ? <Ionicons name="bookmark" size={20} color="black" /> : <Ionicons name="bookmark-outline" size={20} color="black" />}
-        </TouchableOpacity>
-
-
-
-
+//         <TouchableOpacity style={style.bookmarkIcon} onPress={handleBookMark}>
+//             {isBookmark ? <Ionicons name="bookmark" size={20} color="black" /> : <Ionicons name="bookmark-outline" size={20} color="black" />}
+//         </TouchableOpacity>
 
 
 
 
-    </View >
-);
+
+
+
+
+//     </View >
+// );
 
 
 
@@ -176,6 +182,7 @@ const style = StyleSheet.create({
     flexDivider: {
         flexDirection: 'row',
         marginHorizontal: 15,
+        marginBottom: 20
     },
 
     PostTitleContainer: {
