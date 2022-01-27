@@ -10,6 +10,8 @@ import DetailScreen from '../Screens/DetailScreen';
 import AddBlogScreen from '../Screens/AddBlogScreen';
 import DownloadScreen from '../Screens/DownloadScreen';
 import PdfViewScreen from '../Screens/PdfViewScreen';
+import HomeBottomNavigation from '../Components/Home/HomeBottomNavigation';
+
 
 
 
@@ -18,14 +20,15 @@ const Stack = createNativeStackNavigator();
 export function SignInStack() {
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName='Blog' screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Navigator initialRouteName='HomeTab' screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="HomeTab" component={HomeBottomNavigation} />
                 <Stack.Screen name="Blog" component={BlogScreen} />
                 <Stack.Screen name="Detail" component={DetailScreen} />
                 <Stack.Screen name="AddBlog" component={AddBlogScreen} />
                 <Stack.Screen name="Download" component={DownloadScreen} />
                 <Stack.Screen name="PdfView" component={PdfViewScreen} />
             </Stack.Navigator>
+
         </NavigationContainer>
     )
 }
