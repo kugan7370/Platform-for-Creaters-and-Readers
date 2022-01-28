@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     BlogData: null,
+    FollowingBlogs: null,
 };
 
 const BlogSlicer = createSlice({
@@ -11,14 +12,15 @@ const BlogSlicer = createSlice({
         SetBlogData: (state, actions) => {
             state.BlogData = actions.payload.BlogDatas;
         },
-        UnSetBlogData: (state) => {
-            state.BlogData = null;
+        SetFollowingBlog: (state, actions) => {
+            state.FollowingBlogs = actions.payload.FollowingBlog;
         }
     },
 });
 
-export const { SetBlogData } = BlogSlicer.actions;
-export const { UnSetBlogData } = BlogSlicer.actions;
+export const { SetBlogData, SetFollowingBlog } = BlogSlicer.actions;
+// export const { UnSetBlogData } = BlogSlicer.actions;
 export const GetBlogs = (state) => state.Blog.BlogData;
+export const GetFollowingBlogs = (state) => state.Blog.FollowingBlogs;
 
 export default BlogSlicer.reducer;
