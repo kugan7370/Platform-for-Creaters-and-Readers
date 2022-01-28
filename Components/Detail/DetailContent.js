@@ -12,14 +12,19 @@ export default function DetailContent({ SelectedBlog }) {
     const user = useSelector(SignInUser);
     // const [followStatus, setfollowStatus] = useState();
 
-    const handleFollow = async (blogusermail) => {
+    const handleFollow = async (blogusermail, bloguserId) => {
 
-
+        // Following
         const currentFollowingStatus = !user.following.includes(blogusermail)
-        // setfollowStatus(currentFollowingStatus);
         const ref = doc(db, 'users', user.uid)
         await updateDoc(ref, {
             following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)
+        })
+
+        //Following
+        const ref2 = doc(db, 'users', bloguserId)
+        await updateDoc(ref2, {
+            followers: currentFollowingStatus ? arrayUnion(user.email) : arrayRemove(user.email)
         })
 
 
@@ -54,7 +59,7 @@ export default function DetailContent({ SelectedBlog }) {
                 </View>
 
                 <View>
-                    {user.uid == SelectedBlog.uid ? null : <TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail)}>
+                    {user.uid == SelectedBlog.uid ? null : <TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail, SelectedBlog.uid)}>
                         {user.following.includes(SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
 
                         {user.following.includes(SelectedBlog.usermail) ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
