@@ -105,6 +105,7 @@ export default function AddDetails() {
             file: DocUrl,
             uid: auth.currentUser.uid,
             username: user.username,
+            usermail: user.email,
             UserPic: user.pro_pic,
 
         }).then(() => {

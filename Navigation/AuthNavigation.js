@@ -10,7 +10,7 @@ import { SetSignInUsers } from '../Redux/Reducers/UserSlicer';
 
 
 export default function AuthNavigation() {
-    dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const [currentUser, setCurrentUser] = useState(false);
 

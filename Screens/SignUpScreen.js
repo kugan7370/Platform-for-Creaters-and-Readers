@@ -41,6 +41,8 @@ export default function SignUpScreen() {
                 username,
                 pro_pic: await getRandomProfilePic(),
                 email,
+                following: [],
+                followers: [],
 
             }).then(() => {
 

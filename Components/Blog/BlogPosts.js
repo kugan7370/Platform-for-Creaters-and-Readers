@@ -13,14 +13,14 @@ export default function BlogPosts({ blog }) {
     const [isLiked, setisLiked] = useState(false)
     const [isBookmark, setisBookmark] = useState(false)
 
-    const handleLike = () => {
-        if (!isLiked) {
-            setisLiked(true)
-        }
-        else {
-            setisLiked(false)
-        }
-    }
+    // const handleLike = () => {
+    //     if (!isLiked) {
+    //         setisLiked(true)
+    //     }
+    //     else {
+    //         setisLiked(false)
+    //     }
+    // }
 
     const handleBookMark = () => {
         if (!isBookmark) {

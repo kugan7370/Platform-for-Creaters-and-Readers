@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import { Ionicons, SimpleLineIcons, } from '@expo/vector-icons';
 
-import { collection, collectionGroup, onSnapshot } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
+import { SignInUser } from '../../Redux/Reducers/UserSlicer';
+import { useSelector } from 'react-redux';
 
 
 export default function DetailContent({ SelectedBlog }) {
-    const [isFollow, setisFollow] = useState(false)
+    const user = useSelector(SignInUser);
+    // const [followStatus, setfollowStatus] = useState();
 
-    const handleFollow = () => {
-        if (!isFollow) {
-            setisFollow(true)
-        }
-        else {
-            setisFollow(false)
-        }
+    const handleFollow = async (blogusermail) => {
+
+
+        const currentFollowingStatus = !user.following.includes(blogusermail)
+        // setfollowStatus(currentFollowingStatus);
+        const ref = doc(db, 'users', user.uid)
+        await updateDoc(ref, {
+            following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)
+        })
+
+
     }
 
 
@@ -47,13 +54,12 @@ export default function DetailContent({ SelectedBlog }) {
                 </View>
 
                 <View>
+                    {user.uid == SelectedBlog.uid ? null : <TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail)}>
+                        {user.following.includes(SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
 
-                    <TouchableOpacity style={style.followButton} onPress={handleFollow}>
-                        {isFollow ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
+                        {user.following.includes(SelectedBlog.usermail) ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
+                    </TouchableOpacity>}
 
-                        {isFollow ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
-
-                    </TouchableOpacity>
 
                 </View>
             </View>
