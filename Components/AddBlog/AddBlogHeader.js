@@ -14,7 +14,7 @@ export default function AddBlogHeader() {
         <View style={style.container}>
             <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
                 <View style={style.headContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Blog')}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Ionicons name="ios-arrow-back" size={30} color="black" />
                     </TouchableOpacity>
 

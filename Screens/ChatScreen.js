@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function ChatScreen() {
     return (
-        <View>
-            <Text>chat</Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+            <Text>Chat Screen</Text>
         </View>
     );
 }

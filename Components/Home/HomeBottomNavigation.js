@@ -8,6 +8,10 @@ import ProfileScreen from '../../Screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { useSelector } from 'react-redux';
+import AddBlogScreen from '../../Screens/AddBlogScreen';
+
+
+
 const Tab = createBottomTabNavigator();
 
 
@@ -28,6 +32,11 @@ const HomeBottomNavigation = () => {
             <Tab.Screen name="Blog" component={BlogScreen} options={{
                 tabBarIcon: ({ color, size, focused }) => (
                     <Ionicons name={focused ? "md-search" : "md-search-outline"} size={24} color="black" />
+                )
+            }} />
+            <Tab.Screen name="AddBlog" component={AddBlogScreen} options={{
+                tabBarIcon: ({ color, size, focused }) => (
+                    <Ionicons name={focused ? "md-add-circle" : "md-add-circle-outline"} size={40} color="green" />
                 )
             }} />
             <Tab.Screen name="Chat" component={ChatScreen} options={{

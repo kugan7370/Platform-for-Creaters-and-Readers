@@ -3,8 +3,8 @@ import React from 'react';
 
 export default function ProfileScreen() {
     return (
-        <View>
-            <Text>Profile</Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+            <Text>Profile Screen</Text>
         </View>
     );
 }
