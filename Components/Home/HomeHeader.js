@@ -16,10 +16,10 @@ export default function HomeHeader() {
     return (
 
         <View style={style.container}>
-            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
+            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 120 }}>
                 <View style={style.headContainer}>
-                    <TouchableOpacity>
-                        <Ionicons name="menu" size={30} color="black" />
+                    <TouchableOpacity style={style.imageContainer} >
+                        {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
                     </TouchableOpacity>
 
                     <Text style={style.headText}>Home</Text>
@@ -28,6 +28,11 @@ export default function HomeHeader() {
                     </TouchableOpacity>
 
                 </View>
+                <View >
+
+                    {user && <Text style={{ fontSize: 15, fontWeight: 'bold', marginHorizontal: 20 }}>{user.username}</Text>}
+                </View>
+
             </SafeAreaView >
         </View >
     );
@@ -49,9 +54,15 @@ const style = StyleSheet.create({
         fontWeight: '700'
     },
     imageContainer: {
-        height: 30,
-        width: 30,
-        overflow: 'hidden'
+        height: 40,
+        width: 40,
+        overflow: 'hidden',
+        backgroundColor: "white",
+        padding: 5,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 1
 
     },
 

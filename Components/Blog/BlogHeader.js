@@ -18,10 +18,7 @@ export default function BlogHeader() {
 
     const user = useSelector(SignInUser);
 
-    const userSignOut = () => {
-        dispatch(SetSignOut())
-        signOut(auth)
-    }
+
 
 
 
@@ -34,7 +31,7 @@ export default function BlogHeader() {
                     </TouchableOpacity>
 
                     <Text style={style.headText}>Explore</Text>
-                    <TouchableOpacity onPress={userSignOut} style={style.imageContainer}>
+                    <TouchableOpacity style={style.imageContainer}>
                         {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
                     </TouchableOpacity>
 

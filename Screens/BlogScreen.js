@@ -16,18 +16,26 @@ export default function BlogScreen() {
     const blogs = useSelector(GetBlogs)
 
     const getBlogs = () => {
-        const q = query((collection(db, 'blogs')), orderBy("createAt", "desc"))
-        const snapdata = onSnapshot(q, (snapshot) => {
-            let blogdata = [];
-            snapshot.docs.map((doc) => {
-                blogdata.push(doc.data())
-            })
+        try {
+            const q = query((collection(db, 'blogs')), orderBy("createAt", "desc"))
+            const snapdata = onSnapshot(q, (snapshot) => {
+                let blogdata = [];
+                snapshot.docs.map((doc) => {
+                    blogdata.push(doc.data())
+                })
 
+                dispatch(SetBlogData({
+                    BlogDatas: blogdata,
+                }))
+
+            })
+        } catch (error) {
+            let blogdata = [];
             dispatch(SetBlogData({
                 BlogDatas: blogdata,
             }))
+        }
 
-        })
 
     }
 
@@ -43,10 +51,10 @@ export default function BlogScreen() {
             <BlogHeader />
             <BlogSearch />
             <ScrollView>
-                {blogs && blogs.map((blog, index) => (
+                {blogs.length > 0 ? blogs.map((blog, index) => (
                     <BlogPosts blog={blog} key={index} />
                 ))
-
+                    : <Image style={{ width: 200, height: 200 }} source={{ uri: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg' }}></Image>
                 }
             </ScrollView>
 

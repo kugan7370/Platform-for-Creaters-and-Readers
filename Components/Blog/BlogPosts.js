@@ -137,8 +137,9 @@ const style = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#fafafa',
 
-        paddingHorizontal: 10,
-        paddingTop: 20
+        // paddingHorizontal: 10,
+        paddingTop: 20,
+        marginHorizontal: 20
     },
     // ----------PostHeader--------------------
     headerContainer: {
