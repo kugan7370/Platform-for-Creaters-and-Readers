@@ -41,7 +41,7 @@ export default function BlogScreen() {
 
     useEffect(() => {
         getBlogs();
-    }, [])
+    }, [db])
 
 
 

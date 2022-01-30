@@ -6,7 +6,7 @@ import { arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onS
 import { auth, db } from '../../Firebase';
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { useSelector } from 'react-redux';
-
+import Moment from 'moment';
 
 export default function DetailContent({ SelectedBlog }) {
     const user = useSelector(SignInUser);
@@ -21,11 +21,11 @@ export default function DetailContent({ SelectedBlog }) {
             following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)
         })
 
-        //Following
-        const ref2 = doc(db, 'users', bloguserId)
-        await updateDoc(ref2, {
-            followers: currentFollowingStatus ? arrayUnion(user.email) : arrayRemove(user.email)
-        })
+        // Followers
+        // const ref2 = doc(db, 'users', bloguserId)
+        // await updateDoc(ref2, {
+        //     followers: currentFollowingStatus ? arrayUnion(user.email) : arrayRemove(user.email)
+        // })
 
 
     }
@@ -54,16 +54,16 @@ export default function DetailContent({ SelectedBlog }) {
                     </View>
                     <View>
                         <Text style={style.profileName}>{SelectedBlog.username}</Text>
-                        <Text style={style.date}>32 min ago</Text>
+                        <Text style={style.date}>{Moment(SelectedBlog.createAt.toDate()).fromNow()}</Text>
                     </View>
                 </View>
 
                 <View>
-                    {user.uid == SelectedBlog.uid ? null : <TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail, SelectedBlog.uid)}>
+                    {user.uid == SelectedBlog.uid ? null : (<TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail, SelectedBlog.uid)}>
                         {user.following.includes(SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
 
                         {user.following.includes(SelectedBlog.usermail) ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
-                    </TouchableOpacity>}
+                    </TouchableOpacity>)}
 
 
                 </View>

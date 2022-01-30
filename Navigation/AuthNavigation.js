@@ -23,12 +23,14 @@ export default function AuthNavigation() {
                 const ref = collection(db, 'users')
                 const q = query(ref, where('uid', '==', auth.currentUser.uid))
                 const snap = onSnapshot(q, (snapshot) => {
+
                     snapshot.docs.map((doc) => {
                         dispatch(SetSignInUsers({
-                            SignInUserDetail: doc.data(),
+                            SignInUserDetail: doc.data()
                         }))
 
                     })
+
 
                 })
                 setCurrentUser(true);

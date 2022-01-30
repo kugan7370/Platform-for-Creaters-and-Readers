@@ -17,33 +17,33 @@ const HomeArticleScreen = () => {
 
     const getBlogs = () => {
 
-        if (users) {
-            try {
-                const q = query((collection(db, 'blogs')), where("usermail", 'in', users.following))
-                const snapdata = onSnapshot(q, (snapshot) => {
-                    let FollowingBlog = [];
-                    snapshot.docs.map((doc) => {
-                        // console.log(doc.data());
-                        FollowingBlog.push(doc.data())
-                    })
 
-                    dispatch(SetFollowingBlog({
-                        FollowingBlog,
-                    }))
-
-                })
-            } catch (error) {
-
+        try {
+            const q = query((collection(db, 'blogs')), where("usermail", 'in', users.following))
+            const snapdata = onSnapshot(q, (snapshot) => {
                 let FollowingBlog = [];
+                snapshot.docs.map((doc) => {
+                    // console.log(doc.data());
+                    FollowingBlog.push(doc.data())
+                })
+
                 dispatch(SetFollowingBlog({
                     FollowingBlog,
                 }))
 
-            }
+            })
+        } catch (error) {
 
-
+            let FollowingBlog = [];
+            dispatch(SetFollowingBlog({
+                FollowingBlog,
+            }))
 
         }
+
+
+
+
 
 
 
