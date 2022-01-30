@@ -9,7 +9,7 @@ const UserSlicer = createSlice({
     initialState,
     reducers: {
         SetSignInUsers: (state, actions) => {
-            state.SignInUserDetails = actions.payload.SignInUserDetails;
+            state.SignInUserDetails = actions.payload.SignInUserDetail;
         },
         SetSignOut: (state) => {
             state.SignInUserDetails = null;

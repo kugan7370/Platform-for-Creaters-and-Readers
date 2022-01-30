@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { db } from '../../Firebase';
+import { auth, db } from '../../Firebase';
 import { useNavigation } from '@react-navigation/native';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +23,7 @@ const HomeArticleScreen = () => {
                 const snapdata = onSnapshot(q, (snapshot) => {
                     let FollowingBlog = [];
                     snapshot.docs.map((doc) => {
+                        // console.log(doc.data());
                         FollowingBlog.push(doc.data())
                     })
 
@@ -51,6 +52,7 @@ const HomeArticleScreen = () => {
 
     useEffect(() => {
         getBlogs();
+        console.log('redux user', users);
     }, [users])
 
 
@@ -64,10 +66,10 @@ const HomeArticleScreen = () => {
                 <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'g', letterSpacing: 1 }}>Following</Text>
             </View> */}
             <ScrollView>
-                {blogs.length > 0 ? blogs.map((blog, index) => (
+                {blogs && blogs.map((blog, index) => (
                     <BlogPosts blog={blog} key={index} />
                 ))
-                    : <Image style={{ width: 200, height: 200 }} source={{ uri: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg' }}></Image>
+
                 }
             </ScrollView>
 

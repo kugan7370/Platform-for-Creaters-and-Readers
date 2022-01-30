@@ -51,10 +51,10 @@ export default function BlogScreen() {
             <BlogHeader />
             <BlogSearch />
             <ScrollView>
-                {blogs.length > 0 ? blogs.map((blog, index) => (
+                {blogs && blogs.map((blog, index) => (
                     <BlogPosts blog={blog} key={index} />
                 ))
-                    : <Image style={{ width: 200, height: 200 }} source={{ uri: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg' }}></Image>
+
                 }
             </ScrollView>
 

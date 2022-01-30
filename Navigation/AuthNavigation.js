@@ -16,15 +16,16 @@ export default function AuthNavigation() {
 
     const useHandler = async () => {
 
-        onAuthStateChanged(auth, user => {
-            if (user) {
+        onAuthStateChanged(auth, loggeers => {
+            if (loggeers) {
+
 
                 const ref = collection(db, 'users')
                 const q = query(ref, where('uid', '==', auth.currentUser.uid))
                 const snap = onSnapshot(q, (snapshot) => {
                     snapshot.docs.map((doc) => {
                         dispatch(SetSignInUsers({
-                            SignInUserDetails: doc.data(),
+                            SignInUserDetail: doc.data(),
                         }))
 
                     })
