@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddBlogScreen from '../../Screens/AddBlogScreen';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../Firebase';
+// import { setBlogDataOut } from '../../Redux/Reducers/BlogSlicer';
 
 
 
@@ -23,6 +24,7 @@ const HomeBottomNavigation = () => {
 
     const userSignOut = () => {
         dispatch(SetSignOut())
+        // dispatch(setBlogDataOut())
         signOut(auth)
     }
 

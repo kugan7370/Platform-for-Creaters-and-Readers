@@ -6,43 +6,35 @@ import { SignInStack, SignOutStack } from './Navigation';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { SetSignInUsers } from '../Redux/Reducers/UserSlicer';
+import ActivityIndicators from '../Components/Common/ActivityIndicator';
 
 
 
 export default function AuthNavigation() {
     const dispatch = useDispatch();
 
-    const [currentUser, setCurrentUser] = useState(false);
+    const [indicator, setindicator] = useState(true);
+
+    const [currentUsers, setCurrentUsers] = useState(false);
 
     const useHandler = async () => {
 
-        onAuthStateChanged(auth, loggeers => {
-            if (loggeers) {
+        onAuthStateChanged(auth, user => {
+            setindicator(false)
+            if (user) {
 
-
-                const ref = collection(db, 'users')
-                const q = query(ref, where('uid', '==', auth.currentUser.uid))
-                const snap = onSnapshot(q, (snapshot) => {
-
-                    snapshot.docs.map((doc) => {
-                        dispatch(SetSignInUsers({
-                            SignInUserDetail: doc.data()
-                        }))
-
-                    })
-
-
-                })
-                setCurrentUser(true);
+                setCurrentUsers(true);
 
             }
             else {
-                setCurrentUser(false);
+
+                setCurrentUsers(false);
             }
         })
     }
 
     useEffect(() => {
+        // console.log("useeffect");
         useHandler();
     }, [])
 
@@ -52,7 +44,7 @@ export default function AuthNavigation() {
 
     return (
         <>
-            {currentUser ? <SignInStack /> : <SignOutStack />}
+            {indicator ? <ActivityIndicators color="blue" /> : currentUsers ? <SignInStack /> : <SignOutStack />}
         </>
     );
 }

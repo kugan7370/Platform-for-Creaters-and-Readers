@@ -14,7 +14,11 @@ const BlogSlicer = createSlice({
         },
         SetFollowingBlog: (state, actions) => {
             state.FollowingBlogs = actions.payload.FollowingBlog;
-        }
+        },
+        // setBlogDataOut: (state) => {
+        //     state.BlogData = null;
+        //     state.FollowingBlogs = null;
+        // }
     },
 });
 

@@ -12,20 +12,24 @@ export default function DetailContent({ SelectedBlog }) {
     const user = useSelector(SignInUser);
     // const [followStatus, setfollowStatus] = useState();
 
-    const handleFollow = async (blogusermail, bloguserId) => {
+    const handleFollow = (blogusermail, bloguserId) => {
 
         // Following
         const currentFollowingStatus = !user.following.includes(blogusermail)
+
+
         const ref = doc(db, 'users', user.uid)
-        await updateDoc(ref, {
+        updateDoc(ref, {
             following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)
         })
 
+        const ref2 = doc(db, 'users', bloguserId)
+        updateDoc(ref2, {
+            followers: currentFollowingStatus ? arrayUnion(auth.currentUser.email) : arrayRemove(auth.currentUser.email)
+        })
+
+
         // Followers
-        // const ref2 = doc(db, 'users', bloguserId)
-        // await updateDoc(ref2, {
-        //     followers: currentFollowingStatus ? arrayUnion(user.email) : arrayRemove(user.email)
-        // })
 
 
     }
