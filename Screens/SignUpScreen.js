@@ -41,13 +41,16 @@ export default function SignUpScreen() {
                 username,
                 pro_pic: await getRandomProfilePic(),
                 email,
-                following: [],
-                followers: [],
 
-            }).then(() => {
+            }).then(async () => {
 
                 Alert.alert('Successfully Registered')
+                await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
+                    uid: auth.currentUser.uid,
+                    following: [],
+                    followers: [],
 
+                })
 
 
 

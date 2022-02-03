@@ -12,17 +12,47 @@ import ActivityIndicators from '../Common/ActivityIndicator';
 
 
 const HomeArticleScreen = () => {
+
     const [indicator, setindicator] = useState(true);
     const dispatch = useDispatch();
-    const users = useSelector(SignInUser);
+    const userdetails = useSelector(SignInUser);
     const blogs = useSelector(GetFollowingBlogs);
+    const [userFollow, setuserFollow] = useState();
+
+    const getfollowData = () => {
+        try {
+            const followref = collection(db, 'Follow');
+            const q = query(followref, where('uid', '==', auth.currentUser.uid))
+            const onsnapsfollow = onSnapshot(q, (snaps) => {
+
+                snaps.docs.map((doc) => {
+                    console.log(doc.data());
+                    setuserFollow(doc.data());
+
+                })
+
+
+            })
+
+        } catch (error) {
+            let follow = [];
+            setuserFollow(follow);
+        }
+    }
+
+    useEffect(() => {
+        getfollowData();
+    }, [])
+
+
+
 
 
     const getBlogs = () => {
         try {
             const ref = collection(db, 'blogs')
 
-            const q = query(ref, where("usermail", 'in', users.following))
+            const q = query(ref, where("usermail", 'in', userFollow.following))
             const snapdata = onSnapshot(q, (snapshot) => {
 
                 let FollowingBlog = [];
@@ -59,7 +89,7 @@ const HomeArticleScreen = () => {
         getBlogs();
 
         // console.log('redux user', users);
-    }, [users, db])
+    }, [userFollow])
 
 
 

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    SignInUserDetails: null
+    SignInUserDetails: null,
+
 };
 
 const UserSlicer = createSlice({
@@ -13,12 +14,13 @@ const UserSlicer = createSlice({
         },
         SetSignOut: (state) => {
             state.SignInUserDetails = null;
-        }
+        },
 
     },
 });
 
-export const { SetSignInUsers, SetSignOut } = UserSlicer.actions;
+export const { SetSignInUsers, SetSignOut, } = UserSlicer.actions;
 export const SignInUser = (state) => state.UserDetails.SignInUserDetails;
+
 
 export default UserSlicer.reducer;

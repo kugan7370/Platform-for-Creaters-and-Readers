@@ -2,30 +2,58 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import { Ionicons, SimpleLineIcons, } from '@expo/vector-icons';
 
-import { arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { useSelector } from 'react-redux';
 import Moment from 'moment';
+import { useDispatch } from 'react-redux';
 
 export default function DetailContent({ SelectedBlog }) {
+    const dispatch = useDispatch();
     const user = useSelector(SignInUser);
-    // const [followStatus, setfollowStatus] = useState();
+    const [userFollow, setuserFollow] = useState();
+
+
+    const getfollowData = () => {
+        try {
+            const followref = collection(db, 'Follow');
+            const q = query(followref, where('uid', '==', auth.currentUser.uid))
+            const onsnapsfollow = onSnapshot(q, (snaps) => {
+
+                snaps.docs.map((doc) => {
+                    setuserFollow(doc.data());
+                })
+
+
+            })
+
+        } catch (error) {
+            let follow = [];
+            setuserFollow(follow);
+        }
+    }
+
+    useEffect(() => {
+        getfollowData();
+    }, [])
+
 
     const handleFollow = async (blogusermail, bloguserId) => {
 
         // Following
-        const currentFollowingStatus = !user.following.includes(blogusermail)
+        const currentFollowingStatus = !userFollow.following.includes(
+            blogusermail)
 
 
-        const ref = doc(db, 'users', auth.currentUser.uid)
+        const ref = doc(db, 'Follow', auth.currentUser.uid)
         await updateDoc(ref, {
             following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)
         })
 
         // Followers
 
-        const ref2 = doc(db, 'users', bloguserId)
+        const ref2 = doc(db, 'Follow', bloguserId)
         await updateDoc(ref2, {
             followers: currentFollowingStatus ? arrayUnion(auth.currentUser.email) : arrayRemove(auth.currentUser.email)
         })
@@ -64,10 +92,14 @@ export default function DetailContent({ SelectedBlog }) {
                 </View>
 
                 <View>
-                    {user.uid == SelectedBlog.uid ? null : (<TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail, SelectedBlog.uid)}>
-                        {user.following.includes(SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
+                    {user && user.uid == SelectedBlog.uid ? null : (<TouchableOpacity style={style.followButton} onPress={() => handleFollow(SelectedBlog.usermail, SelectedBlog.uid)}>
 
-                        {user.following.includes(SelectedBlog.usermail) ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
+
+                        {userFollow && userFollow.following.includes(
+                            SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
+
+                        {userFollow && userFollow.following.includes(
+                            SelectedBlog.usermail) ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
                     </TouchableOpacity>)}
 
 
