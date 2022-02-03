@@ -13,21 +13,21 @@ import ActivityIndicators from '../Common/ActivityIndicator';
 
 const HomeArticleScreen = () => {
     const [indicator, setindicator] = useState(true);
+    const dispatch = useDispatch();
     const users = useSelector(SignInUser);
     const blogs = useSelector(GetFollowingBlogs);
-    const dispatch = useDispatch();
+
 
     const getBlogs = () => {
-
-
         try {
             const ref = collection(db, 'blogs')
-            console.log('following users', users.following);
+
             const q = query(ref, where("usermail", 'in', users.following))
             const snapdata = onSnapshot(q, (snapshot) => {
+
                 let FollowingBlog = [];
                 snapshot.docs.map((doc) => {
-                    // console.log(doc.data());
+                    console.log(doc.data());
                     FollowingBlog.push(doc.data())
                 })
 

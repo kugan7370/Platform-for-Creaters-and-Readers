@@ -18,7 +18,11 @@ export default function BlogHeader() {
 
     const user = useSelector(SignInUser);
 
-
+    const userSignOut = () => {
+        dispatch(SetSignOut())
+        // dispatch(setBlogDataOut())
+        signOut(auth)
+    }
 
 
 
@@ -26,7 +30,7 @@ export default function BlogHeader() {
         <View style={style.container}>
             <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
                 <View style={style.headContainer}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={userSignOut}>
                         <Ionicons name="menu" size={30} color="black" />
                     </TouchableOpacity>
 

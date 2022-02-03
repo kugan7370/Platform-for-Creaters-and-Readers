@@ -7,13 +7,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeBody from '../Components/Home/HomeBody';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../Firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SetSignInUsers } from '../Redux/Reducers/UserSlicer';
 
 
 export default function HomeScreen() {
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
+    // const user = useSelector(SignInUser);
     useEffect(() => {
         const ref = collection(db, 'users')
         const q = query(ref, where('uid', '==', auth.currentUser.uid))
@@ -31,6 +32,7 @@ export default function HomeScreen() {
 
 
         })
+
     }, [])
     return (
         <View style={style.container}>

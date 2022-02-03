@@ -22,10 +22,10 @@ const HomeBottomNavigation = () => {
     const dispatch = useDispatch();
     const user = useSelector(SignInUser);
 
-    const userSignOut = () => {
+    const userSignOut = async () => {
         dispatch(SetSignOut())
         // dispatch(setBlogDataOut())
-        signOut(auth)
+        await signOut(auth)
     }
 
 
