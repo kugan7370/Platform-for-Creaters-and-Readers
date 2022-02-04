@@ -19,6 +19,8 @@ const HomeArticleScreen = () => {
     const blogs = useSelector(GetFollowingBlogs);
     const [userFollow, setuserFollow] = useState();
 
+    // get following details
+
     const getfollowData = () => {
         try {
             const followref = collection(db, 'Follow');
@@ -44,9 +46,7 @@ const HomeArticleScreen = () => {
         getfollowData();
     }, [])
 
-
-
-
+    // get following Blogs
 
     const getBlogs = () => {
         try {
@@ -57,8 +57,8 @@ const HomeArticleScreen = () => {
 
                 let FollowingBlog = [];
                 snapshot.docs.map((doc) => {
-                    console.log(doc.data());
-                    FollowingBlog.push(doc.data())
+                    // console.log(doc.data());
+                    FollowingBlog.push({ ...doc.data(), id: doc.id })
                 })
 
                 dispatch(SetFollowingBlog({
@@ -105,8 +105,8 @@ const HomeArticleScreen = () => {
             {indicator ? <ActivityIndicators color='green' /> :
                 (
                     <ScrollView>
-                        {blogs && blogs.map((blog, index) => (
-                            <BlogPosts blog={blog} key={index} />
+                        {blogs && blogs.map((blog) => (
+                            <BlogPosts blog={blog} key={blog.id} />
                         ))
                             // :
                             // <View style={{ alignItems: 'center', justifyContent: 'center' }}>

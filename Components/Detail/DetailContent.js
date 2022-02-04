@@ -14,7 +14,7 @@ export default function DetailContent({ SelectedBlog }) {
     const user = useSelector(SignInUser);
     const [userFollow, setuserFollow] = useState();
 
-
+    // get user Following details
     const getfollowData = () => {
         try {
             const followref = collection(db, 'Follow');
@@ -36,16 +36,16 @@ export default function DetailContent({ SelectedBlog }) {
 
     useEffect(() => {
         getfollowData();
-    }, [])
+    }, [db])
 
 
     const handleFollow = async (blogusermail, bloguserId) => {
 
-        // Following
+        // check is it exits or not
         const currentFollowingStatus = !userFollow.following.includes(
             blogusermail)
 
-
+        // Following
         const ref = doc(db, 'Follow', auth.currentUser.uid)
         await updateDoc(ref, {
             following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)

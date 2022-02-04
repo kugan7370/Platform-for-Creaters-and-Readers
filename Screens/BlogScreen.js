@@ -21,7 +21,7 @@ export default function BlogScreen() {
             const snapdata = onSnapshot(q, (snapshot) => {
                 let blogdata = [];
                 snapshot.docs.map((doc) => {
-                    blogdata.push(doc.data())
+                    blogdata.push({ ...doc.data(), id: doc.id })
                 })
 
                 dispatch(SetBlogData({
@@ -51,8 +51,8 @@ export default function BlogScreen() {
             <BlogHeader />
             <BlogSearch />
             <ScrollView>
-                {blogs && blogs.map((blog, index) => (
-                    <BlogPosts blog={blog} key={index} />
+                {blogs && blogs.map((blog) => (
+                    <BlogPosts blog={blog} key={blog.id} />
                 ))
 
                 }

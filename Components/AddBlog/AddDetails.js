@@ -107,6 +107,7 @@ export default function AddDetails() {
             username: user.username,
             usermail: user.email,
             UserPic: user.pro_pic,
+            book_mark_by: []
 
         }).then(() => {
             Alert.alert('Successfully Added');

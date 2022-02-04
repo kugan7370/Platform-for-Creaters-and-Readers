@@ -3,39 +3,36 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Moment from 'moment';
-
+import { auth, db } from '../../Firebase';
+import { arrayRemove, arrayUnion, collection, doc, updateDoc } from 'firebase/firestore';
 
 
 
 export default function BlogPosts({ blog }) {
     const navigation = useNavigation();
 
-    const [isLiked, setisLiked] = useState(false)
-    const [isBookmark, setisBookmark] = useState(false)
+    const handleBookMark = async (blog_id) => {
+        const bookMarkStatus = !blog.book_mark_by.includes(auth.currentUser.email);
 
-    // const handleLike = () => {
-    //     if (!isLiked) {
-    //         setisLiked(true)
-    //     }
-    //     else {
-    //         setisLiked(false)
-    //     }
-    // }
+        await updateDoc(doc(db, 'blogs', blog_id), {
+            book_mark_by: bookMarkStatus ? arrayUnion(
+                auth.currentUser.email
+            ) : arrayRemove(
+                auth.currentUser.email
+            )
 
-    const handleBookMark = () => {
-        if (!isBookmark) {
-            setisBookmark(true)
-        }
-        else {
-            setisBookmark(false)
-        }
+        })
+
+
     }
+
+
 
     return (
 
         <View style={style.container}>
             {blog && <>
-                <PostHeader blog={blog} handleBookMark={handleBookMark} isBookmark={isBookmark} />
+                <PostHeader blog={blog} handleBookMark={handleBookMark} />
                 <TouchableOpacity onPress={() => navigation.navigate('Detail', { blogDetail: blog })}>
                     <PostContent blog={blog} navigation={navigation} />
                 </TouchableOpacity>
@@ -64,8 +61,8 @@ export const PostHeader = ({ handleBookMark, isBookmark, blog }) => (
             </View>
         </View>
 
-        <TouchableOpacity onPress={handleBookMark}>
-            {isBookmark ? <Ionicons name="bookmark" size={18} color="black" /> : <Ionicons name="bookmark-outline" size={18} color="black" />}
+        <TouchableOpacity onPress={() => handleBookMark(blog.id)}>
+            {blog && blog.book_mark_by.includes(auth.currentUser.email) ? <Ionicons name="bookmark" size={18} color="black" /> : <Ionicons name="bookmark-outline" size={18} color="black" />}
         </TouchableOpacity>
     </View>
 );
