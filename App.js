@@ -1,3 +1,4 @@
+
 import { StatusBar } from 'expo-status-bar';
 import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Navigation from './Navigation/Navigation';

@@ -28,7 +28,7 @@ const HomeArticleScreen = () => {
             const onsnapsfollow = onSnapshot(q, (snaps) => {
 
                 snaps.docs.map((doc) => {
-                    console.log(doc.data());
+                    // console.log(doc.data());
                     setuserFollow(doc.data());
 
                 })

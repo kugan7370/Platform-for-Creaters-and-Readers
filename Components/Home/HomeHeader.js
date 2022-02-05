@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 
@@ -12,11 +14,11 @@ import { useSelector } from 'react-redux';
 
 export default function HomeHeader() {
     const user = useSelector(SignInUser);
-
+    const navigation = useNavigation();
     return (
 
         <View style={style.container}>
-            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 120 }}>
+            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 100 }}>
                 <View style={style.headContainer}>
                     <TouchableOpacity style={style.imageContainer} >
                         {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
@@ -28,10 +30,10 @@ export default function HomeHeader() {
                     </TouchableOpacity>
 
                 </View>
-                <View >
+                {/* <View >
 
                     {user && <Text style={{ fontSize: 15, fontWeight: 'bold', marginHorizontal: 20 }}>{user.username}</Text>}
-                </View>
+                </View> */}
 
             </SafeAreaView >
         </View >
@@ -62,7 +64,9 @@ const style = StyleSheet.create({
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 1
+        elevation: 1,
+
+
 
     },
 
