@@ -7,13 +7,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import BlogHeader from '../Components/Blog/BlogHeader'
 import BlogPosts from '../Components/Blog/BlogPosts'
 import BlogSearch from '../Components/Blog/BlogSearch'
-import { db } from '../Firebase'
+import { auth, db } from '../Firebase'
 import { GetBlogs, SetBlogData } from '../Redux/Reducers/BlogSlicer'
 
 
 export default function BlogScreen() {
     const dispatch = useDispatch();
     const blogs = useSelector(GetBlogs)
+
+
 
     const getBlogs = () => {
         try {

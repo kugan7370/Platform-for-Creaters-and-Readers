@@ -1,5 +1,5 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -9,18 +9,79 @@ import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { SetSignOut, SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../Firebase';
+import { auth, db } from '../../Firebase';
+// import { GetUserFollows } from '../../Redux/Reducers/UserFollowSlicer';
+import { GetBlogs } from '../../Redux/Reducers/BlogSlicer';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import BlogPosts from '../Blog/BlogPosts';
+import { useNavigation } from '@react-navigation/native';
+// import { GetSignUserBlogs } from '../../Redux/Reducers/SignInUserBlogSlicer';
 
 
 const ProfileDetails = () => {
     const dispatch = useDispatch();
     const user = useSelector(SignInUser);
+    const navigation = useNavigation();
+
+
+    const [UserFollow, setUserFollow] = useState();
+    const [userPost, setuserPost] = useState();
 
     const userSignOut = () => {
         dispatch(SetSignOut())
         // dispatch(setBlogDataOut())
         signOut(auth)
     }
+
+
+    // Get follow Details
+    useEffect(() => {
+        try {
+            const ref = collection(db, 'Follow')
+            const q = query(ref, where('uid', '==', auth.currentUser.uid))
+            const snap = onSnapshot(q, (snapshot) => {
+
+                snapshot.docs.map((doc) => {
+                    // console.log('map', doc.data())
+                    setUserFollow(doc.data())
+
+                })
+
+
+            })
+        } catch (error) {
+            let UserFollow = [];
+            setUserFollow(UserFollow);
+        }
+
+
+
+    }, [])
+
+
+    useEffect(() => {
+        try {
+            const ref = collection(db, 'blogs')
+            const q = query(ref, where('uid', '==', auth.currentUser.uid))
+            const snap = onSnapshot(q, (snapshot) => {
+                let SignUserBlog = []
+                snapshot.docs.map((doc) => {
+                    SignUserBlog.push(doc.data())
+                })
+                setuserPost(SignUserBlog)
+            })
+
+        } catch (error) {
+            let SignUserBlog = []
+            setuserPost(SignUserBlog)
+        }
+
+    }, [])
+
+
+
+
+
 
     return (
 
@@ -48,15 +109,15 @@ const ProfileDetails = () => {
                 <Divider width={0.5} color="gray" />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 30, marginBottom: 30 }}>
                     <View style={{ alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>13</Text>
+                        {userPost && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{userPost.length}</Text>}
                         <Text>Posts</Text>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>15</Text>
+                        {UserFollow && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers.length}</Text>}
                         <Text>Followers</Text>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>18</Text>
+                        {UserFollow && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following.length}</Text>}
                         <Text>Following</Text>
                     </View>
                 </View>
@@ -74,7 +135,7 @@ const ProfileDetails = () => {
                         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('MyPosts')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <Feather name="book-open" size={24} color="black" />
                             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>My Posts</Text>
@@ -82,7 +143,7 @@ const ProfileDetails = () => {
                         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('BookMarks')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <Feather name="bookmark" size={24} color="black" />
                             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Book Marks</Text>

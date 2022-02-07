@@ -11,6 +11,8 @@ import AddBlogScreen from '../Screens/AddBlogScreen';
 import DownloadScreen from '../Screens/DownloadScreen';
 import PdfViewScreen from '../Screens/PdfViewScreen';
 import HomeBottomNavigation from '../Components/Home/HomeBottomNavigation';
+import MyPosts from '../Components/Profile/MyPosts';
+import BookMarks from '../Components/Profile/BookMarks';
 
 
 
@@ -28,6 +30,8 @@ export function SignInStack() {
                 <Stack.Screen name="AddBlog" component={AddBlogScreen} />
                 <Stack.Screen name="Download" component={DownloadScreen} />
                 <Stack.Screen name="PdfView" component={PdfViewScreen} />
+                <Stack.Screen name="MyPosts" component={MyPosts} />
+                <Stack.Screen name="BookMarks" component={BookMarks} />
             </Stack.Navigator>
 
         </NavigationContainer>

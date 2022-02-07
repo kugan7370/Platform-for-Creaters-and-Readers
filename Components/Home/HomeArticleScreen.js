@@ -76,13 +76,6 @@ const HomeArticleScreen = () => {
 
         }
 
-
-
-
-
-
-
-
     }
 
     useEffect(() => {
