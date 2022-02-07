@@ -16,9 +16,9 @@ const HomeArticleScreen = () => {
     const [indicator, setindicator] = useState(true);
     const dispatch = useDispatch();
     const userdetails = useSelector(SignInUser);
-    const blogs = useSelector(GetFollowingBlogs);
+    // const blogs = useSelector(GetFollowingBlogs);
     const [userFollow, setuserFollow] = useState();
-
+    const [FollowingBlogs, setFollowingBlogs] = useState();
     // get following details
 
     const getfollowData = () => {
@@ -61,18 +61,14 @@ const HomeArticleScreen = () => {
                     FollowingBlog.push({ ...doc.data(), id: doc.id })
                 })
 
-                dispatch(SetFollowingBlog({
-                    FollowingBlog,
-                }))
+                setFollowingBlogs(FollowingBlog)
                 setindicator(false);
 
             })
         } catch (error) {
 
             let FollowingBlog = [];
-            dispatch(SetFollowingBlog({
-                FollowingBlog,
-            }))
+            setFollowingBlogs(FollowingBlog)
 
         }
 
@@ -98,7 +94,7 @@ const HomeArticleScreen = () => {
             {indicator ? <ActivityIndicators color='green' /> :
                 (
                     <ScrollView>
-                        {blogs && blogs.map((blog) => (
+                        {FollowingBlogs && FollowingBlogs.map((blog) => (
                             <BlogPosts blog={blog} key={blog.id} />
                         ))
                             // :
