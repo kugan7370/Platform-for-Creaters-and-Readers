@@ -20,7 +20,7 @@ const MyPosts = () => {
             const snap = onSnapshot(q, (snapshot) => {
                 let SignUserBlog = []
                 snapshot.docs.map((doc) => {
-                    SignUserBlog.push(doc.data())
+                    SignUserBlog.push({ ...doc.data(), id: doc.id })
                 })
                 setuserPost(SignUserBlog)
             })

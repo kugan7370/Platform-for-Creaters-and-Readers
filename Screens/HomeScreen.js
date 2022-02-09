@@ -24,8 +24,6 @@ export default function HomeScreen() {
         const snap = onSnapshot(q, (snapshot) => {
 
             snapshot.docs.map((doc) => {
-                // console.log('map', doc.data())
-
 
                 dispatch(SetSignInUsers({
                     SignInUserDetail: doc.data()

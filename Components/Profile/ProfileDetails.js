@@ -28,9 +28,11 @@ const ProfileDetails = () => {
     const [userPost, setuserPost] = useState();
 
     const userSignOut = () => {
-        dispatch(SetSignOut())
+
         // dispatch(setBlogDataOut())
-        signOut(auth)
+        signOut(auth).then(() => {
+            dispatch(SetSignOut())
+        })
     }
 
 
@@ -42,8 +44,8 @@ const ProfileDetails = () => {
             const snap = onSnapshot(q, (snapshot) => {
 
                 snapshot.docs.map((doc) => {
-                    // console.log('map', doc.data())
-                    setUserFollow(doc.data())
+
+                    setUserFollow({ ...doc.data(), id: doc.id })
 
                 })
 
@@ -66,7 +68,7 @@ const ProfileDetails = () => {
             const snap = onSnapshot(q, (snapshot) => {
                 let SignUserBlog = []
                 snapshot.docs.map((doc) => {
-                    SignUserBlog.push(doc.data())
+                    SignUserBlog.push({ ...doc.data(), id: doc.id })
                 })
                 setuserPost(SignUserBlog)
             })

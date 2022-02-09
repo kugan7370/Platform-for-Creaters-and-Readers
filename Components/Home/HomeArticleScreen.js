@@ -21,7 +21,8 @@ const HomeArticleScreen = () => {
     const [FollowingBlogs, setFollowingBlogs] = useState();
     // get following details
 
-    const getfollowData = () => {
+
+    useEffect(() => {
         try {
             const followref = collection(db, 'Follow');
             const q = query(followref, where('uid', '==', auth.currentUser.uid))
@@ -29,7 +30,7 @@ const HomeArticleScreen = () => {
 
                 snaps.docs.map((doc) => {
                     // console.log(doc.data());
-                    setuserFollow(doc.data());
+                    setuserFollow({ ...doc.data(), id: doc.id });
 
                 })
 
@@ -40,15 +41,13 @@ const HomeArticleScreen = () => {
             let follow = [];
             setuserFollow(follow);
         }
-    }
-
-    useEffect(() => {
-        getfollowData();
     }, [])
 
     // get following Blogs
 
-    const getBlogs = () => {
+
+
+    useEffect(() => {
         try {
             const ref = collection(db, 'blogs')
 
@@ -57,7 +56,7 @@ const HomeArticleScreen = () => {
 
                 let FollowingBlog = [];
                 snapshot.docs.map((doc) => {
-                    // console.log(doc.data());
+
                     FollowingBlog.push({ ...doc.data(), id: doc.id })
                 })
 
@@ -72,12 +71,7 @@ const HomeArticleScreen = () => {
 
         }
 
-    }
 
-    useEffect(() => {
-        getBlogs();
-
-        // console.log('redux user', users);
     }, [userFollow])
 
 
