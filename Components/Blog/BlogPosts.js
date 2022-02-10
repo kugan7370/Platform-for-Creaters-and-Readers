@@ -32,7 +32,7 @@ export default function BlogPosts({ blog }) {
 
         <View style={style.container}>
             {blog && <>
-                <PostHeader blog={blog} handleBookMark={handleBookMark} />
+                <PostHeader navigation={navigation} blog={blog} handleBookMark={handleBookMark} />
                 <TouchableOpacity onPress={() => navigation.navigate('Detail', { blogDetail: blog })}>
                     <PostContent blog={blog} navigation={navigation} />
                 </TouchableOpacity>
@@ -42,12 +42,12 @@ export default function BlogPosts({ blog }) {
     )
 }
 
-export const PostHeader = ({ handleBookMark, isBookmark, blog }) => (
+export const PostHeader = ({ navigation, handleBookMark, isBookmark, blog }) => (
     <View style={style.headerContainer} >
         <View style={style.headerFlex} >
-            <View style={style.proImageContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: blog })} style={style.proImageContainer}>
                 <Image style={style.proImage} source={{ uri: blog.UserPic }}></Image>
-            </View>
+            </TouchableOpacity>
             <View>
 
                 <Text style={style.profileName}>{blog.username}</Text>

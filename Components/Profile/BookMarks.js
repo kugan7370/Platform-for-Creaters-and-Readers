@@ -17,7 +17,7 @@ export default function BookMarks() {
 
                 let FollowingBlog = [];
                 snapshot.docs.map((doc) => {
-                    console.log(doc.data());
+
                     FollowingBlog.push({ ...doc.data(), id: doc.id })
                 })
                 setuserBookMark(FollowingBlog)
