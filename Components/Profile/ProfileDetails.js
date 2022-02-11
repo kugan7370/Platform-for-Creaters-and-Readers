@@ -38,16 +38,18 @@ const ProfileDetails = () => {
 
     // Get follow Details
     useEffect(() => {
+        let isMounted = true
         try {
             const ref = collection(db, 'Follow')
             const q = query(ref, where('uid', '==', auth.currentUser.uid))
             const snap = onSnapshot(q, (snapshot) => {
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
 
-                snapshot.docs.map((doc) => {
+                        setUserFollow({ ...doc.data(), id: doc.id })
 
-                    setUserFollow({ ...doc.data(), id: doc.id })
-
-                })
+                    })
+                }
 
 
             })
@@ -57,27 +59,30 @@ const ProfileDetails = () => {
         }
 
 
-
+        return () => { isMounted = false }
     }, [])
 
 
     useEffect(() => {
+        let isMounted = true
         try {
             const ref = collection(db, 'blogs')
             const q = query(ref, where('uid', '==', auth.currentUser.uid))
             const snap = onSnapshot(q, (snapshot) => {
                 let SignUserBlog = []
-                snapshot.docs.map((doc) => {
-                    SignUserBlog.push({ ...doc.data(), id: doc.id })
-                })
-                setuserPost(SignUserBlog)
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
+                        SignUserBlog.push({ ...doc.data(), id: doc.id })
+                    })
+                    setuserPost(SignUserBlog)
+                }
             })
 
         } catch (error) {
             let SignUserBlog = []
             setuserPost(SignUserBlog)
         }
-
+        return () => { isMounted = false }
     }, [])
 
 

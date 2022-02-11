@@ -15,15 +15,19 @@ export default function DetailContent({ SelectedBlog }) {
     const [userFollow, setuserFollow] = useState();
 
     // get user Following details
-    const getfollowData = () => {
+
+
+    useEffect(() => {
+        let isMounted = true
         try {
             const followref = collection(db, 'Follow');
             const q = query(followref, where('uid', '==', auth.currentUser.uid))
             const onsnapsfollow = onSnapshot(q, (snaps) => {
-
-                snaps.docs.map((doc) => {
-                    setuserFollow(doc.data());
-                })
+                if (isMounted) {
+                    snaps.docs.map((doc) => {
+                        setuserFollow(doc.data());
+                    })
+                }
 
 
             })
@@ -32,10 +36,7 @@ export default function DetailContent({ SelectedBlog }) {
             let follow = [];
             setuserFollow(follow);
         }
-    }
-
-    useEffect(() => {
-        getfollowData();
+        return () => { isMounted = false }
     }, [db])
 
 

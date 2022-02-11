@@ -17,18 +17,22 @@ export default function BlogScreen() {
 
 
 
-    const getBlogs = () => {
+
+    useEffect(() => {
+        let isMounted = true
         try {
             const q = query((collection(db, 'blogs')), orderBy("createAt", "desc"))
             const snapdata = onSnapshot(q, (snapshot) => {
                 let blogdata = [];
-                snapshot.docs.map((doc) => {
-                    blogdata.push({ ...doc.data(), id: doc.id })
-                })
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
+                        blogdata.push({ ...doc.data(), id: doc.id })
+                    })
 
-                dispatch(SetBlogData({
-                    BlogDatas: blogdata,
-                }))
+                    dispatch(SetBlogData({
+                        BlogDatas: blogdata,
+                    }))
+                }
 
             })
         } catch (error) {
@@ -37,12 +41,7 @@ export default function BlogScreen() {
                 BlogDatas: blogdata,
             }))
         }
-
-
-    }
-
-    useEffect(() => {
-        getBlogs();
+        return () => { isMounted = false }
     }, [db])
 
 

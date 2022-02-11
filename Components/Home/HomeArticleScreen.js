@@ -23,16 +23,19 @@ const HomeArticleScreen = () => {
 
 
     useEffect(() => {
+        let isMounted = true
         try {
             const followref = collection(db, 'Follow');
             const q = query(followref, where('uid', '==', auth.currentUser.uid))
             const onsnapsfollow = onSnapshot(q, (snaps) => {
+                if (isMounted) {
+                    snaps.docs.map((doc) => {
+                        // console.log(doc.data());
 
-                snaps.docs.map((doc) => {
-                    // console.log(doc.data());
-                    setuserFollow({ ...doc.data(), id: doc.id });
+                        setuserFollow({ ...doc.data(), id: doc.id });
 
-                })
+                    })
+                }
 
 
             })
@@ -41,6 +44,7 @@ const HomeArticleScreen = () => {
             let follow = [];
             setuserFollow(follow);
         }
+        return () => { isMounted = false }
     }, [])
 
     // get following Blogs
@@ -48,6 +52,7 @@ const HomeArticleScreen = () => {
 
 
     useEffect(() => {
+        let isMounted = true
         try {
             const ref = collection(db, 'blogs')
 
@@ -55,14 +60,15 @@ const HomeArticleScreen = () => {
             const snapdata = onSnapshot(q, (snapshot) => {
 
                 let FollowingBlog = [];
-                snapshot.docs.map((doc) => {
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
 
-                    FollowingBlog.push({ ...doc.data(), id: doc.id })
-                })
+                        FollowingBlog.push({ ...doc.data(), id: doc.id })
+                    })
 
-                setFollowingBlogs(FollowingBlog)
-                setindicator(false);
-
+                    setFollowingBlogs(FollowingBlog)
+                    setindicator(false);
+                }
             })
         } catch (error) {
 
@@ -71,7 +77,7 @@ const HomeArticleScreen = () => {
 
         }
 
-
+        return () => { isMounted = false }
     }, [userFollow])
 
 

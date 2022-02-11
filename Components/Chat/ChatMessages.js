@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AntDesign } from '@expo/vector-icons';
@@ -32,7 +32,6 @@ const ChatMessages = () => {
             onSnapshot(q, (snapshot) => {
                 let chats = [];
                 snapshot.docs.map((doc) => {
-                    console.log(doc.data());
                     chats.push(doc.data())
                 })
                 setchats(chats)
@@ -95,11 +94,11 @@ const ChatMessages = () => {
             </SafeAreaView>
             {/* {messages} */}
 
-            <View>
+            <ScrollView style={{ marginBottom: 70 }}>
                 {chats && chats.map((chat, index) => (
                     <ChatGetMessages key={index} chats={chat} />
                 ))}
-            </View>
+            </ScrollView>
 
 
 
