@@ -4,6 +4,7 @@ import BlogPosts from '../Blog/BlogPosts';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogHeader from '../Blog/BlogHeader';
+import Headers from '../Common/Headers';
 
 
 
@@ -34,18 +35,22 @@ const MyPosts = () => {
 
 
     return (
-        <View style={{ marginTop: 50, marginBottom: 50 }}>
-            <ScrollView>
-                {userPost && userPost.map((blog) => (
-                    <BlogPosts blog={blog} key={blog.id} />
-                ))
-                    // :
-                    // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    //     <Text>nothing following</Text>
-                    // </View>
 
-                }
-            </ScrollView>
+        <View>
+            <Headers headerName={'My Posts'} />
+            <View style={{ marginBottom: 150 }}>
+                <ScrollView>
+                    {userPost && userPost.map((blog) => (
+                        <BlogPosts blog={blog} key={blog.id} />
+                    ))
+                        // :
+                        // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        //     <Text>nothing following</Text>
+                        // </View>
+
+                    }
+                </ScrollView>
+            </View>
         </View>
     );
 };

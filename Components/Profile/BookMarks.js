@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogPosts from '../Blog/BlogPosts';
+import Headers from '../Common/Headers';
 
 export default function BookMarks() {
     const [userBookMark, setuserBookMark] = useState();
@@ -34,18 +35,21 @@ export default function BookMarks() {
 
 
     return (
-        <View style={{ marginTop: 50, marginBottom: 50 }}>
-            <ScrollView>
-                {userBookMark && userBookMark.map((blog) => (
-                    <BlogPosts blog={blog} key={blog.id} />
-                ))
-                    // :
-                    // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    //     <Text>nothing following</Text>
-                    // </View>
+        <View>
+            <Headers headerName={'Book Marks'} />
+            <View style={{ marginBottom: 150 }}>
+                <ScrollView>
+                    {userBookMark && userBookMark.map((blog) => (
+                        <BlogPosts blog={blog} key={blog.id} />
+                    ))
+                        // :
+                        // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        //     <Text>nothing following</Text>
+                        // </View>
 
-                }
-            </ScrollView>
+                    }
+                </ScrollView>
+            </View>
         </View>
     );
 }
