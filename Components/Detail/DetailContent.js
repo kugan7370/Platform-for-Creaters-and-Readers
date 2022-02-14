@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
-import { Ionicons, SimpleLineIcons, } from '@expo/vector-icons';
+import { View, Text, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Dimensions, TextInput, Button } from 'react-native'
+import { Ionicons, SimpleLineIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
 
-import { addDoc, arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { addDoc, arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { useSelector } from 'react-redux';
 import Moment from 'moment';
 import { useDispatch } from 'react-redux';
+import BlogPosts from '../Blog/BlogPosts';
 
 export default function DetailContent({ SelectedBlog }) {
     const dispatch = useDispatch();
     const user = useSelector(SignInUser);
     const [userFollow, setuserFollow] = useState();
-
+    const [userblogs, setuserblogs] = useState();
+    const [Comments, setComments] = useState('')
+    const [ThisPost, setThisPost] = useState();
+    const [getComments, setgetComments] = useState()
     // get user Following details
 
 
@@ -38,6 +42,82 @@ export default function DetailContent({ SelectedBlog }) {
         }
         return () => { isMounted = false }
     }, [db])
+
+    // {get user blogs}
+
+    // useEffect(() => {
+    //     let isMounted = true
+    //     try {
+    //         const ref = collection(db, 'blogs')
+
+    //         const q = query(ref, where("usermail", '==', SelectedBlog.usermail))
+    //         const snapdata = onSnapshot(q, (snapshot) => {
+
+    //             let userblogs = [];
+    //             if (isMounted) {
+    //                 snapshot.docs.map((doc) => {
+
+    //                     userblogs.push({ ...doc.data(), id: doc.id })
+    //                 })
+
+    //                 setuserblogs(userblogs)
+
+    //             }
+    //         })
+    //     } catch (error) {
+
+    //         let userblogs = [];
+    //         setuserblogs(userblogs)
+
+    //     }
+
+    //     return () => { isMounted = false }
+    // }, [])
+
+    // { for like}
+
+    useEffect(() => {
+        let isMounted = true
+        try {
+            const ref = doc(db, 'blogs', SelectedBlog.id)
+
+            const snapdata = onSnapshot(ref, (doc) => {
+                if (isMounted) {
+                    setThisPost(doc.data())
+                }
+            })
+        } catch (error) {
+
+            let ThisPost = [];
+            setThisPost(ThisPost)
+
+        }
+
+        return () => { isMounted = false }
+    }, [db])
+
+    useEffect(() => {
+        let isMounted = true
+        try {
+            const ref = collection(db, 'blogs', SelectedBlog.id, "Comments")
+
+            const snapdata = onSnapshot(ref, (snapshot) => {
+                if (isMounted) {
+                    setgetComments(snapshot.docs)
+                }
+            })
+        } catch (error) {
+
+            let getComments = [];
+            setgetComments(getComments)
+
+        }
+
+        return () => { isMounted = false }
+    }, [db])
+
+
+
 
 
     const handleFollow = async (blogusermail, bloguserId) => {
@@ -64,9 +144,28 @@ export default function DetailContent({ SelectedBlog }) {
 
     }
 
+    const AddComments = async () => {
+        await addDoc(collection(db, 'blogs', SelectedBlog.id, 'Comments'), {
+            username: user.username,
+            userPro_Pic: user.pro_pic,
+            comment: Comments,
+            createAt: serverTimestamp(),
+        })
+        setComments('');
+    }
+
+
+    const Handlelike = async () => {
+        const likestatus = !ThisPost.likes_by_users.includes(auth.currentUser.email);
+        const ref = doc(db, 'blogs', SelectedBlog.id)
+        await updateDoc(ref, {
+            likes_by_users: likestatus ? arrayUnion(auth.currentUser.email) : arrayRemove(auth.currentUser.email)
+        })
+    }
+
 
     return (
-        <View style={style.container} >
+        <ScrollView style={style.container} >
 
             {/* {title Image} */}
             <View style={style.imageContainer}>
@@ -109,26 +208,73 @@ export default function DetailContent({ SelectedBlog }) {
 
             {/* {Description} */}
 
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Description</Text>
             </View>
 
-            <View>
-                <ScrollView style={{ height: 230, }}>
+            <ScrollView style={{ marginHorizontal: 20 }}>
+                <View>
                     <Text style={{ textAlign: 'justify', paddingVertical: 10, lineHeight: 25 }}>{SelectedBlog.description}</Text>
-                </ScrollView>
+                </View>
+
+            </ScrollView>
+
+            {/* {impressions} */}
+            <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Impressions</Text>
+            </View>
+            <View style={style.headerContainer}>
+                {/* likes */}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={Handlelike}>
+                        {ThisPost && ThisPost.likes_by_users.includes(auth.currentUser.email) ? <AntDesign name="like1" size={24} color="black" /> : <AntDesign name="like2" size={24} color="black" />}
+                    </TouchableOpacity>
+                    {ThisPost && <><Text style={{ marginLeft: 10 }}>{ThisPost.likes_by_users.length}</Text>
+                        <Text style={{ marginLeft: 10 }}>{ThisPost.likes_by_users.length > 1 ? "Likes" : 'Like'}</Text></>}
+                </View>
+
+                {/* comment */}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <FontAwesome name="comments-o" size={24} color="black" />
+                    {getComments && <>
+                        <Text style={{ marginLeft: 10 }}>{getComments.length}</Text>
+                        <Text style={{ marginLeft: 10 }}>{getComments.length > 1 ? "Comments" : "Comment"}</Text>
+                    </>}
+                </View>
+            </View>
+
+            {/* Add comments */}
+            <View style={{ marginTop: 20, marginBottom: 150 }}>
+                <View style={{ height: 150, borderWidth: 1, marginHorizontal: 20, padding: 20, borderRadius: 10 }} >
+                    <TextInput value={Comments} onChangeText={(text) => setComments(text)} placeholder='Enter your Comments' multiline={true} />
+                </View>
+
+                <TouchableOpacity onPress={AddComments} style={{ alignSelf: 'flex-end', marginHorizontal: 20, marginTop: 10 }}>
+                    <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 10 }}>
+                        <Text style={{ color: 'white' }}>Add Comments</Text>
+                    </View>
+                </TouchableOpacity>
 
             </View>
 
-            {/* {impressions} */}
+
+
+            {/* {user posts} */}
+            {/* <View style={{ marginTop: 20, marginBottom: 50 }}>
+                <View style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 20 }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{SelectedBlog.username}'s Posts</Text>
+                </View>
+
+                {userblogs && userblogs.map((blog) => (
+                    <BlogPosts blog={blog} key={blog.id} />
+                ))}
+
+            </View> */}
 
 
 
 
-
-
-
-        </View >
+        </ScrollView >
     )
 }
 
@@ -136,16 +282,13 @@ export default function DetailContent({ SelectedBlog }) {
 const style = StyleSheet.create({
     container: {
         marginTop: 20,
-        paddingHorizontal: 20
-
-
     },
 
     imageContainer: {
         width: '100%',
         height: 220,
         overflow: 'hidden',
-
+        paddingHorizontal: 20
 
     },
     image: {
@@ -155,19 +298,20 @@ const style = StyleSheet.create({
         borderRadius: 50
     },
     textContainer: {
-        marginTop: 20
+        marginTop: 20,
+        paddingHorizontal: 20
     },
     headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
         alignItems: 'center',
-
         paddingHorizontal: 10,
         paddingVertical: 10,
         borderWidth: 0.6,
         borderRadius: 20,
-        borderColor: '#fcfcfc'
+        borderColor: '#fcfcfc',
+        marginHorizontal: 20
 
     },
     headerFlex: {

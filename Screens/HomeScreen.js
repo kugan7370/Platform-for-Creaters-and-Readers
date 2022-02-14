@@ -19,21 +19,23 @@ export default function HomeScreen() {
     const dispatch = useDispatch();
     // const user = useSelector(SignInUser);
     useEffect(() => {
+        let isMounted = true
         const ref = collection(db, 'users')
         const q = query(ref, where('uid', '==', auth.currentUser.uid))
         const snap = onSnapshot(q, (snapshot) => {
+            if (isMounted) {
+                snapshot.docs.map((doc) => {
 
-            snapshot.docs.map((doc) => {
+                    dispatch(SetSignInUsers({
+                        SignInUserDetail: doc.data()
+                    }))
 
-                dispatch(SetSignInUsers({
-                    SignInUserDetail: doc.data()
-                }))
-
-            })
+                })
+            }
 
 
         })
-
+        return () => { isMounted = false }
     }, [])
 
 

@@ -20,9 +20,9 @@ export default function DetailScreen() {
         <View style={{ flex: 1 }}>
             {SelectedBlog && <>
                 <DetailHeader SelectedBlog={SelectedBlog} />
-                <ScrollView style={{ paddingBottom: 50 }}>
-                    <DetailContent SelectedBlog={SelectedBlog} />
-                </ScrollView>
+
+                <DetailContent SelectedBlog={SelectedBlog} />
+
                 <DetailBottom SelectedBlog={SelectedBlog} />
             </>
             }

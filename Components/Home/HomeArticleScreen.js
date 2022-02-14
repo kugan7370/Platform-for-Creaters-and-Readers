@@ -44,6 +44,8 @@ const HomeArticleScreen = () => {
             let follow = [];
             setuserFollow(follow);
         }
+
+
         return () => { isMounted = false }
     }, [])
 
