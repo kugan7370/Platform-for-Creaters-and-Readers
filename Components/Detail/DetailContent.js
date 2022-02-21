@@ -139,9 +139,6 @@ export default function DetailContent({ SelectedBlog }) {
             followers: currentFollowingStatus ? arrayUnion(auth.currentUser.email) : arrayRemove(auth.currentUser.email)
         })
 
-
-
-
     }
 
     const AddComments = async () => {
@@ -244,9 +241,9 @@ export default function DetailContent({ SelectedBlog }) {
             </View>
 
             {/* Add comments */}
-            <View style={{ marginTop: 20, marginBottom: 150 }}>
+            <View style={{ marginTop: 20, }}>
                 <View style={{ height: 150, borderWidth: 1, marginHorizontal: 20, padding: 20, borderRadius: 10 }} >
-                    <TextInput value={Comments} onChangeText={(text) => setComments(text)} placeholder='Enter your Comments' multiline={true} />
+                    <TextInput onSubmitEditing={AddComments} value={Comments} onChangeText={(text) => setComments(text)} placeholder='Enter your Comments' />
                 </View>
 
                 <TouchableOpacity onPress={AddComments} style={{ alignSelf: 'flex-end', marginHorizontal: 20, marginTop: 10 }}>
@@ -256,6 +253,35 @@ export default function DetailContent({ SelectedBlog }) {
                 </TouchableOpacity>
 
             </View>
+
+
+
+            {/* {view Comments} */}
+
+            <View style={{ marginTop: 20, paddingHorizontal: 20, marginBottom: 20 }}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>View Comments</Text>
+            </View>
+
+            <View style={{ marginBottom: 150 }}>
+                {getComments && getComments.map((getComment) => (
+                    <View style={{ marginHorizontal: 20, backgroundColor: 'white', marginBottom: 20, padding: 15, borderRadius: 10 }} key={getComment.id}>
+                        <View style={{ flexDirection: 'row', marginBottom: 20, alignItems: 'center' }}>
+                            <Image source={{ uri: getComment.data().userPro_Pic }} style={{ height: 50, width: 50, borderRadius: 15 }} />
+                            <View style={{ marginLeft: 10 }}>
+                                <Text>{getComment.data().username}</Text>
+                                {getComment.data().createAt && <Text style={[{ ...style.date, marginLeft: 0 }]}>{Moment(getComment.data().createAt.toDate()).fromNow()}</Text>}
+                            </View>
+
+                        </View>
+                        <Text>{getComment.data().comment}</Text>
+                    </View>
+                ))}
+            </View>
+
+
+
+
+
 
 
 

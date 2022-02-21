@@ -5,8 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
-import { auth } from '../Firebase';
+import { auth, db } from '../Firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 
 
 const LoginSchema = yup.object().shape({
@@ -19,7 +20,14 @@ export default function SignInScreen() {
 
 
     const userSign = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password).then(() => {
+
+            //  for update
+
+            updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                isOnline: true,
+            });
+        })
     }
 
 

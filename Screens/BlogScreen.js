@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,7 +22,7 @@ export default function BlogScreen() {
     useEffect(() => {
         let isMounted = true
         try {
-            const q = query((collection(db, 'blogs')), orderBy("createAt", "desc"))
+            const q = query((collection(db, 'blogs')), where("uid", "not-in", [auth.currentUser.uid]))
             const snapdata = onSnapshot(q, (snapshot) => {
                 let blogdata = [];
                 if (isMounted) {

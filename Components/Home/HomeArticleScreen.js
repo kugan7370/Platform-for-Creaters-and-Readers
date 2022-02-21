@@ -8,7 +8,7 @@ import { GetFollowingBlogs, SetFollowingBlog } from '../../Redux/Reducers/BlogSl
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import BlogPosts from '../Blog/BlogPosts';
 import ActivityIndicators from '../Common/ActivityIndicator';
-
+import { Feather } from '@expo/vector-icons';
 
 
 const HomeArticleScreen = () => {
@@ -56,6 +56,7 @@ const HomeArticleScreen = () => {
     useEffect(() => {
         let isMounted = true
         try {
+            setindicator(true);
             const ref = collection(db, 'blogs')
 
             const q = query(ref, where("usermail", 'in', userFollow.following))
@@ -71,13 +72,16 @@ const HomeArticleScreen = () => {
                     setFollowingBlogs(FollowingBlog)
                     setindicator(false);
                 }
+
             })
+
         } catch (error) {
 
             let FollowingBlog = [];
             setFollowingBlogs(FollowingBlog)
-
+            setindicator(false);
         }
+
 
         return () => { isMounted = false }
     }, [userFollow])
@@ -95,14 +99,15 @@ const HomeArticleScreen = () => {
 
             {indicator ? <ActivityIndicators color='green' /> :
                 (
-                    <ScrollView>
-                        {FollowingBlogs && FollowingBlogs.map((blog) => (
+                    <ScrollView >
+                        {FollowingBlogs.length ? (FollowingBlogs.map((blog) => (
                             <BlogPosts blog={blog} key={blog.id} />
-                        ))
-                            // :
-                            // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            //     <Text>nothing following</Text>
-                            // </View>
+                        )))
+                            :
+                            (<TouchableOpacity onPress={() => navigation.navigate('Blog')} style={{ marginVertical: '25%', backgroundColor: 'green', alignSelf: 'center', paddingVertical: 20, borderRadius: 20, paddingHorizontal: 40, flexDirection: 'row' }}>
+                                <Feather name="search" size={24} color="white" />
+                                <Text style={{ color: 'white', fontSize: 18, marginLeft: 10 }}>Go Explore</Text>
+                            </TouchableOpacity>)
 
                         }
                     </ScrollView>

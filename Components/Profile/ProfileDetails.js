@@ -12,7 +12,7 @@ import { signOut } from 'firebase/auth';
 import { auth, db } from '../../Firebase';
 // import { GetUserFollows } from '../../Redux/Reducers/UserFollowSlicer';
 import { GetBlogs } from '../../Redux/Reducers/BlogSlicer';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import BlogPosts from '../Blog/BlogPosts';
 import { useNavigation } from '@react-navigation/native';
 // import { GetSignUserBlogs } from '../../Redux/Reducers/SignInUserBlogSlicer';
@@ -27,8 +27,10 @@ const ProfileDetails = () => {
     const [UserFollow, setUserFollow] = useState();
     const [userPost, setuserPost] = useState();
 
-    const userSignOut = () => {
-
+    const userSignOut = async () => {
+        await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+            isOnline: false,
+        });
         // dispatch(setBlogDataOut())
         signOut(auth).then(() => {
             dispatch(SetSignOut())
@@ -158,7 +160,7 @@ const ProfileDetails = () => {
                         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('LikedPosts')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <AntDesign name="like2" size={24} color="black" />
                             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Liked Posts</Text>

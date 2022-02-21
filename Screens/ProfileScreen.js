@@ -4,7 +4,7 @@ import ProfileDetails from '../Components/Profile/ProfileDetails';
 
 export default function ProfileScreen() {
     return (
-        <View >
+        <View style={{ flex: 1 }} >
             <ProfileDetails />
         </View>
     );
