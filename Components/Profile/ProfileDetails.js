@@ -27,6 +27,7 @@ const ProfileDetails = () => {
     const [UserFollow, setUserFollow] = useState();
     const [userPost, setuserPost] = useState();
 
+
     const userSignOut = async () => {
         await updateDoc(doc(db, 'users', auth.currentUser.uid), {
             isOnline: false,
@@ -86,6 +87,7 @@ const ProfileDetails = () => {
         }
         return () => { isMounted = false }
     }, [])
+
 
 
 

@@ -5,7 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { auth, db } from '../../Firebase';
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore';
 import ChatGetMessages from './ChatGetMessages';
 
 const ChatMessages = () => {
@@ -70,6 +70,8 @@ const ChatMessages = () => {
             createAt: serverTimestamp(),
         })
         setText('');
+
+
     };
 
 

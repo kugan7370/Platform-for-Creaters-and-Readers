@@ -3,14 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements';
-import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
+import UserMessage from './UserMessage';
 const image = 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg'
+
+
 export default function ChatUsers() {
 
     const [userFollow, setuserFollow] = useState();
     const [FollowingUserDetails, setFollowingUserDetails] = useState();
-
+    const [usersID, setusersID] = useState();
 
     useEffect(() => {
         let isMounted = true
@@ -72,6 +75,38 @@ export default function ChatUsers() {
         return () => { isMounted = false }
     }, [userFollow])
 
+    useEffect(() => {
+        let isMounted = true
+        try {
+
+            const ref = collection(db, 'users')
+            const q = query(ref, where("uid", 'not-in', [auth.currentUser.uid]))
+            const snapdata = onSnapshot(q, (snapshot) => {
+
+                let usersID = [];
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
+
+                        usersID.push(doc.data())
+                    })
+
+                    setusersID(usersID)
+                    // console.log(usersID);
+                }
+
+            })
+
+        } catch (error) {
+
+            let usersID = [];
+            setusersID(usersID)
+
+        }
+
+
+        return () => { isMounted = false }
+    }, [])
+
 
 
 
@@ -95,17 +130,8 @@ export default function ChatUsers() {
                 {/* {UserMessage} */}
                 <View >
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
-                        <UserMessage />
+                        {usersID && usersID.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))}
+
                     </ScrollView>
                 </View>
             </View>
@@ -144,33 +170,6 @@ const ActiveUser = ({ usersDetail }) => (
 
 
 
-const UserMessage = () => (
-    <View>
-        <Divider width={0.5} color="gray" />
-        <TouchableOpacity style={{ marginTop: 15, marginHorizontal: 20, marginBottom: 10 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                    <View style={{ height: 50, width: 50, borderRadius: 25, marginRight: 20 }}>
-                        <Image style={{ height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 25 }} source={{ uri: image }} />
-                    </View>
-
-                    <View>
-                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Kugan</Text>
-                        <Text style={{ color: 'gray', fontSize: 13, letterSpacing: 1 }}>hi! h r u</Text>
-                    </View>
-                </View>
-
-                <View>
-                    <Text style={{ color: 'gray', }}>12.34 PM</Text>
-                </View>
-            </View>
-            <View style={{ marginTop: 10 }}>
-
-            </View>
-
-        </TouchableOpacity>
-    </View>
-)
 
 
 
