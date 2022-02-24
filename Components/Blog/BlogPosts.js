@@ -88,7 +88,7 @@ export default function BlogPosts({ blog }) {
 export const PostHeader = ({ navigation, handleBookMark, isBookmark, blog, handleFollow, userFollow }) => (
     <View style={style.headerContainer} >
         <View style={style.headerFlex} >
-            <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: blog })} style={style.proImageContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Userprofile', { BlogUserDetail: blog.uid })} style={style.proImageContainer}>
                 <Image style={style.proImage} source={{ uri: blog.UserPic }}></Image>
             </TouchableOpacity>
             <View>

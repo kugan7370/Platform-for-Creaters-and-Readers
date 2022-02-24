@@ -86,7 +86,7 @@ const ChatMessages = () => {
                     </TouchableOpacity>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {BlogUser && <Image style={{ height: 30, width: 30, borderRadius: 15 }} source={{ uri: BlogUser.UserPic }} />}
+                        {BlogUser && <Image style={{ height: 30, width: 30, borderRadius: 15 }} source={{ uri: BlogUser.UserPic || BlogUser.pro_pic }} />}
                         {BlogUser && <Text style={{ marginLeft: 10, fontSize: 15, fontWeight: 'bold' }}>{BlogUser.username}</Text>}
                     </View>
 

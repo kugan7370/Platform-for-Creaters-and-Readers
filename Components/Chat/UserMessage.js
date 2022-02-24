@@ -5,9 +5,11 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { Divider } from 'react-native-elements';
 const image = 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg'
 import Moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function ({ usersID }) {
+    const navigation = useNavigation();
     const [chatUsers, setchatUsers] = useState()
     const { uid } = usersID;
 
@@ -23,7 +25,7 @@ export default function ({ usersID }) {
             onSnapshot(q, (snapshot) => {
                 if (snapshot) {
                     setchatUsers(snapshot.docs[0]?.data())
-                    console.log(snapshot.docs[0]?.data());
+                    // console.log(snapshot.docs[0]?.data());
                 }
             })
 
@@ -39,7 +41,7 @@ export default function ({ usersID }) {
     return (
         <View>
             <Divider width={0.5} color="gray" />
-            <TouchableOpacity style={{ marginTop: 15, marginHorizontal: 20, marginBottom: 10 }}>
+            <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: usersID })} style={{ marginTop: 15, marginHorizontal: 20, marginBottom: 10 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                         <View style={{ height: 50, width: 50, borderRadius: 25, marginRight: 20 }}>

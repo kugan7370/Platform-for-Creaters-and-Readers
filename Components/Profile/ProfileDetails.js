@@ -109,10 +109,10 @@ const ProfileDetails = () => {
                     <View style={{ flex: 1, marginLeft: 50 }}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{user.username}</Text>
                         <Text style={{ color: 'gray' }}>{user.email}</Text>
-                        <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, alignSelf: 'flex-start', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 10, backgroundColor: "green" }}>
+                        {/* <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, alignSelf: 'flex-start', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 10, backgroundColor: "green" }}>
                             <Ionicons name="md-chatbubbles-outline" size={20} color="white" />
                             <Text style={{ marginLeft: 10, color: 'white' }}>Message</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </View>
 

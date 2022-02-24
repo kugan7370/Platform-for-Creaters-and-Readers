@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native'
 
 import HomeHeader from '../Components/Home/HomeHeader'
 import HomeTopNavigation from '../Components/Home/HomeTopNavigation'
