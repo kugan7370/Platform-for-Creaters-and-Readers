@@ -141,10 +141,10 @@ const Userprofile = () => {
                 <View style={{ flex: 1, marginLeft: 50 }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{userDetails.username}</Text>
                     <Text style={{ color: 'gray' }}>{userDetails.email}</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: userDetails })} style={{ flexDirection: 'row', marginTop: 20, alignSelf: 'flex-start', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 10, backgroundColor: "green" }}>
+                    {userDetails.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: userDetails })} style={{ flexDirection: 'row', marginTop: 20, alignSelf: 'flex-start', paddingVertical: 5, paddingHorizontal: 10, borderRadius: 10, backgroundColor: "green" }}>
                         <Ionicons name="md-chatbubbles-outline" size={20} color="white" />
                         <Text style={{ marginLeft: 10, color: 'white' }}>Message</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
             </View>}
 
@@ -168,38 +168,38 @@ const Userprofile = () => {
 
 
             {/* {profile lists} */}
+            {userDetails &&
+                <View style={{ marginTop: 50, }}>
 
-            <View style={{ marginTop: 50, }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('MyPosts', { userId: userDetails.uid })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Feather name="book-open" size={24} color="black" />
+                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>My Posts</Text>
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
+                    </TouchableOpacity>
 
-                {userDetails && <TouchableOpacity onPress={() => navigation.navigate('MyPosts')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Feather name="book-open" size={24} color="black" />
-                        <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>My Posts</Text>
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
-                </TouchableOpacity>}
+                    <TouchableOpacity onPress={() => navigation.navigate('BookMarks', { usermail: userDetails.email })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Feather name="bookmark" size={24} color="black" />
+                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Book Marks</Text>
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
+                    </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('BookMarks')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Feather name="bookmark" size={24} color="black" />
-                        <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Book Marks</Text>
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate('LikedPosts')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <AntDesign name="like2" size={24} color="black" />
-                        <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Liked Posts</Text>
-                    </View>
-                    <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
-                </TouchableOpacity>
-
-
+                    <TouchableOpacity onPress={() => navigation.navigate('LikedPosts', { usermail: userDetails.email })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <AntDesign name="like2" size={24} color="black" />
+                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Liked Posts</Text>
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
+                    </TouchableOpacity>
 
 
 
-            </View>
+
+
+                </View>}
 
         </View>
 

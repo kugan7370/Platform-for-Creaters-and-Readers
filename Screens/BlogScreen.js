@@ -22,7 +22,8 @@ export default function BlogScreen() {
     useEffect(() => {
         let isMounted = true
         try {
-            const q = query((collection(db, 'blogs')), where("uid", "not-in", [auth.currentUser.uid]))
+            const ref = collection(db, 'blogs')
+            const q = query(ref, where("uid", "not-in", [auth.currentUser.uid]))
             const snapdata = onSnapshot(q, (snapshot) => {
                 let blogdata = [];
                 if (isMounted) {

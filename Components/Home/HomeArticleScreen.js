@@ -59,7 +59,7 @@ const HomeArticleScreen = () => {
             setindicator(true);
             const ref = collection(db, 'blogs')
 
-            const q = query(ref, where("usermail", 'in', userFollow.following))
+            const q = query(ref, where("usermail", 'in', userFollow.following), orderBy('createAt', 'desc'))
             const snapdata = onSnapshot(q, (snapshot) => {
 
                 let FollowingBlog = [];

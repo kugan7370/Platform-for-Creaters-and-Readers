@@ -5,33 +5,50 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogHeader from '../Blog/BlogHeader';
 import Headers from '../Common/Headers';
+import { useRoute } from '@react-navigation/native';
 
 
 
 
 const MyPosts = () => {
     const [userPost, setuserPost] = useState();
-
-
+    const route = useRoute();
+    const [UserIds, setUserIds] = useState()
 
     useEffect(() => {
         try {
+            const { userId } = route.params;
+            setUserIds(userId);
+        } catch (error) {
+            setUserIds(auth.currentUser.uid);
+        }
+
+    }, [])
+
+
+    useEffect(() => {
+        let isMounted = true
+        try {
             const ref = collection(db, 'blogs')
-            const q = query(ref, where('uid', '==', auth.currentUser.uid))
+            const q = query(ref, where('uid', '==', UserIds))
             const snap = onSnapshot(q, (snapshot) => {
+
                 let SignUserBlog = []
-                snapshot.docs.map((doc) => {
-                    SignUserBlog.push({ ...doc.data(), id: doc.id })
-                })
-                setuserPost(SignUserBlog)
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
+                        SignUserBlog.push({ ...doc.data(), id: doc.id })
+                    })
+                    setuserPost(SignUserBlog)
+                }
             })
+
 
         } catch (error) {
             let SignUserBlog = []
             setuserPost(SignUserBlog)
         }
-
-    }, [])
+        return () => { isMounted = false }
+    }, [UserIds])
 
 
     return (

@@ -4,10 +4,23 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogPosts from '../Blog/BlogPosts';
 import Headers from '../Common/Headers';
+import { useRoute } from '@react-navigation/native';
 
 
 const LikedPosts = () => {
+    const route = useRoute();
     const [likedBlogs, setlikedBlogs] = useState();
+    const [UserEmail, setUserEmail] = useState();
+
+    useEffect(() => {
+        try {
+            const { usermail } = route.params;
+            setUserEmail(usermail);
+        } catch (error) {
+            setUserEmail(auth.currentUser.email);
+        }
+
+    }, [])
 
 
     useEffect(() => {
@@ -16,7 +29,7 @@ const LikedPosts = () => {
 
             const ref = collection(db, 'blogs')
 
-            const q = query(ref, where("likes_by_users", 'array-contains', auth.currentUser.email))
+            const q = query(ref, where("likes_by_users", 'array-contains', UserEmail))
             const snapdata = onSnapshot(q, (snapshot) => {
 
                 let likedBlogs = [];
@@ -41,7 +54,7 @@ const LikedPosts = () => {
 
 
         return () => { isMounted = false }
-    }, [])
+    }, [UserEmail])
 
 
 

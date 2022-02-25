@@ -4,25 +4,39 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogPosts from '../Blog/BlogPosts';
 import Headers from '../Common/Headers';
+import { useRoute } from '@react-navigation/native';
 
 export default function BookMarks() {
+    const route = useRoute();
     const [userBookMark, setuserBookMark] = useState();
-
+    const [UserEmail, setUserEmail] = useState();
 
     useEffect(() => {
         try {
+            const { usermail } = route.params;
+            setUserEmail(usermail);
+        } catch (error) {
+            setUserEmail(auth.currentUser.email);
+        }
+
+    }, [])
+
+    useEffect(() => {
+        let isMounted = true
+        try {
             const ref = collection(db, 'blogs')
 
-            const q = query(ref, where('book_mark_by', 'array-contains', auth.currentUser.email))
+            const q = query(ref, where('book_mark_by', 'array-contains', UserEmail))
             const snapdata = onSnapshot(q, (snapshot) => {
 
                 let FollowingBlog = [];
-                snapshot.docs.map((doc) => {
+                if (isMounted) {
+                    snapshot.docs.map((doc) => {
 
-                    FollowingBlog.push({ ...doc.data(), id: doc.id })
-                })
-                setuserBookMark(FollowingBlog)
-
+                        FollowingBlog.push({ ...doc.data(), id: doc.id })
+                    })
+                    setuserBookMark(FollowingBlog)
+                }
 
             })
         } catch (error) {
@@ -30,7 +44,8 @@ export default function BookMarks() {
             setuserBookMark(FollowingBlog)
 
         }
-    }, [])
+        return () => { isMounted = false }
+    }, [UserEmail])
 
 
 
