@@ -44,10 +44,6 @@ export default function HomeScreen() {
         <View style={style.container}>
             <HomeHeader />
             <HomeTopNavigation />
-
-
-
-
         </View>
     )
 }

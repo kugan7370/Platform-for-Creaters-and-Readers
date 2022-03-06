@@ -6,9 +6,9 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
 import { auth, db, googleProvider } from '../Firebase';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithCredential } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-
+import * as Google from 'expo-google-app-auth';
 // const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
 
 // {Validation yup}
@@ -21,6 +21,55 @@ const SignupSchema = yup.object().shape({
 
 export default function SignUpScreen() {
     const navigation = useNavigation();
+
+    // signwith google
+    const config = {
+        expoClientId: `377269655308-g4rdjq636ptie4rhv0mnd3dlk1jt609p.apps.googleusercontent.com`,
+        androidClientId: `377269655308-pnt9dg0c2tsmqg9olanaj0m5200qr799.apps.googleusercontent.com`,
+        scopes: ['profile', 'email'],
+        permissions: ["public_profile", "email", "gender", "location"],
+    };
+    const signInWithGoogle = async () => {
+        const { type, accessToken, user, idToken } = await Google.logInAsync(config);
+
+        if (type === 'success') {
+            const credential = GoogleAuthProvider.credential(idToken, accessToken);
+            await signInWithCredential(auth, credential);
+
+            try {
+
+                await setDoc(doc(db, 'users', auth.currentUser.uid), {
+                    uid: auth.currentUser.uid,
+                    username: user.name,
+                    pro_pic: user.photoUrl,
+                    email: user.email,
+                    isOnline: true,
+
+                }).then(async () => {
+
+                    Alert.alert('Successfully Registered')
+                    await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
+                        uid: auth.currentUser.uid,
+                        following: [],
+                        followers: [],
+
+                    })
+
+
+
+                })
+
+            }
+            catch (error) {
+                Alert.alert(error);
+            }
+            /* Log-Out */
+            //   await Google.logOutAsync({ accessToken, ...config });
+            /* `accessToken` is now invalid and cannot be used to get data from the Google API with HTTP requests */
+        }
+        return Promise.reject();
+    }
+
 
     // take random profile
     const getRandomProfilePic = async () => {
@@ -139,7 +188,7 @@ export default function SignUpScreen() {
                                     <FontAwesome name="facebook" size={20} color="white" />
                                     <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
                                 </View>
-                                <TouchableOpacity style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
+                                <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
                                     <FontAwesome name="google" size={20} color="white" />
                                     <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
                                 </TouchableOpacity>
