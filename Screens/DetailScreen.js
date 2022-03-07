@@ -19,7 +19,7 @@ export default function DetailScreen() {
 
         <View style={{ flex: 1 }}>
             {SelectedBlog && <>
-                <DetailHeader SelectedBlog={SelectedBlog} />
+                {/* <DetailHeader SelectedBlog={SelectedBlog} /> */}
 
                 <DetailContent SelectedBlog={SelectedBlog} />
 

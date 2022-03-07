@@ -41,17 +41,18 @@ export default function HomeScreen() {
 
 
     return (
-        <View style={style.container}>
+        <ScrollView style={style.container}>
             <HomeHeader />
             <HomeTopNavigation />
-        </View>
+
+        </ScrollView>
     )
 }
 
 const style = StyleSheet.create({
 
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: 'white',
 
     }

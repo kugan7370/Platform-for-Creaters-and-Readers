@@ -17,26 +17,26 @@ export default function HomeHeader() {
     const navigation = useNavigation();
     return (
 
-        <View style={style.container}>
-            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 100 }}>
-                <View style={style.headContainer}>
-                    <TouchableOpacity style={style.imageContainer} >
-                        {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
-                    </TouchableOpacity>
 
-                    <Text style={style.headText}>Home</Text>
-                    <TouchableOpacity style={style.imageContainer}>
-                        <Ionicons name="md-notifications-circle-outline" size={30} color="black" />
-                    </TouchableOpacity>
+        <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 100 }}>
+            <View style={style.headContainer}>
+                <TouchableOpacity style={style.imageContainer} >
+                    {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
+                </TouchableOpacity>
 
-                </View>
-                {/* <View >
+                <Text style={style.headText}>Home</Text>
+                <TouchableOpacity style={style.imageContainer}>
+                    <Ionicons name="md-notifications-circle-outline" size={30} color="black" />
+                </TouchableOpacity>
+
+            </View>
+            {/* <View >
 
                     {user && <Text style={{ fontSize: 15, fontWeight: 'bold', marginHorizontal: 20 }}>{user.username}</Text>}
                 </View> */}
 
-            </SafeAreaView >
-        </View >
+        </SafeAreaView >
+
     );
 }
 

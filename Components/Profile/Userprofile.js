@@ -174,7 +174,7 @@ const Userprofile = () => {
                     <TouchableOpacity onPress={() => navigation.navigate('MyPosts', { userId: userDetails.uid })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <Feather name="book-open" size={24} color="black" />
-                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>My Posts</Text>
+                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}> Posts</Text>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
                     </TouchableOpacity>

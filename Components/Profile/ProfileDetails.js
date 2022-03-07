@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,7 +16,7 @@ import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/f
 import BlogPosts from '../Blog/BlogPosts';
 import { useNavigation } from '@react-navigation/native';
 // import { GetSignUserBlogs } from '../../Redux/Reducers/SignInUserBlogSlicer';
-
+const BackImage = 'data:image/jpeg;base64,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'
 
 const ProfileDetails = () => {
     const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const ProfileDetails = () => {
 
     return (
 
-        <View style={{ backgroundColor: 'white', height: '100%' }}>
+        <ImageBackground source={{ uri: BackImage }} style={{ flex: 1 }}>
 
             {/* {profile} */}
             {user && <>
@@ -124,11 +124,11 @@ const ProfileDetails = () => {
                         <Text>Posts</Text>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        {UserFollow && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers.length}</Text>}
+                        {UserFollow ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                         <Text>Followers</Text>
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        {UserFollow && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following.length}</Text>}
+                        {UserFollow ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                         <Text>Following</Text>
                     </View>
                 </View>
@@ -149,7 +149,7 @@ const ProfileDetails = () => {
                     <TouchableOpacity onPress={() => navigation.navigate('MyPosts')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <Feather name="book-open" size={24} color="black" />
-                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>My Posts</Text>
+                            <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}> Posts</Text>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
                     </TouchableOpacity>
@@ -183,7 +183,7 @@ const ProfileDetails = () => {
 
                 </View>
             </>}
-        </View>
+        </ImageBackground>
 
 
     );

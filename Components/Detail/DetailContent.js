@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import Moment from 'moment';
 import { useDispatch } from 'react-redux';
 import BlogPosts from '../Blog/BlogPosts';
+import DetailHeader from './DetailHeader';
 
 export default function DetailContent({ SelectedBlog }) {
     const dispatch = useDispatch();
@@ -166,7 +167,12 @@ export default function DetailContent({ SelectedBlog }) {
 
             {/* {title Image} */}
             <View style={style.imageContainer}>
+
+
                 <Image style={style.image} source={{ uri: SelectedBlog.titleImage }} />
+                <View style={{ position: 'absolute', top: 10, right: 0, left: 0 }}>
+                    <DetailHeader />
+                </View>
             </View>
 
 
@@ -209,7 +215,7 @@ export default function DetailContent({ SelectedBlog }) {
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Description</Text>
             </View>
 
-            <ScrollView style={{ marginHorizontal: 20 }}>
+            <ScrollView style={{ marginHorizontal: 20, height: 100 }}>
                 <View>
                     <Text style={{ textAlign: 'justify', paddingVertical: 10, lineHeight: 25 }}>{SelectedBlog.description}</Text>
                 </View>
@@ -242,12 +248,12 @@ export default function DetailContent({ SelectedBlog }) {
 
             {/* Add comments */}
             <View style={{ marginTop: 20, }}>
-                <View style={{ height: 150, borderWidth: 1, marginHorizontal: 20, padding: 20, borderRadius: 10 }} >
+                <View style={{ height: 150, borderWidth: 1, marginHorizontal: 20, padding: 20, borderRadius: 10, borderColor: '#0e0047' }} >
                     <TextInput onSubmitEditing={AddComments} value={Comments} onChangeText={(text) => setComments(text)} placeholder='Enter your Comments' />
                 </View>
 
                 <TouchableOpacity onPress={AddComments} style={{ alignSelf: 'flex-end', marginHorizontal: 20, marginTop: 10 }}>
-                    <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 10 }}>
+                    <View style={{ backgroundColor: '#0e0047', paddingVertical: 10, borderRadius: 10, paddingHorizontal: 15 }}>
                         <Text style={{ color: 'white' }}>Add Comments</Text>
                     </View>
                 </TouchableOpacity>
@@ -307,21 +313,23 @@ export default function DetailContent({ SelectedBlog }) {
 
 const style = StyleSheet.create({
     container: {
-        marginTop: 20,
+        marginTop: 30,
     },
 
     imageContainer: {
         width: '100%',
-        height: 220,
-        overflow: 'hidden',
-        paddingHorizontal: 20
+        height: 320,
+        // overflow: 'hidden',
+        // paddingHorizontal: 20
 
     },
     image: {
         height: '100%',
         width: '100%',
         resizeMode: 'cover',
-        borderRadius: 50
+        // borderTopLeftRadius: 20,
+        // borderTopRightRadius: 20
+        // borderRadius: 50
     },
     textContainer: {
         marginTop: 20,

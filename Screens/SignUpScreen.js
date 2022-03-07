@@ -9,6 +9,8 @@ import { auth, db, googleProvider } from '../Firebase';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithCredential } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
+import confiqs from '../confiq';
+
 // const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
 
 // {Validation yup}
@@ -24,8 +26,8 @@ export default function SignUpScreen() {
 
     // signwith google
     const config = {
-        expoClientId: `377269655308-g4rdjq636ptie4rhv0mnd3dlk1jt609p.apps.googleusercontent.com`,
-        androidClientId: `377269655308-pnt9dg0c2tsmqg9olanaj0m5200qr799.apps.googleusercontent.com`,
+        expoClientId: confiqs.ANDROID_CLIENT_ID,
+        androidClientId: confiqs.EXPO_CLIENT_ID,
         scopes: ['profile', 'email'],
         permissions: ["public_profile", "email", "gender", "location"],
     };

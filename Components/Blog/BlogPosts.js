@@ -184,7 +184,7 @@ const style = StyleSheet.create({
 
         // paddingHorizontal: 10,
         paddingTop: 20,
-        marginHorizontal: 20
+        // marginHorizontal: 20
     },
     // ----------PostHeader--------------------
     headerContainer: {

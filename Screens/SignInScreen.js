@@ -9,6 +9,7 @@ import { auth, db } from '../Firebase';
 import { signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithCredential } from 'firebase/auth';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
+import confiqs from '../confiq';
 
 
 
@@ -21,8 +22,9 @@ export default function SignInScreen() {
     const navigation = useNavigation();
 
     const config = {
-        expoClientId: `377269655308-g4rdjq636ptie4rhv0mnd3dlk1jt609p.apps.googleusercontent.com`,
-        androidClientId: `377269655308-pnt9dg0c2tsmqg9olanaj0m5200qr799.apps.googleusercontent.com`,
+        expoClientId: confiqs.ANDROID_CLIENT_ID,
+        androidClientId: confiqs.EXPO_CLIENT_ID,
+
         scopes: ['profile', 'email'],
         permissions: ["public_profile", "email", "gender", "location"],
     };

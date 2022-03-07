@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native';
 import React, { useRef } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
@@ -13,15 +13,17 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function HomeTopNavigation() {
 
+    const { height } = Dimensions.get('screen')
+
     return (
-
-        <Tab.Navigator screenOptions={{
-            tabBarStyle: { borderTopRadius: 20, }
-        }} >
-            <Tab.Screen name="Articles" component={HomeArticleScreen} />
-            <Tab.Screen name="Books" component={HomeBookScreen} />
-        </Tab.Navigator>
-
+        <View style={{ height: height * 0.84 }}>
+            <Tab.Navigator screenOptions={{
+                tabBarStyle: { borderTopRadius: 20, }
+            }} >
+                <Tab.Screen name="Articles" component={HomeArticleScreen} />
+                <Tab.Screen name="Books" component={HomeBookScreen} />
+            </Tab.Navigator>
+        </View>
     );
 }
 
