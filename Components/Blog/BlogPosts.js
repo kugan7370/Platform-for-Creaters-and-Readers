@@ -178,10 +178,10 @@ export const PostContent = ({ navigation, blog }) => (
 
 const style = StyleSheet.create({
     container: {
-        marginBottom: 10,
+        // marginBottom: 10,
         borderRadius: 10,
         backgroundColor: '#fafafa',
-
+        marginTop: 10,
         // paddingHorizontal: 10,
         paddingTop: 20,
         // marginHorizontal: 20

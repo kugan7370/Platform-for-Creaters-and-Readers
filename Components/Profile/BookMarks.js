@@ -50,21 +50,18 @@ export default function BookMarks() {
 
 
     return (
-        <View>
-            <Headers headerName={'Book Marks'} />
-            <View style={{ marginBottom: 150 }}>
-                <ScrollView>
-                    {userBookMark && userBookMark.map((blog) => (
-                        <BlogPosts blog={blog} key={blog.id} />
-                    ))
-                        // :
-                        // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        //     <Text>nothing following</Text>
-                        // </View>
 
-                    }
-                </ScrollView>
-            </View>
-        </View>
+        <ScrollView>
+            {userBookMark && userBookMark.map((blog) => (
+                <BlogPosts blog={blog} key={blog.id} />
+            ))
+                // :
+                // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                //     <Text>nothing following</Text>
+                // </View>
+
+            }
+        </ScrollView>
+
     );
 }

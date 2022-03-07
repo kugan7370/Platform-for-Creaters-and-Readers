@@ -8,16 +8,16 @@ import Headers from '../Common/Headers';
 import { useRoute } from '@react-navigation/native';
 
 
-
-
 const MyPosts = () => {
     const [userPost, setuserPost] = useState();
     const route = useRoute();
+
     const [UserIds, setUserIds] = useState()
 
     useEffect(() => {
         try {
             const { userId } = route.params;
+            console.log(route);
             setUserIds(userId);
         } catch (error) {
             setUserIds(auth.currentUser.uid);
@@ -53,22 +53,22 @@ const MyPosts = () => {
 
     return (
 
-        <View>
-            <Headers headerName={'My Posts'} />
-            <View style={{ marginBottom: 150 }}>
-                <ScrollView>
-                    {userPost && userPost.map((blog) => (
-                        <BlogPosts blog={blog} key={blog.id} />
-                    ))
-                        // :
-                        // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        //     <Text>nothing following</Text>
-                        // </View>
+        // <View>
+        //     {/* <Headers headerName={'My Posts'} /> */}
+        //     <View style={{ marginBottom: 150 }}>
+        <ScrollView >
+            {userPost && userPost.map((blog) => (
+                <BlogPosts blog={blog} key={blog.id} />
+            ))
+                // :
+                // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                //     <Text>nothing following</Text>
+                // </View>
 
-                    }
-                </ScrollView>
-            </View>
-        </View>
+            }
+        </ScrollView>
+        //     </View>
+        // </View>
     );
 };
 

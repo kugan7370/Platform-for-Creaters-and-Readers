@@ -22,7 +22,7 @@ export default function DetailHeader() {
 
                 <View style={style.headContainer}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 15 }}>
+                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10 }}>
                             <Ionicons name="ios-arrow-back" size={20} color="black" />
                         </View>
 
@@ -30,7 +30,7 @@ export default function DetailHeader() {
 
 
                     <TouchableOpacity onPress={handleBookMark} >
-                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 15 }}>
+                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10 }}>
                             {isBookMark ? <Ionicons name="bookmarks" size={15} color="black" /> : <Ionicons name="bookmarks-outline" size={15} color="black" />}
                         </View>
 

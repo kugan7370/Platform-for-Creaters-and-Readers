@@ -170,7 +170,7 @@ export default function DetailContent({ SelectedBlog }) {
 
 
                 <Image style={style.image} source={{ uri: SelectedBlog.titleImage }} />
-                <View style={{ position: 'absolute', top: 10, right: 0, left: 0 }}>
+                <View style={{ position: 'absolute', top: 15, right: 0, left: 0 }}>
                     <DetailHeader />
                 </View>
             </View>
@@ -215,7 +215,7 @@ export default function DetailContent({ SelectedBlog }) {
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Description</Text>
             </View>
 
-            <ScrollView style={{ marginHorizontal: 20, height: 100 }}>
+            <ScrollView style={{ marginHorizontal: 20, }}>
                 <View>
                     <Text style={{ textAlign: 'justify', paddingVertical: 10, lineHeight: 25 }}>{SelectedBlog.description}</Text>
                 </View>

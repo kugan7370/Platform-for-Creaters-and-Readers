@@ -59,22 +59,19 @@ const LikedPosts = () => {
 
 
     return (
-        <View>
-            <Headers headerName={'Liked Posts'} />
-            <View style={{ marginBottom: 150 }}>
-                <ScrollView>
-                    {likedBlogs && likedBlogs.map((blog) => (
-                        <BlogPosts blog={blog} key={blog.id} />
-                    ))
-                        // :
-                        // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        //     <Text>nothing following</Text>
-                        // </View>
 
-                    }
-                </ScrollView>
-            </View>
-        </View>
+        <ScrollView>
+            {likedBlogs && likedBlogs.map((blog) => (
+                <BlogPosts blog={blog} key={blog.id} />
+            ))
+                // :
+                // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                //     <Text>nothing following</Text>
+                // </View>
+
+            }
+        </ScrollView>
+
     )
 }
 
