@@ -17,7 +17,6 @@ const MyPosts = () => {
     useEffect(() => {
         try {
             const { userId } = route.params;
-            console.log(route);
             setUserIds(userId);
         } catch (error) {
             setUserIds(auth.currentUser.uid);

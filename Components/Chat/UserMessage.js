@@ -44,9 +44,10 @@ export default function ({ usersID }) {
             <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: usersID })} style={{ marginTop: 15, marginHorizontal: 20, marginBottom: 10 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
-                        <View style={{ height: 50, width: 50, borderRadius: 25, marginRight: 20 }}>
-                            {usersID && <Image style={{ height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 25 }} source={{ uri: usersID.pro_pic }} />}
-                        </View>
+                        {usersID && <View style={{ height: 50, width: 50, borderRadius: 25, marginRight: 20 }}>
+                            <Image style={{ height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 25 }} source={{ uri: usersID.pro_pic }} />
+                            <View style={{ backgroundColor: usersID.isOnline ? 'green' : 'red', height: 8, width: 8, borderRadius: 5, position: 'absolute', top: 5, right: 0 }} />
+                        </View>}
 
                         <View>
                             {usersID && <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{usersID.username}</Text>}
