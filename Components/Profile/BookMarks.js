@@ -50,18 +50,19 @@ export default function BookMarks() {
 
 
     return (
+        <ScrollView nestedScrollEnabled={true}>
+            {UserEmail && UserEmail == auth.currentUser.email ? <Headers headerName={'Bookmarks'} /> : null}
+            <ScrollView>
+                {userBookMark && userBookMark.map((blog) => (
+                    <BlogPosts blog={blog} key={blog.id} />
+                ))
+                    // :
+                    // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    //     <Text>nothing following</Text>
+                    // </View>
 
-        <ScrollView>
-            {userBookMark && userBookMark.map((blog) => (
-                <BlogPosts blog={blog} key={blog.id} />
-            ))
-                // :
-                // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                //     <Text>nothing following</Text>
-                // </View>
-
-            }
+                }
+            </ScrollView>
         </ScrollView>
-
     );
 }

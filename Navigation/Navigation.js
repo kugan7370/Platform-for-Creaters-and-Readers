@@ -17,6 +17,9 @@ import ChatMessages from '../Components/Chat/ChatMessages';
 import LikedPosts from '../Components/Profile/LikedPosts';
 import ProfileScreen from '../Screens/ProfileScreen';
 import Userprofile from '../Components/Profile/Userprofile';
+import CreateContent from '../Screens/CreateContent';
+import Following from '../Components/Follow/Following';
+import Followers from '../Components/Follow/Followers';
 
 
 
@@ -40,6 +43,9 @@ export function SignInStack() {
                 <Stack.Screen name="BookMarks" component={BookMarks} />
                 <Stack.Screen name="ChatMessages" component={ChatMessages} />
                 <Stack.Screen name="Userprofile" component={Userprofile} />
+                <Stack.Screen name="Content" component={CreateContent} />
+                <Stack.Screen name="Following" component={Following} />
+                <Stack.Screen name="Followers" component={Followers} />
             </Stack.Navigator>
 
         </NavigationContainer>

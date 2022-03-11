@@ -123,14 +123,14 @@ const ProfileDetails = () => {
                         {userPost && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{userPost.length}</Text>}
                         <Text>Posts</Text>
                     </View>
-                    <View style={{ alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => UserFollow.followers.length ? navigation.navigate('Followers', { UserFollowersEmail: UserFollow.followers }) : null} style={{ alignItems: 'center' }}>
                         {UserFollow ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                         <Text>Followers</Text>
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => UserFollow.following.length ? navigation.navigate('Following', { UserFollowingEmail: UserFollow.following }) : null} style={{ alignItems: 'center' }}>
                         {UserFollow ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                         <Text>Following</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <Divider width={0.5} color="gray" />
 

@@ -59,19 +59,20 @@ const LikedPosts = () => {
 
 
     return (
+        <ScrollView nestedScrollEnabled={true}>
+            {UserEmail && UserEmail == auth.currentUser.email ? <Headers headerName={'Liked Posts'} /> : null}
+            <ScrollView>
+                {likedBlogs && likedBlogs.map((blog) => (
+                    <BlogPosts blog={blog} key={blog.id} />
+                ))
+                    // :
+                    // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    //     <Text>nothing following</Text>
+                    // </View>
 
-        <ScrollView>
-            {likedBlogs && likedBlogs.map((blog) => (
-                <BlogPosts blog={blog} key={blog.id} />
-            ))
-                // :
-                // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                //     <Text>nothing following</Text>
-                // </View>
-
-            }
+                }
+            </ScrollView>
         </ScrollView>
-
     )
 }
 

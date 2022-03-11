@@ -12,7 +12,7 @@ import { signOut } from 'firebase/auth';
 import { auth, db } from '../../Firebase';
 // import { GetUserFollows } from '../../Redux/Reducers/UserFollowSlicer';
 import { GetBlogs } from '../../Redux/Reducers/BlogSlicer';
-import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import BlogPosts from '../Blog/BlogPosts';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ProfileTopNavigations from './ProfileTopNavigations';
@@ -27,7 +27,7 @@ const Userprofile = () => {
     const [UserFollow, setUserFollow] = useState();
     const [userPost, setuserPost] = useState();
     const [userDetails, setuserDetails] = useState()
-
+    const [authUserFollow, setAuthUserFollow] = useState()
 
 
 
@@ -106,12 +106,8 @@ const Userprofile = () => {
                 if (isMounted) {
                     snapshot.docs.map((doc) => {
 
-                        setUserFollow({
+                        setUserFollow(doc.data())
 
-                            following: doc.data().following.length,
-                            followers: doc.data().followers.length,
-                        })
-                        // console.log(doc.data());
                     })
                 }
 
@@ -125,6 +121,55 @@ const Userprofile = () => {
 
         return () => { isMounted = false }
     }, [BlogUser])
+
+
+
+    //get Following Auth user
+    useEffect(() => {
+        let isMounted = true
+        try {
+            const followref = collection(db, 'Follow');
+            const q = query(followref, where('uid', '==', auth.currentUser.uid))
+            const onsnapsfollow = onSnapshot(q, (snaps) => {
+                if (isMounted) {
+                    snaps.docs.map((doc) => {
+                        setAuthUserFollow(doc.data());
+                    })
+                }
+
+
+            })
+
+        } catch (error) {
+            let authUserFollow = [];
+            setAuthUserFollow(authUserFollow);
+        }
+        return () => { isMounted = false }
+    }, [db])
+
+
+    // for following 
+    const handleFollow = async (blogusermail, bloguserId) => {
+
+        // check is it exits or not
+        const currentFollowingStatus = !authUserFollow.following.includes(
+            blogusermail)
+
+        // Following
+        const ref = doc(db, 'Follow', auth.currentUser.uid)
+        await updateDoc(ref, {
+            following: currentFollowingStatus ? arrayUnion(blogusermail) : arrayRemove(blogusermail)
+        })
+
+        // Followers
+
+        const ref2 = doc(db, 'Follow', bloguserId)
+        await updateDoc(ref2, {
+            followers: currentFollowingStatus ? arrayUnion(auth.currentUser.email) : arrayRemove(auth.currentUser.email)
+        })
+
+    }
+
 
 
     return (
@@ -153,14 +198,14 @@ const Userprofile = () => {
                             {userPost && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{userPost.length}</Text>}
                             <Text>Posts</Text>
                         </View>
-                        <View style={{ alignItems: 'center' }}>
-                            {UserFollow && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers}</Text>}
+                        <TouchableOpacity onPress={() => UserFollow.followers.length ? navigation.navigate('Followers', { UserFollowersEmail: UserFollow.followers }) : null} style={{ alignItems: 'center' }}>
+                            {UserFollow.followers ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                             <Text>Followers</Text>
-                        </View>
-                        <View style={{ alignItems: 'center' }}>
-                            {UserFollow && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following}</Text>}
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => UserFollow.following.length ? navigation.navigate('Following', { UserFollowingEmail: UserFollow.following }) : null} style={{ alignItems: 'center' }}>
+                            {UserFollow.followers ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                             <Text>Following</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
 
@@ -175,9 +220,10 @@ const Userprofile = () => {
                     <Text style={{ marginLeft: 10, color: 'white' }}>Message</Text>
                 </TouchableOpacity>}
 
-                <View style={{ borderColor: '#0e0047', borderWidth: 1, paddingHorizontal: 50, paddingVertical: 5, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{ color: '#0e0047', }}>Following</Text>
-                </View>
+                {(userDetails && authUserFollow) && <TouchableOpacity onPress={() => handleFollow(userDetails.email, userDetails.uid)} style={{ borderColor: '#0e0047', borderWidth: 1, paddingHorizontal: 50, paddingVertical: 5, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}>
+                    {authUserFollow.following.includes(
+                        userDetails.email) ? <Text style={{ color: '#0e0047', }}>Following</Text> : <Text style={{ color: '#0e0047', }}>Follow</Text>}
+                </TouchableOpacity>}
             </View>
 
 
