@@ -28,7 +28,7 @@ export default function BlogHeader() {
 
     return (
         <View style={style.container}>
-            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
+            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 100 }}>
                 <View style={style.headContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('Content')}>
                         <Ionicons name="menu" size={30} color="black" />

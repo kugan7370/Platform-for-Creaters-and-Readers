@@ -1,10 +1,11 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Dimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogPosts from '../Blog/BlogPosts';
 import Headers from '../Common/Headers';
 import { useRoute } from '@react-navigation/native';
+const { height } = Dimensions.get('screen');
 
 
 const LikedPosts = () => {
@@ -59,20 +60,39 @@ const LikedPosts = () => {
 
 
     return (
-        <ScrollView nestedScrollEnabled={true}>
-            {UserEmail && UserEmail == auth.currentUser.email ? <Headers headerName={'Liked Posts'} /> : null}
-            <ScrollView>
-                {likedBlogs && likedBlogs.map((blog) => (
-                    <BlogPosts blog={blog} key={blog.id} />
-                ))
-                    // :
-                    // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    //     <Text>nothing following</Text>
-                    // </View>
+        <>
+            {
+                UserEmail && UserEmail == auth.currentUser.email ?
+                    <View>
+                        <Headers headerName={'Liked Posts'} />
 
-                }
-            </ScrollView>
-        </ScrollView>
+                        <ScrollView style={{ height: height * 0.85 }}>
+                            {likedBlogs && likedBlogs.map((blog) => (
+                                <BlogPosts blog={blog} key={blog.id} />
+                            ))
+                                // :
+                                // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                //     <Text>nothing following</Text>
+                                // </View>
+
+                            }
+                        </ScrollView>
+                    </View>
+                    :
+                    <ScrollView nestedScrollEnabled={true}>
+                        {likedBlogs && likedBlogs.map((blog) => (
+                            <BlogPosts blog={blog} key={blog.id} />
+                        ))
+                            // :
+                            // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            //     <Text>nothing following</Text>
+                            // </View>
+
+                        }
+                    </ScrollView>
+            }
+        </>
+
     )
 }
 

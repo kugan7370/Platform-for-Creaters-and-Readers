@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -10,16 +10,20 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sig
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
+import ActivityIndicators from '../Components/Common/ActivityIndicator';
+
 
 
 
 const LoginSchema = yup.object().shape({
-    email: yup.string().email().required('email is requid'),
-    password: yup.string().required().min(8, 'min 8 characters'),
+    email: yup.string().email().required('Email is required'),
+    password: yup.string().min(8, 'min 8 characters').required('Password is required')
 });
 
 export default function SignInScreen() {
     const navigation = useNavigation();
+    const [indicater, setindicater] = useState(false)
+
 
     const config = {
         expoClientId: confiqs.ANDROID_CLIENT_ID,
@@ -29,11 +33,13 @@ export default function SignInScreen() {
         permissions: ["public_profile", "email", "gender", "location"],
     };
     const signInWithGoogle = async () => {
+        setindicater(true)
         const { type, accessToken, user, idToken } = await Google.logInAsync(config);
 
         if (type === 'success') {
             const credential = GoogleAuthProvider.credential(idToken, accessToken);
-            await signInWithCredential(auth, credential);
+            const res = await signInWithCredential(auth, credential);
+
 
             try {
 
@@ -53,7 +59,7 @@ export default function SignInScreen() {
                         followers: [],
 
                     })
-
+                    setindicater(false)
 
 
                 })
@@ -70,6 +76,7 @@ export default function SignInScreen() {
     }
 
     const userSign = (email, password) => {
+
         signInWithEmailAndPassword(auth, email, password).then(() => {
 
             //  for update
@@ -78,96 +85,104 @@ export default function SignInScreen() {
                 isOnline: true,
             });
         })
+
     }
 
 
 
     return (
         <View style={style.container}>
-
-            <View style={{ marginHorizontal: 40 }}>
-                {/* {sign text} */}
-
-
-
-                <View style={style.textContainer}>
-                    <Text style={style.text}>Welcome back!</Text>
-                </View>
-
-                <View style={{ height: 200, width: '100%', alignItems: 'center' }}>
-                    <Image source={{ uri: 'https://i.pinimg.com/originals/47/94/73/479473ee35eff3744b072724e7a70e7a.png' }} style={{ height: '100%', width: '100%', resizeMode: 'contain' }}></Image>
-                </View>
+            {indicater ? <ActivityIndicators color={'blue'} /> :
+                <View style={{ marginHorizontal: 40 }}>
+                    {/* {sign text} */}
 
 
 
+                    <View style={style.textContainer}>
+                        <Text style={style.text}>Welcome back!</Text>
+                    </View>
 
-                {/* forms*/}
+                    <View style={{ height: 200, width: '100%', alignItems: 'center' }}>
+                        <Image source={{ uri: 'https://i.pinimg.com/originals/47/94/73/479473ee35eff3744b072724e7a70e7a.png' }} style={{ height: '100%', width: '100%', resizeMode: 'contain' }}></Image>
+                    </View>
 
-                <Formik initialValues={
-                    {
-                        email: '',
-                        password: ''
+
+
+
+                    {/* forms*/}
+
+                    <Formik initialValues={
+                        {
+                            email: '',
+                            password: ''
+                        }
                     }
-                }
-                    onSubmit={values => {
-                        userSign(values.email, values.password);
-                    }}
-                    validationSchema={LoginSchema}
-                >
-                    {({ handleBlur, handleChange, handleSubmit, values, errors, isValid }) => (
+                        onSubmit={values => {
+                            userSign(values.email, values.password);
+                        }}
+                        validationSchema={LoginSchema}
+                    >
+                        {({ handleBlur, handleChange, handleSubmit, values, errors, isValid, setFieldTouched, touched, }) => (
 
-                        <View style={{ marginTop: 20 }}>
-                            <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
-                                <TextInput style={style.textField} onBlur={handleBlur('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
-                            </View>
-
-                            <View style={[style.textBox, { borderColor: 1 > values.password.length || values.password.length >= 8 ? '#ccc' : 'red' }]}>
-                                <TextInput style={style.textField} value={values.password} onBlur={handleBlur('password')} onChangeText={handleChange('password')} placeholder='Password' autoComplete={false} secureTextEntry={true}></TextInput>
-                            </View>
-
-                            <View style={{ alignItems: 'flex-end' }}>
-                                <Text style={{ color: '#2d9efa' }}>Forgot Password?</Text>
-                            </View>
-
-                            <View style={{ marginTop: 40, }}>
-                                <Button disabled={!isValid} onPress={handleSubmit} title="Sign in" ></Button>
-                            </View>
-
-                            <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                                <Text style={{ color: 'gray' }}>or connect using</Text>
-                            </View>
-
-
-                            {/* {social media} */}
-                            <View style={style.Social}>
-                                <View style={style.facebookContainer}>
-                                    <FontAwesome name="facebook" size={20} color="white" />
-                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
+                            <View style={{ marginTop: 20 }}>
+                                <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
+                                    <TextInput style={style.textField} onBlur={() => setFieldTouched('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
                                 </View>
-                                <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
-                                    <FontAwesome name="google" size={20} color="white" />
-                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
-                                </TouchableOpacity>
+                                {touched.email && errors.email &&
+                                    <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.email}</Text>
+                                }
+
+                                <View style={[style.textBox, { borderColor: 1 > values.password.length || values.password.length >= 8 ? '#ccc' : 'red' }]}>
+                                    <TextInput style={style.textField} value={values.password} onBlur={() => setFieldTouched('password')} onChangeText={handleChange('password')} placeholder='Password' autoComplete={false} secureTextEntry={true}></TextInput>
+                                </View>
+                                {touched.password && errors.password &&
+                                    <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.password}</Text>
+                                }
+
+                                <View style={{ alignItems: 'flex-end' }}>
+                                    <Text style={{ color: '#2d9efa' }}>Forgot Password?</Text>
+                                </View>
+
+                                <View style={{ marginTop: 40, }}>
+                                    <Button disabled={!isValid} onPress={handleSubmit} title="Sign in" ></Button>
+                                </View>
+
+                                <View style={{ alignItems: 'center', marginVertical: 20 }}>
+                                    <Text style={{ color: 'gray' }}>or connect using</Text>
+                                </View>
+
+
+                                {/* {social media} */}
+                                <View style={style.Social}>
+                                    <View style={style.facebookContainer}>
+                                        <FontAwesome name="facebook" size={20} color="white" />
+                                        <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
+                                    </View>
+                                    <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
+                                        <FontAwesome name="google" size={20} color="white" />
+                                        <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+
+                                <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }} >
+                                    <Text>Don't have an account?</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                                        <Text style={{ color: '#2d9efa' }}> Sign Up</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+
 
                             </View>
 
-                            <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }} >
-                                <Text>Don't have an account?</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                                    <Text style={{ color: '#2d9efa' }}> Sign Up</Text>
-                                </TouchableOpacity>
-
-                            </View>
-
-
-                        </View>
-
-                    )}
-                </Formik>
+                        )}
+                    </Formik>
 
 
 
-            </View>
+                </View>
+            }
         </View>
     )
 }

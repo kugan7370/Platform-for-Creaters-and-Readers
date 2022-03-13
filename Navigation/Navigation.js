@@ -20,6 +20,7 @@ import Userprofile from '../Components/Profile/Userprofile';
 import CreateContent from '../Screens/CreateContent';
 import Following from '../Components/Follow/Following';
 import Followers from '../Components/Follow/Followers';
+import EditProfile from '../Components/Profile/EditProfile';
 
 
 
@@ -43,6 +44,7 @@ export function SignInStack() {
                 <Stack.Screen name="BookMarks" component={BookMarks} />
                 <Stack.Screen name="ChatMessages" component={ChatMessages} />
                 <Stack.Screen name="Userprofile" component={Userprofile} />
+                <Stack.Screen name="EditProfile" component={EditProfile} />
                 <Stack.Screen name="Content" component={CreateContent} />
                 <Stack.Screen name="Following" component={Following} />
                 <Stack.Screen name="Followers" component={Followers} />

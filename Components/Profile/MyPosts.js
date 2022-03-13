@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Dimensions } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import BlogPosts from '../Blog/BlogPosts';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
@@ -6,7 +6,7 @@ import { auth, db } from '../../Firebase';
 import BlogHeader from '../Blog/BlogHeader';
 import Headers from '../Common/Headers';
 import { useRoute } from '@react-navigation/native';
-
+const { height } = Dimensions.get('screen');
 
 const MyPosts = () => {
     const [userPost, setuserPost] = useState();
@@ -54,10 +54,27 @@ const MyPosts = () => {
 
     return (
 
-        <ScrollView nestedScrollEnabled={true}>
-            {UserIds && UserIds == auth.currentUser.uid ? <Headers headerName={'My Posts'} /> : null}
-            <View >
-                <ScrollView >
+        <>
+            {UserIds && UserIds == auth.currentUser.uid ?
+                <View>
+                    <Headers headerName={'My Posts'} />
+
+                    <ScrollView style={{ height: height * 0.85 }} >
+                        {userPost && userPost.map((blog) => (
+                            <BlogPosts blog={blog} key={blog.id} />
+                        ))
+                            // :
+                            // <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            //     <Text>nothing following</Text>
+                            // </View>
+
+                        }
+                    </ScrollView>
+
+                </View>
+                :
+
+                <ScrollView nestedScrollEnabled={true} >
                     {userPost && userPost.map((blog) => (
                         <BlogPosts blog={blog} key={blog.id} />
                     ))
@@ -68,8 +85,9 @@ const MyPosts = () => {
 
                     }
                 </ScrollView>
-            </View>
-        </ScrollView>
+
+            }
+        </>
     );
 };
 

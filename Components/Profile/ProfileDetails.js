@@ -138,7 +138,7 @@ const ProfileDetails = () => {
                 {/* {profile lists} */}
 
                 <View style={{ marginTop: 50, }}>
-                    <TouchableOpacity style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigation.navigate('EditProfile')} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row' }}>
                             <FontAwesome name="edit" size={24} color="black" />
                             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Edit Profile</Text>

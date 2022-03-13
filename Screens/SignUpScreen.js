@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, ScrollView, Alert, Image } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -10,20 +10,21 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, si
 import { doc, setDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
+import ActivityIndicators from '../Components/Common/ActivityIndicator';
 
 // const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
 
 // {Validation yup}
 const SignupSchema = yup.object().shape({
-    email: yup.string().trim().email().required('email is requid'),
-    password: yup.string().trim().required().min(8, 'min 8 characters'),
-    username: yup.string().trim().required('username required'),
-    confirmPassword: yup.string().trim().oneOf([yup.ref('password'), null], 'Passwords must match').required('username required')
+    email: yup.string().trim().email().required('Email is required'),
+    password: yup.string().trim().required('Password is required').min(8, 'Min 8 characters'),
+    username: yup.string().trim().required('Username is required'),
+    confirmPassword: yup.string().trim().oneOf([yup.ref('password'), null], 'Passwords must be matched').required('Confirm password is required')
 })
 
 export default function SignUpScreen() {
     const navigation = useNavigation();
-
+    const [indicator, setindicator] = useState(false)
     // signwith google
     const config = {
         expoClientId: confiqs.ANDROID_CLIENT_ID,
@@ -32,6 +33,7 @@ export default function SignUpScreen() {
         permissions: ["public_profile", "email", "gender", "location"],
     };
     const signInWithGoogle = async () => {
+        setindicator(true)
         const { type, accessToken, user, idToken } = await Google.logInAsync(config);
 
         if (type === 'success') {
@@ -56,7 +58,7 @@ export default function SignUpScreen() {
                         followers: [],
 
                     })
-
+                    setindicator(false)
 
 
                 })
@@ -123,97 +125,110 @@ export default function SignUpScreen() {
 
     return (
         <View style={style.container}>
+            {indicator ? <ActivityIndicators color={'blue'} /> :
+                <View style={{ marginHorizontal: 40 }}>
+                    {/* {sign text} */}
 
-            <View style={{ marginHorizontal: 40 }}>
-                {/* {sign text} */}
+                    <View style={style.textContainer}>
+                        <Text style={style.text}>Let's Get Started!</Text>
+                    </View>
 
-                <View style={style.textContainer}>
-                    <Text style={style.text}>Let's Get Started!</Text>
-                </View>
-
-                {/* <View style={{ height: 200, width: '100%', alignItems: 'center', }}>
+                    {/* <View style={{ height: 200, width: '100%', alignItems: 'center', }}>
                     <Image source={{ uri: 'https://i.pinimg.com/originals/47/94/73/479473ee35eff3744b072724e7a70e7a.png' }} style={{ height: '100%', width: '100%', resizeMode: 'cover' }}></Image>
                 </View> */}
 
 
 
-                {/* Form */}
+                    {/* Form */}
 
-                <Formik initialValues={
-                    {
-                        email: '',
-                        password: '',
-                        username: '',
-                        confirmPassword: '',
+                    <Formik initialValues={
+                        {
+                            email: '',
+                            password: '',
+                            username: '',
+                            confirmPassword: '',
+                        }
                     }
-                }
-                    onSubmit={values => {
-                        userSignUp(values.email, values.password, values.username);
-                    }}
-                    validationSchema={SignupSchema}
+                        onSubmit={values => {
+                            userSignUp(values.email, values.password, values.username);
+                        }}
+                        validationSchema={SignupSchema}
 
-                >
-                    {({ handleBlur, handleChange, handleSubmit, values, errors, isValid }) => (
-
-
-                        <View style={{ marginTop: 40 }}>
+                    >
+                        {({ handleBlur, handleChange, handleSubmit, values, errors, isValid, setFieldTouched, touched, }) => (
 
 
-                            <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
-                                <TextInput style={style.textField} onBlur={handleBlur('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
-                            </View>
-
-                            <View style={[style.textBox, { borderColor: (1 > values.username.length || 1 < values.username.length) ? '#ccc' : 'red' }]}>
-                                <TextInput style={style.textField} value={values.username} onBlur={handleBlur('username')} onChangeText={handleChange('username')} placeholder='Username' autoComplete={false} ></TextInput>
-                            </View>
-
-                            <View style={[style.textBox, { borderColor: 1 > values.password.length || values.password.length >= 8 ? '#ccc' : 'red' }]}>
-                                <TextInput style={style.textField} value={values.password} onBlur={handleBlur('password')} onChangeText={handleChange('password')} placeholder='Password' autoComplete={false} secureTextEntry={true}></TextInput>
-                            </View>
-
-                            <View style={[style.textBox, { borderColor: 1 > values.confirmPassword.length || values.confirmPassword.length >= 8 ? '#ccc' : 'red' }]}>
-                                <TextInput style={style.textField} value={values.confirmPassword} onBlur={handleBlur('confirmPassword')} onChangeText={handleChange('confirmPassword')} placeholder='Confirm Password' autoComplete={false} secureTextEntry={true}></TextInput>
-                            </View>
-
-                            <View style={{ marginTop: 50, }}>
-                                <Button disabled={!isValid} onPress={handleSubmit} title="Sign up"  ></Button>
-                            </View>
-
-                            <View style={{ alignItems: 'center', marginVertical: 40 }}>
-                                <Text style={{ color: 'gray' }}>or connect using</Text>
-                            </View>
+                            <View style={{ marginTop: 40 }}>
 
 
-                            {/* {social media} */}
-                            <View style={style.Social}>
-                                <View style={style.facebookContainer}>
-                                    <FontAwesome name="facebook" size={20} color="white" />
-                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
+                                <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
+                                    <TextInput style={style.textField} onBlur={() => setFieldTouched('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
                                 </View>
-                                <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
-                                    <FontAwesome name="google" size={20} color="white" />
-                                    <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
-                                </TouchableOpacity>
+                                {touched.email && errors.email &&
+                                    <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.email}</Text>
+                                }
+
+                                <View style={[style.textBox, { borderColor: (1 > values.username.length || 1 < values.username.length) ? '#ccc' : 'red' }]}>
+                                    <TextInput style={style.textField} value={values.username} onBlur={() => setFieldTouched('username')} onChangeText={handleChange('username')} placeholder='Username' autoComplete={false} ></TextInput>
+                                </View>
+                                {touched.username && errors.username &&
+                                    <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.username}</Text>
+                                }
+
+                                <View style={[style.textBox, { borderColor: 1 > values.password.length || values.password.length >= 8 ? '#ccc' : 'red' }]}>
+                                    <TextInput style={style.textField} value={values.password} onBlur={() => setFieldTouched('password')} onChangeText={handleChange('password')} placeholder='Password' autoComplete={false} secureTextEntry={true}></TextInput>
+                                </View>
+                                {touched.password && errors.password &&
+                                    <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.password}</Text>
+                                }
+
+                                <View style={[style.textBox, { borderColor: 1 > values.confirmPassword.length || values.confirmPassword.length >= 8 ? '#ccc' : 'red' }]}>
+                                    <TextInput style={style.textField} value={values.confirmPassword} onBlur={() => setFieldTouched('confirmPassword')} onChangeText={handleChange('confirmPassword')} placeholder='Confirm Password' autoComplete={false} secureTextEntry={true}></TextInput>
+                                </View>
+                                {touched.confirmPassword && errors.confirmPassword &&
+                                    <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.confirmPassword}</Text>
+                                }
+
+                                <View style={{ marginTop: 50, }}>
+                                    <Button disabled={!isValid} onPress={handleSubmit} title="Sign up"  ></Button>
+                                </View>
+
+                                <View style={{ alignItems: 'center', marginVertical: 40 }}>
+                                    <Text style={{ color: 'gray' }}>or connect using</Text>
+                                </View>
+
+
+                                {/* {social media} */}
+                                <View style={style.Social}>
+                                    <View style={style.facebookContainer}>
+                                        <FontAwesome name="facebook" size={20} color="white" />
+                                        <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
+                                    </View>
+                                    <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
+                                        <FontAwesome name="google" size={20} color="white" />
+                                        <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+
+                                <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'center' }} >
+                                    <Text>Already have an account?</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+                                        <Text style={{ color: '#2d9efa' }}> Sign In</Text>
+                                    </TouchableOpacity>
+
+                                </View>
+
 
                             </View>
 
-                            <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'center' }} >
-                                <Text>Already have an account?</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-                                    <Text style={{ color: '#2d9efa' }}> Sign In</Text>
-                                </TouchableOpacity>
-
-                            </View>
-
-
-                        </View>
-
-                    )}
-                </Formik>
+                        )}
+                    </Formik>
 
 
 
-            </View>
+                </View>
+            }
         </View>
     )
 }

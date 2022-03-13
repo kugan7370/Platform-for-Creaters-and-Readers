@@ -230,7 +230,7 @@ const Userprofile = () => {
 
 
 
-            {/* {postMessage,following, follower} */}
+
 
 
 
@@ -240,35 +240,6 @@ const Userprofile = () => {
                 <View style={{ marginTop: 50 }}>
                     <ProfileTopNavigations userId={userDetails.uid} usermail={userDetails.email} />
                 </View>
-                // <View style={{ marginTop: 50, }}>
-
-                //     <TouchableOpacity onPress={() => navigation.navigate('MyPosts', { userId: userDetails.uid })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
-                //         <View style={{ flexDirection: 'row' }}>
-                //             <Feather name="book-open" size={24} color="black" />
-                //             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}> Posts</Text>
-                //         </View>
-                //         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
-                //     </TouchableOpacity>
-
-                //     <TouchableOpacity onPress={() => navigation.navigate('BookMarks', { usermail: userDetails.email })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
-                //         <View style={{ flexDirection: 'row' }}>
-                //             <Feather name="bookmark" size={24} color="black" />
-                //             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Book Marks</Text>
-                //         </View>
-                //         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
-                //     </TouchableOpacity>
-
-                //     <TouchableOpacity onPress={() => navigation.navigate('LikedPosts', { usermail: userDetails.email })} style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20, alignItems: 'center' }}>
-                //         <View style={{ flexDirection: 'row' }}>
-                //             <AntDesign name="like2" size={24} color="black" />
-                //             <Text style={{ marginLeft: 20, fontSize: 16, fontWeight: '800', letterSpacing: 1 }}>Liked Posts</Text>
-                //         </View>
-                //         <MaterialIcons name="keyboard-arrow-right" size={30} color="gray" />
-                //     </TouchableOpacity>
-
-
-
-
 
             }
 

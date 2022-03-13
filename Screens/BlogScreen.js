@@ -23,7 +23,7 @@ export default function BlogScreen() {
         let isMounted = true
         try {
             const ref = collection(db, 'blogs')
-            const q = query(ref, where("uid", "not-in", [auth.currentUser.uid]))
+            const q = query(ref, orderBy('createAt', 'desc'))
             const snapdata = onSnapshot(q, (snapshot) => {
                 let blogdata = [];
                 if (isMounted) {
@@ -60,7 +60,7 @@ export default function BlogScreen() {
             {/* {search bar} */}
             <View style={{
                 flexDirection: 'row',
-                height: 50, alignItems: 'center', marginHorizontal: 20, borderRadius: 10, backgroundColor: '#fcfcfc', paddingHorizontal: 10, borderColor: 'gray', marginBottom: 10
+                height: 50, alignItems: 'center', marginHorizontal: 20, borderRadius: 10, backgroundColor: '#fcfcfc', paddingHorizontal: 10, borderColor: 'gray',
             }}>
                 <Ionicons name="search" size={24} color="black" />
                 <TextInput onChangeText={(text) => setsearchquery(text)} style={{ padding: 5, flex: 1, }} placeholder='Search'></TextInput>
@@ -73,7 +73,7 @@ export default function BlogScreen() {
 
             <ScrollView>
                 {blogs && blogs.filter((item) => item.username.toLowerCase().includes(searchquery) || item.usermail.toLowerCase().includes(searchquery) || item.title.toLowerCase().includes(searchquery)).map((blog) => (
-                    <BlogPosts blog={blog} key={blog.id} />
+                    blog.uid !== auth.currentUser.uid ? <BlogPosts blog={blog} key={blog.id} /> : null
                 ))
 
                 }
