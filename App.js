@@ -24,7 +24,7 @@ console.warn = message => {
 export default function App() {
   return (
     <Provider store={store}>
-      <StatusBar backgroundColor='#f7f7f7'></StatusBar>
+      {/* <StatusBar backgroundColor='#f7f7f7'></StatusBar> */}
       <AuthNavigation />
     </Provider>
   );

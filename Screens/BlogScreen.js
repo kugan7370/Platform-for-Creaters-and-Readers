@@ -9,6 +9,8 @@ import BlogPosts from '../Components/Blog/BlogPosts'
 import BlogSearch from '../Components/Blog/BlogSearch'
 import { auth, db } from '../Firebase'
 import { GetBlogs, SetBlogData } from '../Redux/Reducers/BlogSlicer'
+import BlogTopNavigation from '../Components/Blog/BlogTopNavigation'
+import { color } from '../Color'
 
 
 export default function BlogScreen() {
@@ -19,65 +21,68 @@ export default function BlogScreen() {
 
 
 
-    useEffect(() => {
-        let isMounted = true
-        try {
-            const ref = collection(db, 'blogs')
-            const q = query(ref, orderBy('createAt', 'desc'))
-            const snapdata = onSnapshot(q, (snapshot) => {
-                let blogdata = [];
-                if (isMounted) {
-                    snapshot.docs.map((doc) => {
-                        blogdata.push({ ...doc.data(), id: doc.id })
-                    })
+    // useEffect(() => {
+    //     let isMounted = true
+    //     try {
+    //         const ref = collection(db, 'blogs')
+    //         const q = query(ref, orderBy('createAt', 'desc'))
+    //         const snapdata = onSnapshot(q, (snapshot) => {
+    //             let blogdata = [];
+    //             if (isMounted) {
+    //                 snapshot.docs.map((doc) => {
+    //                     blogdata.push({ ...doc.data(), id: doc.id })
+    //                 })
 
-                    dispatch(SetBlogData({
-                        BlogDatas: blogdata,
-                    }))
-                }
+    //                 dispatch(SetBlogData({
+    //                     BlogDatas: blogdata,
+    //                 }))
+    //             }
 
-            })
-        } catch (error) {
-            let blogdata = [];
-            dispatch(SetBlogData({
-                BlogDatas: blogdata,
-            }))
-        }
-        return () => { isMounted = false }
-    }, [db])
+    //         })
+    //     } catch (error) {
+    //         let blogdata = [];
+    //         dispatch(SetBlogData({
+    //             BlogDatas: blogdata,
+    //         }))
+    //     }
+    //     return () => { isMounted = false }
+    // }, [db])
 
 
 
     const navigation = useNavigation();
     return (
         <View style={{ flex: 1 }}>
-            <BlogHeader />
-
-
-
-
-            {/* <BlogSearch /> */}
-            {/* {search bar} */}
-            <View style={{
-                flexDirection: 'row',
-                height: 50, alignItems: 'center', marginHorizontal: 20, borderRadius: 10, backgroundColor: '#fcfcfc', paddingHorizontal: 10, borderColor: 'gray',
-            }}>
-                <Ionicons name="search" size={24} color="black" />
-                <TextInput onChangeText={(text) => setsearchquery(text)} style={{ padding: 5, flex: 1, }} placeholder='Search'></TextInput>
-            </View>
-
-
-
-
-
-
             <ScrollView>
+                <BlogHeader />
+
+
+
+
+                {/* <BlogSearch /> */}
+                {/* {search bar} */}
+                <View style={{ backgroundColor: color.primaryColor }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        height: 50, alignItems: 'center', marginHorizontal: 20, borderRadius: 10, paddingHorizontal: 10, backgroundColor: '#fcfcfc', borderColor: 'gray',
+                    }}>
+                        <Ionicons name="search" size={24} color="black" />
+                        <TextInput onChangeText={(text) => setsearchquery(text)} style={{ padding: 5, flex: 1, marginLeft: 20 }} placeholder='Search'></TextInput>
+                    </View>
+                </View>
+
+
+
+                <BlogTopNavigation searchquery={searchquery} />
+
+            </ScrollView>
+            {/* <ScrollView>
                 {blogs && blogs.filter((item) => item.username.toLowerCase().includes(searchquery) || item.usermail.toLowerCase().includes(searchquery) || item.title.toLowerCase().includes(searchquery)).map((blog) => (
                     blog.uid !== auth.currentUser.uid ? <BlogPosts blog={blog} key={blog.id} /> : null
                 ))
 
                 }
-            </ScrollView>
+            </ScrollView> */}
 
         </View>
     )

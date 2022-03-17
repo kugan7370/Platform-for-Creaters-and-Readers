@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Touchable, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Touchable, TouchableOpacity, ScrollView, Dimensions, StatusBar } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { collection, collectionGroup, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
@@ -12,6 +12,7 @@ import { auth, db } from '../../Firebase';
 // import Pdf from 'react-native-pdf';
 // import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
+import { color } from '../../Color';
 
 export default function DetailBottom({ SelectedBlog }) {
     const navigation = useNavigation();
@@ -19,6 +20,7 @@ export default function DetailBottom({ SelectedBlog }) {
 
     return (
         <View style={style.container}>
+
             <TouchableOpacity onPress={() => navigation.navigate('PdfView', { FileData: SelectedBlog })} style={style.bottunContainer}>
                 <Ionicons name="book-outline" size={24} color="white" />
                 <Text style={{ color: 'white', marginLeft: 15 }}>Read Now</Text>
@@ -41,13 +43,14 @@ const style = StyleSheet.create({
         left: 0,
         right: 0,
         width: "100%",
-        backgroundColor: '#fafafa',
+        backgroundColor: color.primaryColor,
         height: 80,
         alignItems: 'center',
         zIndex: 999
     },
     bottunContainer: {
-        backgroundColor: '#0e0047', paddingVertical: 10, paddingHorizontal: 25, borderRadius: 10,
-        flexDirection: 'row', alignItems: 'center'
+        backgroundColor: color.primaryColor, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 10,
+        flexDirection: 'row', alignItems: 'center',
+        elevation: 2
     }
 })

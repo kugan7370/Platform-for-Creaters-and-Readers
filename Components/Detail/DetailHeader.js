@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { color } from '../../Color';
 
 export default function DetailHeader() {
     const navigation = useNavigation();
@@ -17,21 +18,22 @@ export default function DetailHeader() {
         }
     }
     return (
-        <View>
+        <SafeAreaView>
+            <StatusBar backgroundColor={'black'} />
             <View style={style.container}>
 
                 <View style={style.headContainer}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10 }}>
-                            <Ionicons name="ios-arrow-back" size={20} color="black" />
+                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secondaryColor, borderRadius: 10 }}>
+                            <Ionicons name="ios-arrow-back" size={20} color={color.primaryColor} />
                         </View>
 
                     </TouchableOpacity>
 
 
                     <TouchableOpacity onPress={handleBookMark} >
-                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white', borderRadius: 10 }}>
-                            {isBookMark ? <Ionicons name="bookmarks" size={15} color="black" /> : <Ionicons name="bookmarks-outline" size={15} color="black" />}
+                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secondaryColor, borderRadius: 10 }}>
+                            {isBookMark ? <Ionicons name="bookmarks" size={15} color={color.primaryColor} /> : <Ionicons name="bookmarks-outline" size={15} color={color.primaryColor} />}
                         </View>
 
 
@@ -41,7 +43,7 @@ export default function DetailHeader() {
                 </View>
 
             </View >
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -54,7 +56,8 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+
 
     },
     headText: {

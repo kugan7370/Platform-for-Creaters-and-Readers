@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddBlogScreen from '../../Screens/AddBlogScreen';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../Firebase';
+import { color } from '../../Color';
 // import HomeDrawer from './HomeDrawer';
 // import { setBlogDataOut } from '../../Redux/Reducers/BlogSlicer';
 
@@ -34,26 +35,27 @@ const HomeBottomNavigation = () => {
         <Tab.Navigator screenOptions={{
             headerShown: false,
             tabBarShowLabel: false,
-            tabBarStyle: { height: 60 }
+            tabBarStyle: { height: 60, backgroundColor: color.primaryColor },
+
         }} >
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 tabBarIcon: ({ color, size, focused }) => (
-                    <Ionicons name={focused ? "md-home" : "md-home-outline"} size={24} color="black" />
+                    <Ionicons name={focused ? "md-home" : "md-home-outline"} size={24} color='white' />
                 )
             }} />
             <Tab.Screen name="Blog" component={BlogScreen} options={{
                 tabBarIcon: ({ color, size, focused }) => (
-                    <Ionicons name={focused ? "md-search" : "md-search-outline"} size={24} color="black" />
+                    <Ionicons name={focused ? "md-search" : "md-search-outline"} size={24} color='white' />
                 )
             }} />
             <Tab.Screen name="AddBlog" component={AddBlogScreen} options={{
                 tabBarIcon: ({ color, size, focused }) => (
-                    <Ionicons name={focused ? "md-add-circle" : "md-add-circle-outline"} size={40} color="green" />
+                    <Ionicons name={focused ? "md-add-circle" : "md-add-circle-outline"} size={40} color="white" />
                 )
             }} />
             <Tab.Screen name="Chat" component={ChatScreen} options={{
                 tabBarIcon: ({ color, size, focused }) => (
-                    <Ionicons name={focused ? "chatbubbles" : "chatbubbles-outline"} size={24} color="black" />
+                    <Ionicons name={focused ? "chatbubbles" : "chatbubbles-outline"} size={24} color="white" />
                 )
             }} />
             {user && <Tab.Screen name="Profile" component={ProfileScreen} options={{

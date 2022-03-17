@@ -10,6 +10,7 @@ import Moment from 'moment';
 import { useDispatch } from 'react-redux';
 import BlogPosts from '../Blog/BlogPosts';
 import DetailHeader from './DetailHeader';
+import { color } from '../../Color';
 
 export default function DetailContent({ SelectedBlog }) {
     const dispatch = useDispatch();
@@ -199,10 +200,10 @@ export default function DetailContent({ SelectedBlog }) {
 
 
                         {userFollow && userFollow.following.includes(
-                            SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color="#580abf" /> : <SimpleLineIcons name="user-follow" size={18} color="#580abf" />}
+                            SelectedBlog.usermail) ? <SimpleLineIcons name="user-following" size={18} color={color.primaryColor} /> : <SimpleLineIcons name="user-follow" size={18} color={color.primaryColor} />}
 
                         {userFollow && userFollow.following.includes(
-                            SelectedBlog.usermail) ? <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: '#580abf', marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
+                            SelectedBlog.usermail) ? <Text style={{ color: color.primaryColor, marginLeft: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ color: color.primaryColor, marginLeft: 10, fontWeight: 'bold' }}>Follow</Text>}
                     </TouchableOpacity>)}
 
 
@@ -253,7 +254,7 @@ export default function DetailContent({ SelectedBlog }) {
                 </View>
 
                 <TouchableOpacity onPress={AddComments} style={{ alignSelf: 'flex-end', marginHorizontal: 20, marginTop: 10 }}>
-                    <View style={{ backgroundColor: '#0e0047', paddingVertical: 10, borderRadius: 10, paddingHorizontal: 15 }}>
+                    <View style={{ backgroundColor: color.primaryColor, paddingVertical: 10, borderRadius: 10, paddingHorizontal: 15 }}>
                         <Text style={{ color: 'white' }}>Add Comments</Text>
                     </View>
                 </TouchableOpacity>
@@ -313,7 +314,7 @@ export default function DetailContent({ SelectedBlog }) {
 
 const style = StyleSheet.create({
     container: {
-        marginTop: 30,
+        // marginTop: 30,
     },
 
     imageContainer: {
@@ -371,9 +372,9 @@ const style = StyleSheet.create({
     },
     followButton: {
         flexDirection: 'row', alignItems: 'center', backgroundColor: '#fafafa', paddingVertical: 10, paddingHorizontal: 15,
-        borderRadius: 20,
+        borderRadius: 10,
         elevation: 1,
-        borderColor: '#580abf',
+        borderColor: color.primaryColor,
         borderWidth: 1
     },
 

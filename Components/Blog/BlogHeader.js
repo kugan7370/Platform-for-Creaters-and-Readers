@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +8,7 @@ import { signOut } from 'firebase/auth';
 import { collection, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 import { SetSignOut, SignInUser } from '../../Redux/Reducers/UserSlicer';
+import { color } from '../../Color';
 
 const profile = 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg';
 
@@ -28,10 +29,11 @@ export default function BlogHeader() {
 
     return (
         <View style={style.container}>
-            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 100 }}>
+            <StatusBar backgroundColor={color.primaryColor} />
+            <SafeAreaView style={{ backgroundColor: color.primaryColor, height: 100, paddingVertical: 20 }}>
                 <View style={style.headContainer}>
                     <TouchableOpacity onPress={() => navigation.navigate('Content')}>
-                        <Ionicons name="menu" size={30} color="black" />
+                        <Ionicons name="menu" size={30} color="white" />
                     </TouchableOpacity>
 
                     <Text style={style.headText}>Explore</Text>
@@ -58,7 +60,8 @@ const style = StyleSheet.create({
     },
     headText: {
         fontSize: 18,
-        fontWeight: '700'
+        fontWeight: '700',
+        color: 'white'
     },
     imageContainer: {
         height: 30,
