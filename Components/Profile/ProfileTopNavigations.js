@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Mypost from './MyPosts'
 import LikedPosts from './LikedPosts'
 import BookMarks from './BookMarks'
+import { color } from '../../Color';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -18,9 +19,9 @@ export default function ProfileTopNavigations({ userId, usermail, navigation }) 
         <View style={{ height: height * 0.915 }}>
             {(userId && usermail) &&
                 <Tab.Navigator screenOptions={{
-                    tabBarStyle: { borderTopRadius: 20, elevation: 0 },
-                    tabBarLabelStyle: { textTransform: 'capitalize', color: 'gray', letterSpacing: 1, fontSize: 14 },
-                    tabBarIndicatorStyle: { backgroundColor: 'black', }
+                    tabBarStyle: { borderTopRadius: 20, elevation: 150, backgroundColor: color.primaryColor, },
+                    tabBarLabelStyle: { textTransform: 'capitalize', color: color.secondaryColor, letterSpacing: 1, fontSize: 14 },
+                    tabBarIndicatorStyle: { backgroundColor: 'gray', }
 
 
                 }} >

@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { Divider } from 'react-native-elements';
+import { colors, Divider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import { arrayRemove, arrayUnion, collection, doc, onSnapshot, query, updateDoc,
 import BlogPosts from '../Blog/BlogPosts';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ProfileTopNavigations from './ProfileTopNavigations';
+import { color } from '../../Color';
 // import { GetSignUserBlogs } from '../../Redux/Reducers/SignInUserBlogSlicer';
 
 
@@ -174,12 +175,12 @@ const Userprofile = () => {
 
     return (
 
-        <ScrollView style={{ backgroundColor: 'white', height: '100%' }}>
+        <ScrollView style={{ backgroundColor: color.primaryColor, height: '100%', }}>
 
             {/* {profile} */}
 
 
-            {userDetails && <View View style={{ flexDirection: 'row', marginTop: 80, marginHorizontal: 20 }}>
+            {userDetails && <View View style={{ flexDirection: 'row', marginTop: 60, marginHorizontal: 20 }}>
 
                 <View style={{ height: 120, width: 120 }}>
                     <Image style={{ height: '100%', width: '100%', borderRadius: 40 }} source={{ uri: userDetails.pro_pic }} />
@@ -189,22 +190,22 @@ const Userprofile = () => {
 
                 <View style={{ flex: 1, marginLeft: 10 }}>
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{userDetails.username}</Text>
-                        <Text style={{ color: 'gray' }}>{userDetails.email}</Text>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: color.secondaryColor }}>{userDetails.username}</Text>
+                        <Text style={{ color: color.secondaryColor }}>{userDetails.email}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20, marginBottom: 30, marginLeft: 10 }}>
                         <View style={{ alignItems: 'center' }}>
-                            {userPost && <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{userPost.length}</Text>}
-                            <Text>Posts</Text>
+                            {userPost && <Text style={{ fontSize: 18, fontWeight: 'bold', color: color.secondaryColor }}>{userPost.length}</Text>}
+                            <Text style={{ color: color.secondaryColor }}>Posts</Text>
                         </View>
                         <TouchableOpacity onPress={() => UserFollow.followers.length ? navigation.navigate('Followers', { UserFollowersEmail: UserFollow.followers }) : null} style={{ alignItems: 'center' }}>
-                            {UserFollow.followers ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.followers.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
-                            <Text>Followers</Text>
+                            {UserFollow.followers ? <Text style={{ fontSize: 18, fontWeight: 'bold', color: color.secondaryColor }}>{UserFollow.followers.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
+                            <Text style={{ color: color.secondaryColor }}>Followers</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => UserFollow.following.length ? navigation.navigate('Following', { UserFollowingEmail: UserFollow.following }) : null} style={{ alignItems: 'center' }}>
-                            {UserFollow.followers ? <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{UserFollow.following.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
-                            <Text>Following</Text>
+                            {UserFollow.followers ? <Text style={{ fontSize: 18, fontWeight: 'bold', color: color.secondaryColor }}>{UserFollow.following.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
+                            <Text style={{ color: color.secondaryColor }}>Following</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -215,14 +216,14 @@ const Userprofile = () => {
             </View>}
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 }}>
-                {userDetails && userDetails.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: userDetails })} style={{ flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 40, borderRadius: 10, backgroundColor: "#0e0047" }}>
+                {userDetails && userDetails.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: userDetails })} style={{ flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 40, borderRadius: 10, backgroundColor: color.extraColor }}>
                     <Ionicons name="md-chatbubbles-outline" size={20} color="white" />
                     <Text style={{ marginLeft: 10, color: 'white' }}>Message</Text>
                 </TouchableOpacity>}
 
-                {(userDetails && authUserFollow) && <TouchableOpacity onPress={() => handleFollow(userDetails.email, userDetails.uid)} style={{ borderColor: '#0e0047', borderWidth: 1, paddingHorizontal: 50, paddingVertical: 5, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}>
+                {(userDetails && authUserFollow) && <TouchableOpacity onPress={() => handleFollow(userDetails.email, userDetails.uid)} style={{ borderColor: color.extraColor, borderWidth: 1, paddingHorizontal: 50, paddingVertical: 5, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: color.extraColor }}>
                     {authUserFollow.following.includes(
-                        userDetails.email) ? <Text style={{ color: '#0e0047', }}>Following</Text> : <Text style={{ color: '#0e0047', }}>Follow</Text>}
+                        userDetails.email) ? <Text style={{ color: color.secondaryColor, }}>Following</Text> : <Text style={{ color: color.secondaryColor, }}>Follow</Text>}
                 </TouchableOpacity>}
             </View>
 

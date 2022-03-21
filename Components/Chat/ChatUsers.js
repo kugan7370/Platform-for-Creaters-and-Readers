@@ -9,6 +9,7 @@ import UserMessage from './UserMessage';
 import { useSelector } from 'react-redux';
 import { SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { useNavigation } from '@react-navigation/native';
+import { color } from '../../Color';
 const image = 'https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg'
 
 
@@ -124,10 +125,11 @@ export default function ChatUsers() {
                 <ChatHeader />
             </SafeAreaView>
 
-            <View style={{ backgroundColor: '#ffff', height: "80%", borderTopLeftRadius: 20, borderTopRightRadius: 20, marginHorizontal: 10 }}>
+            <View style={{ backgroundColor: '#ffff', height: "80%", borderTopLeftRadius: 20, borderTopRightRadius: 20, marginHorizontal: 10, }}>
 
                 {/* active user */}
                 <View style={{ marginVertical: 20, paddingHorizontal: 20, borderRadius: 100 }}>
+                    <Text style={{ marginBottom: 20, fontWeight: 'bold', color: color.primaryColor }}>Active</Text>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                         {user && <ActiveUser navigation={navigation} usersDetail={user} key={user.id} />}
                         {FollowingUserDetails && FollowingUserDetails.map((usersDetail) => (usersDetail.isOnline ? <ActiveUser navigation={navigation} usersDetail={usersDetail} key={usersDetail.id} /> : null))}
@@ -149,10 +151,11 @@ export default function ChatUsers() {
 
 
 const ChatHeader = () => (
-    <View >
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Messages</Text>
-
-        <View>
+    <View style={{ marginTop: 20 }} >
+        <View >
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: color.secondaryColor }}>Messages</Text>
+        </View>
+        <View style={{ marginVertical: 10 }}>
             <View style={style.searchContainer}>
                 <Ionicons name="search" size={24} color="black" />
                 <TextInput style={style.textInput} placeholder='Search Users'></TextInput>
@@ -172,7 +175,7 @@ const ActiveUser = ({ usersDetail, navigation }) => (
 
             </View>
         </TouchableOpacity>}
-        <Text style={{ color: 'gray' }}>{usersDetail.uid == auth.currentUser.uid ? "me" : usersDetail.username}</Text>
+        <Text style={{ color: 'gray', marginLeft: 10 }}>{usersDetail.uid == auth.currentUser.uid ? "me" : usersDetail.username}</Text>
     </View>
 )
 
@@ -192,7 +195,7 @@ const style = StyleSheet.create({
         paddingHorizontal: 10,
         borderColor: 'gray',
         marginBottom: 20,
-        marginTop: 30
+        marginTop: 20
     },
     textInput: {
 

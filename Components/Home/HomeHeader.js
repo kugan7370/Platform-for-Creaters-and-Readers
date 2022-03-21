@@ -19,7 +19,7 @@ export default function HomeHeader() {
     return (
 
 
-        <SafeAreaView style={{ backgroundColor: color.primaryColor, height: 120, paddingTop: 20 }}>
+        <SafeAreaView style={{ backgroundColor: color.primaryColor, height: 80, paddingTop: 20 }}>
             <StatusBar backgroundColor={color.primaryColor} />
             <View style={style.headContainer}>
                 <TouchableOpacity >
@@ -40,13 +40,13 @@ export default function HomeHeader() {
                     {user && <Text style={{ fontSize: 15, fontWeight: 'bold', marginHorizontal: 20 }}>{user.username}</Text>}
                 </View> */}
 
-            {user && <TouchableOpacity style={{ marginHorizontal: 20, backgroundColor: color.secondaryColor, paddingHorizontal: 20, paddingVertical: 10, marginTop: 10, borderRadius: 10, flexDirection: 'row', alignItems: 'center' }}>
+            {/* {user && <TouchableOpacity style={{ marginHorizontal: 20, backgroundColor: color.secondaryColor, paddingHorizontal: 20, paddingVertical: 10, marginTop: 10, borderRadius: 10, flexDirection: 'row', alignItems: 'center' }}>
 
                 <Image style={{ height: 30, width: 30, resizeMode: 'cover', borderRadius: 15 }} source={{ uri: user.pro_pic }} />
 
                 <Text style={{ marginLeft: 10 }}>{user.username}</Text>
 
-            </TouchableOpacity>}
+            </TouchableOpacity>} */}
 
         </SafeAreaView >
 

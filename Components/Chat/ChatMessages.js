@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, FlatList, KeyboardAvoidingView, Platform, Keyboard } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, FlatList, KeyboardAvoidingView, Platform, Keyboard, StatusBar } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AntDesign } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import { auth, db } from '../../Firebase';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from 'firebase/firestore';
 import ChatGetMessages from './ChatGetMessages';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { color } from '../../Color';
 
 const ChatMessages = () => {
     const [text, setText] = useState("");
@@ -80,15 +81,16 @@ const ChatMessages = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <View style={{ backgroundColor: '#f7f7f7', height: 50 }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center' }}>
+            <StatusBar backgroundColor={color.primaryColor} />
+            <View style={{ backgroundColor: color.primaryColor, /*height: 80,*/ }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center', paddingVertical: 20 }}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <AntDesign name="arrowleft" size={24} color="black" />
+                        <AntDesign name="arrowleft" size={24} color={color.secondaryColor} />
                     </TouchableOpacity>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {BlogUser && <Image style={{ height: 30, width: 30, borderRadius: 15 }} source={{ uri: BlogUser.UserPic || BlogUser.pro_pic }} />}
-                        {BlogUser && <Text style={{ marginLeft: 10, fontSize: 15, fontWeight: 'bold' }}>{BlogUser.username}</Text>}
+                        {BlogUser && <Image style={{ height: 40, width: 40, borderRadius: 15 }} source={{ uri: BlogUser.UserPic || BlogUser.pro_pic }} />}
+                        {BlogUser && <Text style={{ marginLeft: 10, fontSize: 18, fontWeight: 'bold', color: color.secondaryColor }}>{BlogUser.username}</Text>}
                     </View>
 
                     <Text></Text>
@@ -127,11 +129,13 @@ const ChatMessages = () => {
                 </View>
 
                 {/* {bottom} */}
-                <View >
-                    <View style={{ flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 20, backgroundColor: 'white' }}>
-                        <TextInput style={{ flex: 1 }} multiline={true} placeholder='Send Message' value={text} onChangeText={(text) => setText(text)} />
-                        {BlogUser && <TouchableOpacity onPress={() => handleSubmit(BlogUser.uid)}>
-                            <Ionicons name="send" size={24} color="black" />
+                <View  >
+                    <View style={{
+                        flexDirection: 'row', backgroundColor: color.secondaryColor, paddingHorizontal: 20, paddingVertical: 20, borderRadius: 10
+                    }}>
+                        <TextInput style={{ flex: 1 }} multiline={true} placeholder='Type a message...' value={text} onChangeText={(text) => setText(text)} />
+                        {BlogUser && <TouchableOpacity style={{ width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: color.primaryColor }} onPress={() => handleSubmit(BlogUser.uid)}>
+                            <Ionicons name="send" size={20} color={color.secondaryColor} />
                         </TouchableOpacity>}
 
 

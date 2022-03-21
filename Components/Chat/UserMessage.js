@@ -40,7 +40,7 @@ export default function ({ usersID }) {
 
     return (
         <View>
-            <Divider width={0.5} color="gray" />
+            {/* <Divider width={0.5} color="gray" /> */}
             <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: usersID })} style={{ marginTop: 15, marginHorizontal: 20, marginBottom: 10 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
