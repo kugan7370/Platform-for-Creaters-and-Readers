@@ -28,29 +28,27 @@ export default function BlogHeader() {
 
 
     return (
-        <View style={style.container}>
-            <StatusBar backgroundColor={color.primaryColor} />
-            <SafeAreaView style={{ backgroundColor: color.primaryColor, height: 100, paddingVertical: 20 }}>
-                <View style={style.headContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Content')}>
-                        <Ionicons name="menu" size={30} color="white" />
-                    </TouchableOpacity>
 
-                    <Text style={style.headText}>Explore</Text>
-                    <TouchableOpacity style={style.imageContainer}>
-                        {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
-                    </TouchableOpacity>
 
-                </View>
-            </SafeAreaView >
+        <View style={{ backgroundColor: color.primaryColor, height: 100, paddingVertical: 20 }}>
+            <View style={style.headContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('Content')}>
+                    <Ionicons name="menu" size={30} color="white" />
+                </TouchableOpacity>
+
+                <Text style={style.headText}>Explore</Text>
+                <TouchableOpacity style={style.imageContainer}>
+                    {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
+                </TouchableOpacity>
+
+            </View>
         </View >
+
     )
 }
 
 const style = StyleSheet.create({
-    container: {
-        // marginHorizontal: 15,
-    },
+
     headContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',

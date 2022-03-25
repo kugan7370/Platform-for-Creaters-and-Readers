@@ -121,9 +121,9 @@ export default function ChatUsers() {
 
     return (
         <View >
-            <SafeAreaView style={{ marginHorizontal: 20, }}>
+            <View style={{ marginHorizontal: 20, }}>
                 <ChatHeader />
-            </SafeAreaView>
+            </View>
 
             <View style={{ backgroundColor: '#ffff', height: "80%", borderTopLeftRadius: 20, borderTopRightRadius: 20, marginHorizontal: 10, }}>
 
@@ -138,6 +138,7 @@ export default function ChatUsers() {
                 </View>
                 {/* {UserMessage} */}
                 <View >
+                    <Text style={{ marginVertical: 10, fontWeight: 'bold', color: color.primaryColor, marginLeft: 20 }}>Contact</Text>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {/* {usersID && usersID.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))} */}
                         {FollowingUserDetails && FollowingUserDetails.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))}

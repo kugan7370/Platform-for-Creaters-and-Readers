@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert } from 'react-native'
+import { Image, StyleSheet, Text, View, TextInput, Button, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { Formik } from 'formik'
 import { Picker } from '@react-native-community/picker'
 import * as yup from 'yup'
@@ -12,7 +12,8 @@ import { useNavigation } from '@react-navigation/native'
 import { SignInUser } from '../../Redux/Reducers/UserSlicer'
 import { useSelector } from 'react-redux'
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
-
+import { Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { color } from '../../Color'
 
 const uploadImage = 'https://cdn.iconscout.com/icon/premium/png-256-thumb/image-gallery-1733269-1478308.png'
 
@@ -48,7 +49,7 @@ export default function AddDetails() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
+            // aspect: [6, 4],
             quality: 1,
         });
 
@@ -122,10 +123,12 @@ export default function AddDetails() {
 
 
     return (
-        <View>
+        <ScrollView >
 
-            <TouchableOpacity onPress={pickImage} style={{ alignItems: 'center', height: 100, }} >
-                <Image source={{ uri: image }} style={{ height: '100%', width: '100%', resizeMode: 'contain', borderRadius: 20 }}></Image>
+            <TouchableOpacity onPress={pickImage} style={{ alignItems: 'center', height: 250, borderWidth: 1, marginHorizontal: 20, borderRadius: 20, borderStyle: 'dashed', justifyContent: 'center', borderColor: 'gray' }} >
+                <Ionicons name="md-images-outline" size={50} color="black" />
+                {/* <Text style={{ color: 'gray', fontWeight: '500', letterSpacing: 1 }}>Upload Image</Text> */}
+                {/* <Image source={{ uri: image }} style={{ height: '100%', width: '100%', resizeMode: 'contain', borderRadius: 20 }}></Image> */}
             </TouchableOpacity>
 
             {/* forms*/}
@@ -177,12 +180,12 @@ export default function AddDetails() {
                         </Picker>
 
                         <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Upload File</Text>
-                        <TouchableOpacity onPress={pickDoc}>
-                            <Image style={{ height: 50, width: 50, marginTop: 10 }} source={{ uri: 'https://static.thenounproject.com/png/729367-200.png' }}></Image>
+                        <TouchableOpacity style={{ height: 100, borderWidth: 1, borderRadius: 10, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', marginVertical: 20, borderColor: 'gray' }} onPress={pickDoc}>
+                            <Feather name="folder-plus" size={30} color="black" />
                         </TouchableOpacity>
 
-                        <View style={{ marginTop: 30 }}>
-                            <Button title='Add Book' disabled={!isValid} onPress={handleSubmit}></Button>
+                        <View style={{ marginTop: 30, marginBottom: 50 }}>
+                            <Button color={color.primaryColor} title='Add Book' disabled={!isValid} onPress={handleSubmit}></Button>
                         </View>
 
 
@@ -193,7 +196,7 @@ export default function AddDetails() {
 
 
 
-        </View>
+        </ScrollView>
     )
 }
 
@@ -207,9 +210,9 @@ const style = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 5,
         justifyContent: 'center',
-        marginBottom: 10,
+        marginBottom: 30,
         elevation: 1,
-        marginTop: 10,
+        marginTop: 15,
         paddingHorizontal: 10,
 
 

@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import ChatUsers from '../Components/Chat/ChatUsers';
 import { color } from '../Color';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ChatScreen() {
     return (
-        <View style={{ backgroundColor: color.primaryColor }}>
+        <SafeAreaView style={{ backgroundColor: color.primaryColor }}>
+            <StatusBar backgroundColor={color.primaryColor} />
             <ChatUsers />
-        </View>
+        </SafeAreaView>
     );
 }
 

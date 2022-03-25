@@ -1,8 +1,9 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
 
 
 
@@ -12,15 +13,19 @@ export default function AddBlogHeader() {
 
     return (
         <View style={style.container}>
-            <SafeAreaView style={{ backgroundColor: '#f7f7f7', height: 80 }}>
+            {/* <StatusBar backgroundColor='white' /> */}
+            <SafeAreaView style={{ height: 80 }}>
+
                 <View style={style.headContainer}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Ionicons name="ios-arrow-back" size={30} color="black" />
+                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 1, borderRadius: 15 }}>
+                            {/* <Ionicons name="ios-arrow-back" size={20} color="black" /> */}
+                            <MaterialIcons name="keyboard-arrow-left" size={24} color="black" />
+                        </View>
+
                     </TouchableOpacity>
-
-                    <Text style={style.headText}>Add Blogs</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', letterSpacing: 1 }}>Add Post</Text>
                     <Text></Text>
-
                 </View>
             </SafeAreaView >
         </View >
@@ -29,7 +34,7 @@ export default function AddBlogHeader() {
 
 const style = StyleSheet.create({
     container: {
-        // marginHorizontal: 15,
+        marginVertical: 10,
     },
     headContainer: {
         flexDirection: 'row',

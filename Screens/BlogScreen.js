@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, TextInput, StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';
 import BlogHeader from '../Components/Blog/BlogHeader'
@@ -11,6 +11,7 @@ import { auth, db } from '../Firebase'
 import { GetBlogs, SetBlogData } from '../Redux/Reducers/BlogSlicer'
 import BlogTopNavigation from '../Components/Blog/BlogTopNavigation'
 import { color } from '../Color'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 export default function BlogScreen() {
@@ -52,7 +53,8 @@ export default function BlogScreen() {
 
     const navigation = useNavigation();
     return (
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar backgroundColor={color.primaryColor} />
             <ScrollView>
                 <BlogHeader />
 
@@ -84,6 +86,6 @@ export default function BlogScreen() {
                 }
             </ScrollView> */}
 
-        </View>
+        </SafeAreaView>
     )
 }

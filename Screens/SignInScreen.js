@@ -11,7 +11,7 @@ import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
 import ActivityIndicators from '../Components/Common/ActivityIndicator';
-
+import * as Facebook from 'expo-facebook';
 
 
 
@@ -74,6 +74,39 @@ export default function SignInScreen() {
         }
         return Promise.reject();
     }
+
+
+    const facebookSign = async () => {
+        try {
+            await Facebook.initializeAsync({
+                appId: '325499896230413',
+
+            });
+            const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+                permissions: ['public_profile'],
+            });
+
+            console.log(type, token);
+
+            if (type === 'success') {
+                // Get the user's name using Facebook's Graph API
+                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+                console.log(response);
+            } else {
+                // type === 'cancel'
+            }
+        } catch ({ message }) {
+            alert(`Facebook Login Error: ${message}`);
+        }
+    }
+
+
+
+
+
+
+
 
     const userSign = (email, password) => {
 
@@ -154,10 +187,10 @@ export default function SignInScreen() {
 
                                 {/* {social media} */}
                                 <View style={style.Social}>
-                                    <View style={style.facebookContainer}>
+                                    <TouchableOpacity onPress={facebookSign} style={style.facebookContainer}>
                                         <FontAwesome name="facebook" size={20} color="white" />
                                         <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                     <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
                                         <FontAwesome name="google" size={20} color="white" />
                                         <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>

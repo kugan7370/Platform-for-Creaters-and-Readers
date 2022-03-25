@@ -62,7 +62,7 @@ export default function ExploreArticle({ searchData }) {
 
     return (
 
-        <ScrollView nestedScrollEnabled={true}>
+        <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white' }}>
             {blogs && blogs.filter((item) => item.username.toLowerCase().includes(searchData) || item.usermail.toLowerCase().includes(searchData) || item.title.toLowerCase().includes(searchData)).map((blog) => (
                 blog.uid !== auth.currentUser.uid ? <BlogPosts blog={blog} key={blog.id} /> : null
             ))

@@ -4,6 +4,7 @@ import Headers from '../Common/Headers'
 import { useRoute } from '@react-navigation/native'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { auth, db } from '../../Firebase'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Followers = () => {
     const route = useRoute();
@@ -55,7 +56,7 @@ const Followers = () => {
 
 
     return (
-        <View>
+        <SafeAreaView>
             <Headers headerName={'Followers'} />
 
             {userDetails && userDetails.map((userDetail) => (
@@ -72,7 +73,7 @@ const Followers = () => {
             ))}
 
 
-        </View>
+        </SafeAreaView>
     )
 }
 

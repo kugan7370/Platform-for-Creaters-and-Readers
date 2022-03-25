@@ -92,7 +92,7 @@ const HomeArticleScreen = () => {
 
     const navigation = useNavigation();
     return (
-        <ScrollView nestedScrollEnabled={true} >
+        <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white' }} >
             {FollowingBlogs && FollowingBlogs.map((FollowingBlog) => (
                 <BlogPosts blog={FollowingBlog} key={FollowingBlog.id} />
             ))

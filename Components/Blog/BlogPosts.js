@@ -104,12 +104,12 @@ export const PostHeader = ({ navigation, handleBookMark, isBookmark, blog, handl
             </View>
         </View>
         <View style={{ flexDirection: 'row', }}>
-            {blog && blog.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => handleFollow(blog.usermail, blog.uid)} style={{ marginRight: 20, borderWidth: .5, alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5 }}>
+            {blog && blog.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => handleFollow(blog.usermail, blog.uid)} style={{ marginRight: 20, alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 5, borderColor: '#ebebeb', borderWidth: .5, }}>
                 {userFollow && userFollow.following.includes(
-                    blog.usermail) ? <Text style={{ letterSpacing: 1, fontSize: 10, fontWeight: 'bold' }}>Following</Text> : <Text style={{ letterSpacing: 1, fontSize: 10, fontWeight: 'bold' }}>Follow</Text>}
+                    blog.usermail) ? <Text style={{ letterSpacing: 1, fontSize: 10, fontWeight: 'bold', color: 'black', paddingVertical: 2 }}>Following</Text> : <Text style={{ letterSpacing: 1, fontSize: 10, fontWeight: 'bold', color: 'black', paddingVertical: 2 }}>Follow</Text>}
             </TouchableOpacity>}
-            <TouchableOpacity onPress={() => handleBookMark(blog.id)}>
-                {blog && blog.book_mark_by.includes(auth.currentUser.email) ? <Ionicons name="bookmark" size={20} color="black" /> : <Ionicons name="bookmark-outline" size={20} color="black" />}
+            <TouchableOpacity style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 1, borderRadius: 8, padding: 5 }} onPress={() => handleBookMark(blog.id)}>
+                {blog && <Ionicons name={blog.book_mark_by.includes(auth.currentUser.email) ? "bookmark" : "bookmark-outline"} size={18} color="#23c6a4" />}
             </TouchableOpacity>
         </View>
     </View>
@@ -126,7 +126,7 @@ export const PostContent = ({ navigation, blog }) => (
         <View style={style.PostTitleContainer} >
 
             <Text style={style.postTitle}>{blog.title}</Text>
-            <View style={{ marginTop: 20, backgroundColor: '#f7f7f9', alignSelf: 'flex-start', borderRadius: 5, paddingVertical: 3, paddingHorizontal: 10 }}>
+            <View style={{ marginTop: 20, alignSelf: 'flex-start', borderRadius: 5, paddingVertical: 6, paddingHorizontal: 10 }}>
                 <Text style={style.categoryText}>{blog.category}</Text>
             </View>
         </View>
@@ -178,10 +178,10 @@ export const PostContent = ({ navigation, blog }) => (
 
 const style = StyleSheet.create({
     container: {
-        // marginBottom: 10,
+        marginBottom: 1,
         borderRadius: 10,
-        backgroundColor: '#fafafa',
-        marginTop: 10,
+        backgroundColor: '#f4fcff',
+        // marginTop: 10,
         // paddingHorizontal: 10,
         paddingTop: 20,
         // marginHorizontal: 20
@@ -238,8 +238,10 @@ const style = StyleSheet.create({
     },
 
     postTitle: {
+        // fontFamily: 'popins',
         fontWeight: '700',
         fontSize: 15,
+
     },
 
     // ----------------post Footer------------
@@ -253,8 +255,10 @@ const style = StyleSheet.create({
         borderRadius: 5
     },
     categoryText: {
-        color: 'gray', fontSize: 12,
-        letterSpacing: 1
+        color: 'black',
+        fontSize: 12,
+        letterSpacing: 1,
+        fontWeight: 'bold'
     },
     footerFlex: {
         marginLeft: 30, flexDirection: 'row', justifyContent: 'space-evenly', flex: 1

@@ -81,7 +81,7 @@ const ChatMessages = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar backgroundColor={color.primaryColor} />
+            {/* <StatusBar backgroundColor={color.primaryColor} /> */}
             <View style={{ backgroundColor: color.primaryColor, /*height: 80,*/ }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center', paddingVertical: 20 }}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -171,9 +171,9 @@ export default function DetailContent({ SelectedBlog }) {
 
 
                 <Image style={style.image} source={{ uri: SelectedBlog.titleImage }} />
-                <View style={{ position: 'absolute', top: 15, right: 0, left: 0 }}>
+                {/* <View style={{ position: 'absolute', top: 15, right: 0, left: 0 }}>
                     <DetailHeader />
-                </View>
+                </View> */}
             </View>
 
 
@@ -271,7 +271,7 @@ export default function DetailContent({ SelectedBlog }) {
 
             <View style={{ marginBottom: 150 }}>
                 {getComments && getComments.map((getComment) => (
-                    <View style={{ marginHorizontal: 20, backgroundColor: 'white', marginBottom: 20, padding: 15, borderRadius: 10 }} key={getComment.id}>
+                    <View style={{ marginHorizontal: 20, backgroundColor: '#f4fcf9', marginBottom: 20, padding: 15, borderRadius: 10 }} key={getComment.id}>
                         <View style={{ flexDirection: 'row', marginBottom: 20, alignItems: 'center' }}>
                             <Image source={{ uri: getComment.data().userPro_Pic }} style={{ height: 50, width: 50, borderRadius: 15 }} />
                             <View style={{ marginLeft: 10 }}>
@@ -319,9 +319,9 @@ const style = StyleSheet.create({
 
     imageContainer: {
         width: '100%',
-        height: 320,
+        height: 250,
         // overflow: 'hidden',
-        // paddingHorizontal: 20
+        paddingHorizontal: 20
 
     },
     image: {
@@ -330,7 +330,7 @@ const style = StyleSheet.create({
         resizeMode: 'cover',
         // borderTopLeftRadius: 20,
         // borderTopRightRadius: 20
-        // borderRadius: 50
+        borderRadius: 20
     },
     textContainer: {
         marginTop: 20,
@@ -344,9 +344,10 @@ const style = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 10,
         borderWidth: 0.6,
-        borderRadius: 20,
+        borderRadius: 10,
         borderColor: '#fcfcfc',
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        backgroundColor: '#f4fcf9'
 
     },
     headerFlex: {
@@ -371,11 +372,11 @@ const style = StyleSheet.create({
         borderRadius: 30
     },
     followButton: {
-        flexDirection: 'row', alignItems: 'center', backgroundColor: '#fafafa', paddingVertical: 10, paddingHorizontal: 15,
+        flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 15,
         borderRadius: 10,
-        elevation: 1,
-        borderColor: color.primaryColor,
-        borderWidth: 1
+        // elevation: 1,
+        borderColor: '#ebebeb',
+
     },
 
 })

@@ -9,8 +9,10 @@ import AuthNavigation from './Navigation/AuthNavigation';
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
 
-
-
+//navigation bar color
+import * as NavigationBar from 'expo-navigation-bar';
+import { color } from './Color';
+NavigationBar.setBackgroundColorAsync(color.primaryColor);
 // {Ignore yellow warning in phone}
 LogBox.ignoreLogs(['Warning:...']); // ignore specific logs
 LogBox.ignoreAllLogs(); // ignore all logs
@@ -24,7 +26,7 @@ console.warn = message => {
 export default function App() {
   return (
     <Provider store={store}>
-      {/* <StatusBar backgroundColor='#f7f7f7'></StatusBar> */}
+      {/* <StatusBar backgroundColor={color.primaryColor} style='light' /> */}
       <AuthNavigation />
     </Provider>
   );

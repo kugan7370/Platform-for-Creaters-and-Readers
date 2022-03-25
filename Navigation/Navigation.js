@@ -21,6 +21,7 @@ import CreateContent from '../Screens/CreateContent';
 import Following from '../Components/Follow/Following';
 import Followers from '../Components/Follow/Followers';
 import EditProfile from '../Components/Profile/EditProfile';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 
@@ -31,26 +32,28 @@ const Stack = createNativeStackNavigator();
 
 export function SignInStack() {
     return (
-        <NavigationContainer >
-            <Stack.Navigator initialRouteName='HomeTab' screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="HomeTab" component={HomeBottomNavigation} />
-                <Stack.Screen name="Blog" component={BlogScreen} />
-                <Stack.Screen name="Detail" component={DetailScreen} />
-                <Stack.Screen name="AddBlog" component={AddBlogScreen} />
-                <Stack.Screen name="Download" component={DownloadScreen} />
-                <Stack.Screen name="PdfView" component={PdfViewScreen} />
-                <Stack.Screen name="MyPosts" component={MyPosts} />
-                <Stack.Screen name="LikedPosts" component={LikedPosts} />
-                <Stack.Screen name="BookMarks" component={BookMarks} />
-                <Stack.Screen name="ChatMessages" component={ChatMessages} />
-                <Stack.Screen name="Userprofile" component={Userprofile} />
-                <Stack.Screen name="EditProfile" component={EditProfile} />
-                <Stack.Screen name="Content" component={CreateContent} />
-                <Stack.Screen name="Following" component={Following} />
-                <Stack.Screen name="Followers" component={Followers} />
-            </Stack.Navigator>
+        <SafeAreaProvider>
+            <NavigationContainer >
+                <Stack.Navigator initialRouteName='HomeTab' screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="HomeTab" component={HomeBottomNavigation} />
+                    <Stack.Screen name="Blog" component={BlogScreen} />
+                    <Stack.Screen name="Detail" component={DetailScreen} />
+                    <Stack.Screen name="AddBlog" component={AddBlogScreen} />
+                    <Stack.Screen name="Download" component={DownloadScreen} />
+                    <Stack.Screen name="PdfView" component={PdfViewScreen} />
+                    <Stack.Screen name="MyPosts" component={MyPosts} />
+                    <Stack.Screen name="LikedPosts" component={LikedPosts} />
+                    <Stack.Screen name="BookMarks" component={BookMarks} />
+                    <Stack.Screen name="ChatMessages" component={ChatMessages} />
+                    <Stack.Screen name="Userprofile" component={Userprofile} />
+                    <Stack.Screen name="EditProfile" component={EditProfile} />
+                    <Stack.Screen name="Content" component={CreateContent} />
+                    <Stack.Screen name="Following" component={Following} />
+                    <Stack.Screen name="Followers" component={Followers} />
+                </Stack.Navigator>
 
-        </NavigationContainer>
+            </NavigationContainer>
+        </SafeAreaProvider>
     )
 }
 

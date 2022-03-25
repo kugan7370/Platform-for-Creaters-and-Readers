@@ -19,8 +19,8 @@ export default function HomeHeader() {
     return (
 
 
-        <SafeAreaView style={{ backgroundColor: color.primaryColor, height: 80, paddingTop: 20 }}>
-            <StatusBar backgroundColor={color.primaryColor} />
+        <View style={{ backgroundColor: color.primaryColor, height: 80, paddingTop: 20 }}>
+            {/* <StatusBar backgroundColor={color.primaryColor} /> */}
             <View style={style.headContainer}>
                 <TouchableOpacity >
                     <Ionicons name="menu" size={30} color="white" />
@@ -48,7 +48,7 @@ export default function HomeHeader() {
 
             </TouchableOpacity>} */}
 
-        </SafeAreaView >
+        </View >
 
     );
 }
