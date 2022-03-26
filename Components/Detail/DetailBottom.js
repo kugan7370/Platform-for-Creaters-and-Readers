@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Touchable, TouchableOpacity, ScrollView, Dimensions, StatusBar } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
-import { collection, collectionGroup, doc, getDocs, onSnapshot, query, where } from 'firebase/firestore';
+import { Ionicons, AntDesign, FontAwesome, Fontisto, Feather } from '@expo/vector-icons';
+import { arrayRemove, arrayUnion, collection, collectionGroup, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 // import * as MediaLibrary from 'expo-media-library';
 // import * as FileSystem from 'expo-file-system';
@@ -14,23 +14,100 @@ import { auth, db } from '../../Firebase';
 import { useNavigation } from '@react-navigation/native';
 import { color } from '../../Color';
 
+
+
+
+
 export default function DetailBottom({ SelectedBlog }) {
     const navigation = useNavigation();
+    const [ThisPost, setThisPost] = useState();
+    const [getComments, setgetComments] = useState()
+
+    const Handlelike = async () => {
+        const likestatus = !ThisPost.likes_by_users.includes(auth.currentUser.email);
+        const ref = doc(db, 'blogs', SelectedBlog.id)
+        await updateDoc(ref, {
+            likes_by_users: likestatus ? arrayUnion(auth.currentUser.email) : arrayRemove(auth.currentUser.email)
+        })
+    }
+
+    // for likes for live update
+    useEffect(() => {
+        let isMounted = true
+        try {
+            const ref = doc(db, 'blogs', SelectedBlog.id)
+
+            const snapdata = onSnapshot(ref, (doc) => {
+                if (isMounted) {
+                    setThisPost(doc.data())
+                }
+            })
+        } catch (error) {
+
+            let ThisPost = [];
+            setThisPost(ThisPost)
+
+        }
+
+        return () => { isMounted = false }
+    }, [db])
+
+    // get comments
+    useEffect(() => {
+        let isMounted = true
+        try {
+            const ref = collection(db, 'blogs', SelectedBlog.id, "Comments")
+
+            const snapdata = onSnapshot(ref, (snapshot) => {
+                if (isMounted) {
+                    setgetComments(snapshot.docs)
+                }
+            })
+        } catch (error) {
+
+            let getComments = [];
+            setgetComments(getComments)
+
+        }
+
+        return () => { isMounted = false }
+    }, [db])
 
 
     return (
         <View style={style.container}>
 
             <TouchableOpacity onPress={() => navigation.navigate('PdfView', { FileData: SelectedBlog })} style={style.bottunContainer}>
-                <Ionicons name="book-outline" size={24} color="white" />
-                <Text style={{ color: 'white', marginLeft: 15 }}>Read Now</Text>
+                <Ionicons name="book-outline" size={20} color="white" />
+                <Text style={{ color: 'white', marginTop: 10 }}>Read</Text>
             </TouchableOpacity>
             <View style={style.bottunContainer}>
-                <Ionicons name="md-download-outline" size={24} color="white" />
-                <TouchableOpacity onPress={() => navigation.navigate('Download', { FileData: SelectedBlog })}>
-                    <Text style={{ color: 'white', marginLeft: 15 }}>Download Now</Text>
+
+                <TouchableOpacity style={style.bottunContainer} onPress={() => navigation.navigate('Download', { FileData: SelectedBlog })}>
+                    {/* <Ionicons name="md-download-outline" size={28} color="white" /> */}
+                    <Feather name="download" size={24} color="white" />
+                    <Text style={{ color: 'white', marginTop: 10 }}>Download</Text>
                 </TouchableOpacity>
             </View>
+
+            <TouchableOpacity onPress={Handlelike} style={style.bottunContainer} >
+                <View style={{ flexDirection: 'row' }} >
+                    {ThisPost && <AntDesign name={ThisPost.likes_by_users.includes(auth.currentUser.email) ? "heart" : "hearto"} size={20} color="white" />}
+                    {ThisPost && <Text style={{ marginLeft: 5, color: 'white' }}>{ThisPost.likes_by_users.length}</Text>}
+                </View>
+                <Text style={{ color: 'white', marginTop: 10 }}>Likes</Text>
+
+
+
+            </TouchableOpacity>
+
+            <TouchableOpacity style={style.bottunContainer} onPress={() => navigation.navigate('Comment', { SelectedBlogId: SelectedBlog.id })}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Fontisto name="comment" size={20} color="white" />
+                    {getComments && <Text style={{ marginLeft: 10, color: 'white' }}>{getComments.length}</Text>}
+                </View>
+                <Text style={{ color: 'white', marginTop: 10 }}>Comments</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -46,11 +123,13 @@ const style = StyleSheet.create({
         backgroundColor: color.primaryColor,
         height: 80,
         alignItems: 'center',
-        zIndex: 999
+        zIndex: 999,
+
     },
     bottunContainer: {
-        backgroundColor: color.primaryColor, paddingVertical: 10, paddingHorizontal: 25, borderRadius: 10,
-        flexDirection: 'row', alignItems: 'center',
-        elevation: 2
+
+        alignItems: 'center',
+        justifyContent: 'center'
+
     }
 })

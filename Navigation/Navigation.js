@@ -22,6 +22,7 @@ import Following from '../Components/Follow/Following';
 import Followers from '../Components/Follow/Followers';
 import EditProfile from '../Components/Profile/EditProfile';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import CommentScreen from '../Screens/CommentScreen';
 
 
 
@@ -50,6 +51,7 @@ export function SignInStack() {
                     <Stack.Screen name="Content" component={CreateContent} />
                     <Stack.Screen name="Following" component={Following} />
                     <Stack.Screen name="Followers" component={Followers} />
+                    <Stack.Screen name="Comment" component={CommentScreen} />
                 </Stack.Navigator>
 
             </NavigationContainer>
