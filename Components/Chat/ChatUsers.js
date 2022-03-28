@@ -138,7 +138,7 @@ export default function ChatUsers() {
                 </View>
                 {/* {UserMessage} */}
                 <View >
-                    <Text style={{ marginVertical: 10, fontWeight: 'bold', color: color.primaryColor, marginLeft: 20 }}>Contact</Text>
+                    <Text style={{ marginVertical: 10, fontWeight: 'bold', color: color.primaryColor, marginLeft: 20 }}>Contacts</Text>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {/* {usersID && usersID.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))} */}
                         {FollowingUserDetails && FollowingUserDetails.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))}
@@ -169,14 +169,14 @@ const ChatHeader = () => (
 
 
 const ActiveUser = ({ usersDetail, navigation }) => (
-    <View>
-        {usersDetail && <TouchableOpacity onPress={() => usersDetail.uid !== auth.currentUser.uid ? navigation.navigate('ChatMessages', { BlogUserDetail: usersDetail }) : null} style={{ height: 50, width: 50, borderRadius: 25, marginRight: 22 }}>
+    <View style={{ alignItems: 'center', marginRight: 20 }}>
+        {usersDetail && <TouchableOpacity onPress={() => usersDetail.uid !== auth.currentUser.uid ? navigation.navigate('ChatMessages', { BlogUserDetail: usersDetail }) : null} style={{ height: 50, width: 50, borderRadius: 25, }}>
             <Image style={{ height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 25 }} source={{ uri: usersDetail.pro_pic }} />
             <View style={{ backgroundColor: usersDetail.isOnline ? 'green' : 'red', height: 8, width: 8, borderRadius: 5, position: 'absolute', top: 5, right: 0 }}>
 
             </View>
         </TouchableOpacity>}
-        <Text style={{ color: 'gray', marginLeft: 10 }}>{usersDetail.uid == auth.currentUser.uid ? "me" : usersDetail.username}</Text>
+        <Text style={{ color: 'gray', }}>{usersDetail.uid == auth.currentUser.uid ? "me" : usersDetail.username}</Text>
     </View>
 )
 

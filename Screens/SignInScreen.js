@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
 import { auth, db } from '../Firebase';
 import { signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, signInWithCredential } from 'firebase/auth';
-import { doc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, onSnapshot, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
 import ActivityIndicators from '../Components/Common/ActivityIndicator';
@@ -23,6 +23,9 @@ const LoginSchema = yup.object().shape({
 export default function SignInScreen() {
     const navigation = useNavigation();
     const [indicater, setindicater] = useState(false)
+    const [isLoggedin, setLoggedinStatus] = useState(false);
+    const [userData, setUserData] = useState(null);
+    const [isImageLoading, setImageLoadStatus] = useState(false);
 
 
     const config = {
@@ -51,14 +54,22 @@ export default function SignInScreen() {
                     isOnline: true,
 
                 }).then(async () => {
+                    const ref = doc(db, "Follow", auth.currentUser.uid)
 
-                    Alert.alert('Successfully Registered')
-                    await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
-                        uid: auth.currentUser.uid,
-                        following: [],
-                        followers: [],
+                    const docsnap = await getDoc(ref);
 
-                    })
+
+                    if (!docsnap.exists()) {
+                        await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
+                            uid: auth.currentUser.uid,
+                            following: [],
+                            followers: [],
+
+                        })
+                    }
+
+
+
                     setindicater(false)
 
 
@@ -75,24 +86,28 @@ export default function SignInScreen() {
         return Promise.reject();
     }
 
+    const facebookLogIn = async () => {
 
-    const facebookSign = async () => {
         try {
             await Facebook.initializeAsync({
-                appId: '325499896230413',
+                appId: '470142788187367'      // enter app id here
 
             });
-            const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+            const {
+                type,
+                token,
+            } = await Facebook.logInWithReadPermissionsAsync({
                 permissions: ['public_profile'],
             });
-
-            console.log(type, token);
-
             if (type === 'success') {
-                // Get the user's name using Facebook's Graph API
-                const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-                Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-                console.log(response);
+                // We are using facebook graph api
+                fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+                    .then(response => response.json())
+                    .then(data => {
+                        setLoggedinStatus(true);
+                        setUserData(data);
+                    })
+                    .catch(e => console.log(e))
             } else {
                 // type === 'cancel'
             }
@@ -100,6 +115,8 @@ export default function SignInScreen() {
             alert(`Facebook Login Error: ${message}`);
         }
     }
+
+
 
 
 
@@ -187,7 +204,7 @@ export default function SignInScreen() {
 
                                 {/* {social media} */}
                                 <View style={style.Social}>
-                                    <TouchableOpacity onPress={facebookSign} style={style.facebookContainer}>
+                                    <TouchableOpacity onPress={facebookLogIn} style={style.facebookContainer}>
                                         <FontAwesome name="facebook" size={20} color="white" />
                                         <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
                                     </TouchableOpacity>

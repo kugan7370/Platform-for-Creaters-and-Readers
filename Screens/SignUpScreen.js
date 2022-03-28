@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
 import { auth, db, googleProvider } from '../Firebase';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithCredential } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
 import ActivityIndicators from '../Components/Common/ActivityIndicator';
@@ -51,13 +51,20 @@ export default function SignUpScreen() {
 
                 }).then(async () => {
 
-                    Alert.alert('Successfully Registered')
-                    await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
-                        uid: auth.currentUser.uid,
-                        following: [],
-                        followers: [],
+                    const ref = doc(db, "Follow", auth.currentUser.uid)
 
-                    })
+                    const docsnap = await getDoc(ref);
+
+
+                    if (!docsnap.exists()) {
+                        await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
+                            uid: auth.currentUser.uid,
+                            following: [],
+                            followers: [],
+
+                        })
+                    }
+
                     setindicator(false)
 
 
