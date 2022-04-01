@@ -1,10 +1,11 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, StatusBar } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Headers from '../Common/Headers'
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { color } from '../../Color';
 
 const Following = () => {
     const route = useRoute();
@@ -55,18 +56,19 @@ const Following = () => {
 
     return (
         <SafeAreaView>
+            <StatusBar backgroundColor={color.primaryColor} barStyle='dark-content' />
             <Headers headerName={'Following'} />
 
             {userDetails && userDetails.map((userDetail) => (
-                <View key={userDetail.uid} style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, marginTop: 20, alignItems: 'center' }}>
+                <View key={userDetail.uid} style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 1, alignItems: 'center', backgroundColor: 'white', paddingHorizontal: 20, paddingVertical: 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image style={{ width: 40, height: 40, borderRadius: 10 }} source={{ uri: userDetail.pro_pic }} />
                         <Text style={{ marginLeft: 10 }}>{userDetail.username}</Text>
                     </View>
 
-                    <View style={{ borderWidth: 1, borderRadius: 5 }}>
+                    {/* <View style={{ borderWidth: 1, borderRadius: 5 }}>
                         <Text style={{ paddingVertical: 3, paddingHorizontal: 10 }} >Following</Text>
-                    </View>
+                    </View> */}
                 </View>
             ))}
         </SafeAreaView>

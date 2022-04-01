@@ -78,11 +78,11 @@ const CommentScreen = () => {
 
             <View style={style.tabContainer} >
                 <View style={{
-                    flexDirection: 'row', backgroundColor: color.secondaryColor, paddingHorizontal: 20, paddingVertical: 20, borderRadius: 10
+                    flexDirection: 'row', backgroundColor: color.primaryColor, paddingHorizontal: 20, paddingVertical: 20,
                 }}>
-                    <TextInput style={{ flex: 1 }} multiline={true} placeholder='Add your comments...' value={addComment} onChangeText={(text) => setaddComment(text)} />
-                    <TouchableOpacity onPress={AddComments} style={{ width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: color.primaryColor }} >
-                        <Ionicons name="send" size={20} color={color.secondaryColor} />
+                    <TextInput style={{ flex: 1, backgroundColor: color.secondaryColor, paddingHorizontal: 10, paddingVertical: 10, height: 50, borderRadius: 5 }} multiline={true} placeholder='Add your comments...' value={addComment} onChangeText={(text) => setaddComment(text)} />
+                    <TouchableOpacity onPress={AddComments} style={{ width: 50, height: 50, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secondaryColor, marginLeft: 10 }} >
+                        <Ionicons name="send" size={20} color={color.primaryColor} />
                     </TouchableOpacity>
 
 

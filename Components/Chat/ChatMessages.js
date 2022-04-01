@@ -81,8 +81,8 @@ const ChatMessages = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            {/* <StatusBar backgroundColor={color.primaryColor} /> */}
-            <View style={{ backgroundColor: color.primaryColor, /*height: 80,*/ }}>
+
+            <View style={{ backgroundColor: color.primaryColor }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, alignItems: 'center', paddingVertical: 20 }}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <AntDesign name="arrowleft" size={24} color={color.secondaryColor} />
@@ -131,11 +131,11 @@ const ChatMessages = () => {
                 {/* {bottom} */}
                 <View  >
                     <View style={{
-                        flexDirection: 'row', backgroundColor: color.secondaryColor, paddingHorizontal: 20, paddingVertical: 20, borderRadius: 10
+                        flexDirection: 'row', backgroundColor: color.primaryColor, paddingHorizontal: 20, paddingVertical: 35, alignItems: 'center'
                     }}>
-                        <TextInput style={{ flex: 1 }} multiline={true} placeholder='Type a message...' value={text} onChangeText={(text) => setText(text)} />
-                        {BlogUser && <TouchableOpacity style={{ width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: color.primaryColor }} onPress={() => handleSubmit(BlogUser.uid)}>
-                            <Ionicons name="send" size={20} color={color.secondaryColor} />
+                        <TextInput style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 20, borderRadius: 10, paddingVertical: 15 }} multiline={true} placeholder='Type a message...' value={text} onChangeText={(text) => setText(text)} />
+                        {BlogUser && <TouchableOpacity style={{ width: 55, height: 55, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secondaryColor, marginLeft: 20 }} onPress={() => handleSubmit(BlogUser.uid)}>
+                            <Ionicons name="send" size={20} color={color.primaryColor} />
                         </TouchableOpacity>}
 
 

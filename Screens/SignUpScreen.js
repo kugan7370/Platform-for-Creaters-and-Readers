@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, ScrollView, Alert, Image } from 'react-native'
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -11,6 +11,8 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
 import ActivityIndicators from '../Components/Common/ActivityIndicator';
+import { color } from '../Color';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
 
@@ -131,7 +133,7 @@ export default function SignUpScreen() {
 
 
     return (
-        <View style={style.container}>
+        <SafeAreaView style={style.container}>
             {indicator ? <ActivityIndicators color={'blue'} /> :
                 <View style={{ marginHorizontal: 40 }}>
                     {/* {sign text} */}
@@ -169,6 +171,7 @@ export default function SignUpScreen() {
 
 
                                 <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
+                                    <Feather name="mail" size={20} color="gray" />
                                     <TextInput style={style.textField} onBlur={() => setFieldTouched('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
                                 </View>
                                 {touched.email && errors.email &&
@@ -176,6 +179,7 @@ export default function SignUpScreen() {
                                 }
 
                                 <View style={[style.textBox, { borderColor: (1 > values.username.length || 1 < values.username.length) ? '#ccc' : 'red' }]}>
+                                    <FontAwesome name="user" size={20} color="gray" />
                                     <TextInput style={style.textField} value={values.username} onBlur={() => setFieldTouched('username')} onChangeText={handleChange('username')} placeholder='Username' autoComplete={false} ></TextInput>
                                 </View>
                                 {touched.username && errors.username &&
@@ -183,6 +187,7 @@ export default function SignUpScreen() {
                                 }
 
                                 <View style={[style.textBox, { borderColor: 1 > values.password.length || values.password.length >= 8 ? '#ccc' : 'red' }]}>
+                                    <FontAwesome name="lock" size={20} color="gray" />
                                     <TextInput style={style.textField} value={values.password} onBlur={() => setFieldTouched('password')} onChangeText={handleChange('password')} placeholder='Password' autoComplete={false} secureTextEntry={true}></TextInput>
                                 </View>
                                 {touched.password && errors.password &&
@@ -190,15 +195,17 @@ export default function SignUpScreen() {
                                 }
 
                                 <View style={[style.textBox, { borderColor: 1 > values.confirmPassword.length || values.confirmPassword.length >= 8 ? '#ccc' : 'red' }]}>
+                                    <MaterialCommunityIcons name="shield-lock" size={20} color="gray" />
                                     <TextInput style={style.textField} value={values.confirmPassword} onBlur={() => setFieldTouched('confirmPassword')} onChangeText={handleChange('confirmPassword')} placeholder='Confirm Password' autoComplete={false} secureTextEntry={true}></TextInput>
                                 </View>
                                 {touched.confirmPassword && errors.confirmPassword &&
                                     <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.confirmPassword}</Text>
                                 }
 
-                                <View style={{ marginTop: 50, }}>
-                                    <Button disabled={!isValid} onPress={handleSubmit} title="Sign up"  ></Button>
-                                </View>
+
+                                <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 10, alignItems: 'center', borderRadius: 5 }}>
+                                    <Text style={{ color: 'white' }}>SIGN UP</Text>
+                                </TouchableOpacity>
 
                                 <View style={{ alignItems: 'center', marginVertical: 40 }}>
                                     <Text style={{ color: 'gray' }}>or connect using</Text>
@@ -221,7 +228,7 @@ export default function SignUpScreen() {
                                 <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'center' }} >
                                     <Text>Already have an account?</Text>
                                     <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-                                        <Text style={{ color: '#2d9efa' }}> Sign In</Text>
+                                        <Text style={{ color: color.primaryColor }}> Sign In</Text>
                                     </TouchableOpacity>
 
                                 </View>
@@ -236,7 +243,7 @@ export default function SignUpScreen() {
 
                 </View>
             }
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -249,14 +256,14 @@ const style = StyleSheet.create({
     },
     textContainer: {
         alignItems: 'center',
-        marginTop: 100,
+        marginTop: 80,
     }
     ,
     text: {
         fontSize: 30,
         fontWeight: 'bold',
         alignItems: 'center',
-        color: '#76a9ea'
+        color: color.primaryColor
 
     },
     Social: {
@@ -285,9 +292,11 @@ const style = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         borderRadius: 5,
-        justifyContent: 'center',
+        alignItems: 'center',
         marginBottom: 10,
-        elevation: 1
+        elevation: 1,
+        flexDirection: 'row',
+        paddingHorizontal: 10
 
     },
     textField: {

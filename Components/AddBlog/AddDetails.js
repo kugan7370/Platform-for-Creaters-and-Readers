@@ -15,7 +15,7 @@ import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { color } from '../../Color'
 
-const uploadImage = 'https://cdn.iconscout.com/icon/premium/png-256-thumb/image-gallery-1733269-1478308.png'
+
 
 const AddBlogSchema = yup.object().shape({
     blogTitle: yup.string().required('requid'),
@@ -30,7 +30,7 @@ export default function AddDetails() {
 
 
 
-    const [image, setImage] = useState(uploadImage);
+    const [image, setImage] = useState(null);
     const [File, setFile] = useState(null)
 
     useEffect(() => {
@@ -123,12 +123,12 @@ export default function AddDetails() {
 
 
     return (
-        <ScrollView >
+        <ScrollView style={{ marginTop: 20 }} >
 
-            <TouchableOpacity onPress={pickImage} style={{ alignItems: 'center', height: 250, borderWidth: 1, marginHorizontal: 20, borderRadius: 20, borderStyle: 'dashed', justifyContent: 'center', borderColor: 'gray' }} >
-                <Ionicons name="md-images-outline" size={50} color="black" />
+            <TouchableOpacity onPress={pickImage} style={{ alignItems: 'center', height: 250, borderWidth: image ? 0 : 1, marginHorizontal: 20, borderRadius: 20, borderStyle: 'dashed', justifyContent: 'center', borderColor: 'gray' }} >
+
                 {/* <Text style={{ color: 'gray', fontWeight: '500', letterSpacing: 1 }}>Upload Image</Text> */}
-                {/* <Image source={{ uri: image }} style={{ height: '100%', width: '100%', resizeMode: 'contain', borderRadius: 20 }}></Image> */}
+                {image ? <Image source={{ uri: image }} style={{ height: '100%', width: '100%', resizeMode: 'cover', borderRadius: 20 }}></Image> : <Ionicons name="md-images-outline" size={50} color="black" />}
             </TouchableOpacity>
 
             {/* forms*/}

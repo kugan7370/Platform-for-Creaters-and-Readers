@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { color } from '../../Color';
+import FocusAwareStatusBar from '../Common/FocusAwareStatusBar';
 
 
 
@@ -12,35 +14,38 @@ export default function AddBlogHeader() {
 
 
     return (
-        <View style={style.container}>
-            {/* <StatusBar backgroundColor='white' /> */}
-            <SafeAreaView style={{ height: 80 }}>
 
-                <View style={style.headContainer}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 1, borderRadius: 15 }}>
-                            {/* <Ionicons name="ios-arrow-back" size={20} color="black" /> */}
-                            <MaterialIcons name="keyboard-arrow-left" size={24} color="black" />
-                        </View>
 
-                    </TouchableOpacity>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', letterSpacing: 1 }}>Add Post</Text>
-                    <Text></Text>
-                </View>
-            </SafeAreaView >
-        </View >
+        <SafeAreaView style={{ height: 80, backgroundColor: color.primaryColor }}>
+            <FocusAwareStatusBar barStyle="light-content" backgroundColor={color.primaryColor} />
+            <View style={style.headContainer}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <View style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 1, borderRadius: 10 }}>
+                        {/* <Ionicons name="ios-arrow-back" size={20} color="black" /> */}
+                        <MaterialIcons name="keyboard-arrow-left" size={24} color="white" />
+                    </View>
+
+                </TouchableOpacity>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', letterSpacing: 1, color: color.secondaryColor }}>Add Post</Text>
+                <Text></Text>
+            </View>
+        </SafeAreaView >
+
     )
 }
 
 const style = StyleSheet.create({
-    container: {
-        marginVertical: 10,
-    },
+    // container: {
+    //     marginVertical: 10,
+    //     backgroundColor: color.primaryColor
+    // },
     headContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        paddingTop: 20,
+
 
     },
     headText: {

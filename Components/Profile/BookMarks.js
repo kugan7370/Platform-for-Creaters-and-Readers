@@ -5,6 +5,9 @@ import { auth, db } from '../../Firebase';
 import BlogPosts from '../Blog/BlogPosts';
 import Headers from '../Common/Headers';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { color } from '../../Color';
+import FocusAwareStatusBar from '../Common/FocusAwareStatusBar';
 const { height } = Dimensions.get('screen');
 
 
@@ -55,7 +58,8 @@ export default function BookMarks() {
         <>
             {
                 UserEmail && UserEmail == auth.currentUser.email ?
-                    <View>
+                    <SafeAreaView>
+                        <FocusAwareStatusBar barStyle="light-content" backgroundColor={color.primaryColor} />
                         <Headers headerName={'Bookmarks'} />
 
                         <ScrollView style={{ height: height * 0.85 }}>
@@ -69,7 +73,7 @@ export default function BookMarks() {
 
                             }
                         </ScrollView>
-                    </View>
+                    </SafeAreaView>
                     :
                     <ScrollView nestedScrollEnabled={true}>
                         {userBookMark && userBookMark.map((blog, i) => (

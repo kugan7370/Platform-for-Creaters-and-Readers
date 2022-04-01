@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert, ActivityIndicator, StatusBar } from 'react-native'
+
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
 import * as yup from 'yup'
@@ -12,7 +12,11 @@ import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
 import ActivityIndicators from '../Components/Common/ActivityIndicator';
 import * as Facebook from 'expo-facebook';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { color } from '../Color';
+import { Feather, FontAwesome } from '@expo/vector-icons';
+import * as NavigationBar from 'expo-navigation-bar';
+// let navcolor = 'white'
 
 
 const LoginSchema = yup.object().shape({
@@ -21,11 +25,17 @@ const LoginSchema = yup.object().shape({
 });
 
 export default function SignInScreen() {
+
+    const [navcolor, setnavcolor] = useState('white')
     const navigation = useNavigation();
     const [indicater, setindicater] = useState(false)
     const [isLoggedin, setLoggedinStatus] = useState(false);
     const [userData, setUserData] = useState(null);
     const [isImageLoading, setImageLoadStatus] = useState(false);
+
+
+    NavigationBar.setBackgroundColorAsync(navcolor);
+    useEffect(() => (setnavcolor(color.secondaryColor)), [])
 
 
     const config = {
@@ -141,7 +151,8 @@ export default function SignInScreen() {
 
 
     return (
-        <View style={style.container}>
+        <SafeAreaView style={style.container}>
+            <StatusBar backgroundColor={'white'} barStyle='dark-content' />
             {indicater ? <ActivityIndicators color={'blue'} /> :
                 <View style={{ marginHorizontal: 40 }}>
                     {/* {sign text} */}
@@ -152,8 +163,8 @@ export default function SignInScreen() {
                         <Text style={style.text}>Welcome back!</Text>
                     </View>
 
-                    <View style={{ height: 200, width: '100%', alignItems: 'center' }}>
-                        <Image source={{ uri: 'https://i.pinimg.com/originals/47/94/73/479473ee35eff3744b072724e7a70e7a.png' }} style={{ height: '100%', width: '100%', resizeMode: 'contain' }}></Image>
+                    <View style={{ height: 200, width: '100%', alignItems: 'center', }}>
+                        <Image style={{ resizeMode: 'contain', width: '100%', height: '100%' }} source={require('../assets/undraw_Access_account_re_8spm.png')}></Image>
                     </View>
 
 
@@ -171,11 +182,13 @@ export default function SignInScreen() {
                             userSign(values.email, values.password);
                         }}
                         validationSchema={LoginSchema}
+
                     >
                         {({ handleBlur, handleChange, handleSubmit, values, errors, isValid, setFieldTouched, touched, }) => (
 
-                            <View style={{ marginTop: 20 }}>
+                            <View style={{ marginTop: 20, }}>
                                 <View style={[style.textBox, { borderColor: values.email.length < 1 || EmailValidator.validate(values.email) ? '#ccc' : 'red' }]}>
+                                    <Feather name="mail" size={20} color="gray" />
                                     <TextInput style={style.textField} onBlur={() => setFieldTouched('email')} onChangeText={handleChange('email')} placeholder='Email'></TextInput>
                                 </View>
                                 {touched.email && errors.email &&
@@ -183,6 +196,7 @@ export default function SignInScreen() {
                                 }
 
                                 <View style={[style.textBox, { borderColor: 1 > values.password.length || values.password.length >= 8 ? '#ccc' : 'red' }]}>
+                                    <FontAwesome name="lock" size={20} color="gray" />
                                     <TextInput style={style.textField} value={values.password} onBlur={() => setFieldTouched('password')} onChangeText={handleChange('password')} placeholder='Password' autoComplete={false} secureTextEntry={true}></TextInput>
                                 </View>
                                 {touched.password && errors.password &&
@@ -190,12 +204,12 @@ export default function SignInScreen() {
                                 }
 
                                 <View style={{ alignItems: 'flex-end' }}>
-                                    <Text style={{ color: '#2d9efa' }}>Forgot Password?</Text>
+                                    <Text style={{ color: color.primaryColor }}>Forgot Password?</Text>
                                 </View>
 
-                                <View style={{ marginTop: 40, }}>
-                                    <Button disabled={!isValid} onPress={handleSubmit} title="Sign in" ></Button>
-                                </View>
+                                <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 10, alignItems: 'center', borderRadius: 5 }}>
+                                    <Text style={{ color: 'white' }}>SIGN IN</Text>
+                                </TouchableOpacity>
 
                                 <View style={{ alignItems: 'center', marginVertical: 20 }}>
                                     <Text style={{ color: 'gray' }}>or connect using</Text>
@@ -216,9 +230,9 @@ export default function SignInScreen() {
                                 </View>
 
                                 <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }} >
-                                    <Text>Don't have an account?</Text>
+                                    <Text style={{ color: 'gray' }}>Don't have an account?</Text>
                                     <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                                        <Text style={{ color: '#2d9efa' }}> Sign Up</Text>
+                                        <Text style={{ color: color.primaryColor }}> Sign Up</Text>
                                     </TouchableOpacity>
 
                                 </View>
@@ -233,7 +247,7 @@ export default function SignInScreen() {
 
                 </View>
             }
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -246,7 +260,7 @@ const style = StyleSheet.create({
     },
     textContainer: {
         alignItems: 'center',
-        marginTop: 80,
+        marginTop: 60,
         marginBottom: 20
     }
     ,
@@ -254,7 +268,7 @@ const style = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         alignItems: 'center',
-        color: '#76a9ea'
+        color: color.primaryColor
 
     },
     Social: {
@@ -289,9 +303,11 @@ const style = StyleSheet.create({
         height: 50,
         backgroundColor: 'white',
         borderRadius: 5,
-        justifyContent: 'center',
+        alignItems: 'center',
         marginBottom: 10,
-        elevation: 1
+        elevation: 1,
+        flexDirection: 'row',
+        paddingHorizontal: 10
     },
     textField: {
         paddingHorizontal: 10,

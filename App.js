@@ -4,15 +4,15 @@ import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Navigation from './Navigation/Navigation';
 import _ from 'lodash';
 import AuthNavigation from './Navigation/AuthNavigation';
+import { color } from './Color';
 
 // redux toolkit
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
 
 //navigation bar color
-import * as NavigationBar from 'expo-navigation-bar';
-import { color } from './Color';
-NavigationBar.setBackgroundColorAsync(color.primaryColor);
+
+
 // {Ignore yellow warning in phone}
 LogBox.ignoreLogs(['Warning:...']); // ignore specific logs
 LogBox.ignoreAllLogs(); // ignore all logs

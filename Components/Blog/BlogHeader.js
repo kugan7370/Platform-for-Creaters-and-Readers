@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../../Firebase';
 import { signOut } from 'firebase/auth';
@@ -32,8 +32,10 @@ export default function BlogHeader() {
 
         <View style={{ backgroundColor: color.primaryColor, height: 100, paddingVertical: 20 }}>
             <View style={style.headContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Content')}>
-                    <Ionicons name="menu" size={30} color="white" />
+                <TouchableOpacity style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 0.5, borderRadius: 5 }} onPress={() => navigation.goBack()}>
+
+                    <MaterialIcons name="keyboard-arrow-left" size={24} color="white" />
+
                 </TouchableOpacity>
 
                 <Text style={style.headText}>Explore</Text>
@@ -57,7 +59,7 @@ const style = StyleSheet.create({
 
     },
     headText: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: '700',
         color: 'white'
     },

@@ -9,14 +9,17 @@ import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { SetSignOut, SignInUser } from '../../Redux/Reducers/UserSlicer';
 import { signOut } from 'firebase/auth';
-import { auth, db } from '../../Firebase';
+import { auth, db, storage } from '../../Firebase';
 // import { GetUserFollows } from '../../Redux/Reducers/UserFollowSlicer';
 import { GetBlogs } from '../../Redux/Reducers/BlogSlicer';
-import { collection, doc, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, onSnapshot, query, runTransaction, updateDoc, where } from 'firebase/firestore';
 import BlogPosts from '../Blog/BlogPosts';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { color } from '../../Color';
+import * as ImagePicker from 'expo-image-picker';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { async } from '@firebase/util';
 // import { GetSignUserBlogs } from '../../Redux/Reducers/SignInUserBlogSlicer';
 const BackImage = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8PEA8NEA0NDw0NDQ0NDQ8NDQ8NDQ0NFREWFhURExUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDQ0NDw0NDy0ZFRktKystKy0rKy0tKysrKysrKysrLSsrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIAKgBLAMBIgACEQEDEQH/xAAaAAADAQEBAQAAAAAAAAAAAAAAAQIDBAUH/8QAJhABAQACAgEEAwEAAwEAAAAAAAECEQMSIRMxQVEEYXGxMqHwFP/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAMAwEAAhEDEQA/APsPol6bTunsCfTLovsWwPi45cpHa4e2r/HTj+Rjfe6A/wAjHeN/XmOLTfn59+J7fNZYwC6n1VoAjQ0qkA0NGAVjh4TBsga4YnlEY5tJQZDbVjnNArf7Hb9s9nf6DTvT7sdn2BtMz7sNnsG3YbY9lTIGmxtGxsFkWxsBU2KIE2FMVECLiWl0tAy7DaJT2ovY2rjw+arLj+gQcghyAFYiYqmIDQ0qQ9IIsKYtKAT1HVWy2BdS6nstgeEm/LS6+GRboNtMuQepTmQM9Fpt4HSAw0NV0emm4gxC8sWegMbIAqZKlRFSAqVUqFQF62mrwqcqCdkWxsDItjYOfG3zN+L7/s4UVIo3474XldMuHHd/97ui8QMMcVzFpxzwrKIImJ6OH1AqmtOo6Ay0cxa6g7QEemfpr7DdBHpj012l5BPpleNc2nK0E5cSehZctif/AKP0C+pwseaVcsoHD0RgVxY5cbo2XUHJcU2Oq4s88AZYrTrR7A4MsvPhNpAvuVqV40EjbXTPPHQJ2NkARIuReHDlZuTwUigxjXtfm1BxBcyXq+6McW0oDHFciZkqAE5rpAz6nMFWjYHMT0WxsBoaGxsDTlFJtBjlhtllxR0jpsHFcEbsd+X48vzdufLgs+ARhz1tjyyufLjQg7zlcmOdmt/PlvhySlGspZYDrVY1Rjlgxyx07LjtlliDm0di8sC0CYrGbFjXjx8AJgnlxa6RyzwDCxLRNgOzj5JqeZPEmj9KXz9uWT5dOHNNAx5uPV8fJYxfNybRJsF7OT7PHFWtAcPaeybQXck3JOy2CtmnCrAtjaLRsF9j2z2Ng0lNlKfYDtVhUbXgDTYTDBHJxyuXm4LPbzHbUg83Tb8f/lNujPil/Vc+eFxB6LPJyz8jL2XxZUG0p2bLRb0CM8Wdje+WeUBjlWvFkzyxPCg32nOkVoMtDZloAYAHI0xiIrYN4LE41YM7EVplEUEWptVmzBUyVeRAA9ntBgvY2kwOHYMLd+F5S3yBYxt0kZSKuVAzZynsF0iGgMrN+Bs8aDl5eHXt7f4qVvayzw+Z7f4DTCqsZYVrsEjKCjYM7EZT5bWFYDO8idjPHRQFA4egQ04pLfLMgXl73Xt8HCxi5AVjWkyZHsFZVnk045trYDiyEiuWapSAVgVUUCpkcAwNGDXiaRjjk1mQH1KxUqcqCQKQGNkIBk3kTyTwDISgAw5bZ/L/ANL4s9qym5quWXrdA7Nhn2VjkC4NEoE5TbCzXhvUZ/YIi4zxXAZqxgxrTjnyB44tOoxXaDGotXmzyBXHnr+NbzRygDzy3dqxQvED0BtcgMsoeMXlinEFdROP5V2Ez8aBnpchY1QCZKmNqOKbv8bgyvHUOhGWG7sGeidEic8QLHkhZ5/EZCUD0Gk1pnsA5/ycPG/mf46E5Aw48vC8awxmrZ9V0cE35BtiqIviqAskZU80UExUTVQER1Y8bHgnl2Ays0W2mbC5AedRYcoyBno9GnYHYJS2nYNNtXP2OclBrWdyK51IL7BDTjATGi2rTn7Argy8/wBdDjwdGPJ9g0K1PqIyoNtp5MtOe8lTcgPYTsbBWziNtMICtJyjaRnmDl5cfO/uCWxvljsXjBnOX7aTkljDOaLhvvP2DbYqdlaB04WNGwGGWrt0488cco2Do5effiMZUbOUG+IyrOZDLIB2NlafYF2ligbBpkkrS2C5jaSsOXU0i0D2vjyZgHQjPL4ZbEoLlaTJhs9g32zyyRsbBWxtOxsFbLZbGwVG/G5pk1wzB0VjnkMuRhlkDfHJWXJ4c3fxf4z9UF81ZcV8jPl2jjvkHTsrU7adLff60gztPHJPJNM9g3xz1v8Ac0mUBQbGwAGxsgB7FoAAEAMEAMAANrmfjQAI2ZADGwAGxsABswALY2AA2OxAD7J2ABZ3xf4w2AA2rC+SANZXTjlDCDn/ACM2GyAP/9k='
 
@@ -92,7 +95,48 @@ const ProfileDetails = () => {
     }, [])
 
 
+    const updateProfile = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [6, 4],
+            quality: 1,
+        });
 
+
+
+        if (result.uri) {
+
+            const response1 = await fetch(result.uri);
+            const blob1 = await response1.blob();
+            const imgRef = ref(storage, `images/profile/${new Date().getTime()}`);
+            const snap = await uploadBytes(imgRef, blob1);
+            const downloadUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
+
+
+
+            await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                pro_pic: downloadUrl
+            });
+
+            // const ref1 = collection(db, 'blogs')
+            // const q = query(ref1, where('uid', '==', auth.currentUser.uid))
+            // onSnapshot(q, (Snapshot) => {
+
+            //     Snapshot.docs.map(async (doc) => {
+            //         console.log(doc.data());
+            //         await updateDoc(doc, {
+            //             UserPic: downloadUrl
+            //         });
+            //     })
+            // })
+
+            // await updateDoc(q, {
+            //     UserPic: downloadUrl
+            // });
+
+        }
+    }
 
 
 
@@ -109,7 +153,7 @@ const ProfileDetails = () => {
 
                     <View style={{ height: 129, width: 120, alignItems: 'center' }}>
                         <Image style={{ height: '100%', width: '100%', borderRadius: 60 }} source={{ uri: user.pro_pic }} />
-                        {editProfile && <TouchableOpacity style={{ width: 20, height: 20, borderRadius: 10, position: 'absolute', bottom: 0, backgroundColor: color.primaryColor, alignItems: 'center', justifyContent: 'center', marginBottom: -10 }}>
+                        {editProfile && <TouchableOpacity onPressIn={updateProfile} style={{ width: 20, height: 20, borderRadius: 10, position: 'absolute', bottom: 0, backgroundColor: color.primaryColor, alignItems: 'center', justifyContent: 'center', marginBottom: -10 }}>
                             <MaterialIcons name="enhance-photo-translate" size={15} color="white" />
                         </TouchableOpacity>}
                     </View>

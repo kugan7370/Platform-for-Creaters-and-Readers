@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements';
 import { collection, doc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
@@ -122,7 +122,7 @@ export default function ChatUsers() {
     return (
         <View >
             <View style={{ marginHorizontal: 20, }}>
-                <ChatHeader />
+                <ChatHeader navigation={navigation} />
             </View>
 
             <View style={{ backgroundColor: '#ffff', height: "80%", borderTopLeftRadius: 20, borderTopRightRadius: 20, marginHorizontal: 10, }}>
@@ -151,12 +151,19 @@ export default function ChatUsers() {
 }
 
 
-const ChatHeader = () => (
+const ChatHeader = ({ navigation }) => (
     <View style={{ marginTop: 20 }} >
-        <View >
-            <Text style={{ fontSize: 25, fontWeight: 'bold', color: color.secondaryColor }}>Messages</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }} >
+            <TouchableOpacity style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 0.5, borderRadius: 5 }} onPress={() => navigation.goBack()}>
+                <MaterialIcons name="keyboard-arrow-left" size={24} color="white" />
+            </TouchableOpacity>
+
+            <Text style={{ fontSize: 24, fontWeight: 'bold', color: color.secondaryColor }}>Messages</Text>
+            <Text></Text>
         </View>
-        <View style={{ marginVertical: 10 }}>
+
+        {/* search bar */}
+        <View style={{ marginVertical: 20 }}>
             <View style={style.searchContainer}>
                 <Ionicons name="search" size={24} color="black" />
                 <TextInput style={style.textInput} placeholder='Search Users'></TextInput>

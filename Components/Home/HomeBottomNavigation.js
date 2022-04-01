@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BlogScreen from '../../Screens/BlogScreen';
 import HomeScreen from '../../Screens/HomeScreen';
@@ -14,6 +14,8 @@ import { auth } from '../../Firebase';
 import { color } from '../../Color';
 // import HomeDrawer from './HomeDrawer';
 // import { setBlogDataOut } from '../../Redux/Reducers/BlogSlicer';
+import * as NavigationBar from 'expo-navigation-bar';
+import BookMarks from '../Profile/BookMarks';
 
 
 
@@ -21,8 +23,13 @@ const Tab = createBottomTabNavigator();
 
 
 const HomeBottomNavigation = () => {
+
     const dispatch = useDispatch();
     const user = useSelector(SignInUser);
+    const [navcolor, setnavcolor] = useState('white')
+    NavigationBar.setBackgroundColorAsync(navcolor);
+    useEffect(() => (setnavcolor(color.primaryColor)), [])
+
 
     const userSignOut = async () => {
         dispatch(SetSignOut())
@@ -53,9 +60,9 @@ const HomeBottomNavigation = () => {
                     <Ionicons name={focused ? "md-add-circle" : "md-add-circle-outline"} size={40} color="white" />
                 )
             }} />
-            <Tab.Screen name="Chat" component={ChatScreen} options={{
+            <Tab.Screen name="BookMarks" component={BookMarks} options={{
                 tabBarIcon: ({ color, size, focused }) => (
-                    <Ionicons name={focused ? "chatbubbles" : "chatbubbles-outline"} size={24} color="white" />
+                    <Ionicons name={focused ? "md-bookmarks" : "md-bookmarks-outline"} size={24} color="white" />
                 )
             }} />
             {user && <Tab.Screen name="Profile" component={ProfileScreen} options={{
