@@ -12,10 +12,12 @@ import BlogPosts from '../Blog/BlogPosts';
 import DetailHeader from './DetailHeader';
 import { color } from '../../Color';
 
+
 export default function DetailContent({ SelectedBlog }) {
     const dispatch = useDispatch();
     const user = useSelector(SignInUser);
     const [userFollow, setuserFollow] = useState();
+    const [bloguser, setbloguser] = useState()
 
 
 
@@ -67,6 +69,27 @@ export default function DetailContent({ SelectedBlog }) {
 
     }
 
+    useEffect(() => {
+        let isMounted = true
+        const ref = collection(db, 'users')
+        const q = query(ref, where('uid', '==', SelectedBlog.uid))
+        const snap = onSnapshot(q, (snapshot) => {
+            if (isMounted) {
+                snapshot.docs.map((doc) => {
+
+
+                    setbloguser(doc.data())
+
+
+                })
+            }
+
+
+        })
+        return () => { isMounted = false }
+    }, [])
+
+
 
 
     return (
@@ -93,7 +116,7 @@ export default function DetailContent({ SelectedBlog }) {
             <View style={style.headerContainer} >
                 <View style={style.headerFlex} >
                     <View style={style.proImageContainer}>
-                        <Image style={style.proImage} source={{ uri: SelectedBlog.UserPic }}></Image>
+                        {bloguser && <Image style={style.proImage} source={{ uri: bloguser.pro_pic }}></Image>}
                     </View>
                     <View>
                         <Text style={style.profileName}>{SelectedBlog.username}</Text>

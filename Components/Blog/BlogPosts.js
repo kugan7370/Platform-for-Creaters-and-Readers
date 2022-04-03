@@ -11,6 +11,7 @@ import { arrayRemove, arrayUnion, collection, doc, onSnapshot, query, updateDoc,
 export default function BlogPosts({ blog }) {
     const navigation = useNavigation();
     const [userFollow, setuserFollow] = useState();
+    const [bloguser, setbloguser] = useState()
 
     const handleBookMark = async (blog_id) => {
         const bookMarkStatus = !blog.book_mark_by.includes(auth.currentUser.email);
@@ -69,13 +70,32 @@ export default function BlogPosts({ blog }) {
 
     }
 
+    useEffect(() => {
+        let isMounted = true
+        const ref = collection(db, 'users')
+        const q = query(ref, where('uid', '==', blog.uid))
+        const snap = onSnapshot(q, (snapshot) => {
+            if (isMounted) {
+                snapshot.docs.map((doc) => {
+
+
+                    setbloguser(doc.data())
+
+
+                })
+            }
+
+
+        })
+        return () => { isMounted = false }
+    }, [])
 
 
     return (
 
         <View style={style.container}>
-            {blog && <>
-                <PostHeader userFollow={userFollow} handleFollow={handleFollow} navigation={navigation} blog={blog} handleBookMark={handleBookMark} />
+            {(blog && bloguser) && <>
+                <PostHeader bloguser={bloguser} userFollow={userFollow} handleFollow={handleFollow} navigation={navigation} blog={blog} handleBookMark={handleBookMark} />
                 <TouchableOpacity onPress={() => navigation.navigate('Detail', { blogDetail: blog })}>
                     <PostContent blog={blog} navigation={navigation} />
                 </TouchableOpacity>
@@ -85,11 +105,11 @@ export default function BlogPosts({ blog }) {
     )
 }
 
-export const PostHeader = ({ navigation, handleBookMark, isBookmark, blog, handleFollow, userFollow }) => (
+export const PostHeader = ({ navigation, handleBookMark, isBookmark, blog, handleFollow, userFollow, bloguser }) => (
     <View style={style.headerContainer} >
         <View style={style.headerFlex} >
             <TouchableOpacity onPress={() => blog.uid !== auth.currentUser.uid ? navigation.navigate('Userprofile', { BlogUserDetail: blog.uid }) : null} style={style.proImageContainer}>
-                <Image style={style.proImage} source={{ uri: blog.UserPic }}></Image>
+                <Image style={style.proImage} source={{ uri: bloguser.pro_pic }}></Image>
             </TouchableOpacity>
             <View>
 

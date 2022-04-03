@@ -43,34 +43,35 @@ export default function SignUpScreen() {
             await signInWithCredential(auth, credential);
 
             try {
+                const ref = doc(db, "Follow", auth.currentUser.uid)
 
-                await setDoc(doc(db, 'users', auth.currentUser.uid), {
-                    uid: auth.currentUser.uid,
-                    username: user.name,
-                    pro_pic: user.photoUrl,
-                    email: user.email,
-                    isOnline: true,
+                const docsnap = await getDoc(ref);
+                if (!docsnap.exists()) {
+                    await setDoc(doc(db, 'users', auth.currentUser.uid), {
+                        uid: auth.currentUser.uid,
+                        username: user.name,
+                        pro_pic: user.photoUrl,
+                        email: user.email,
+                        isOnline: true,
 
-                }).then(async () => {
+                    }).then(async () => {
 
-                    const ref = doc(db, "Follow", auth.currentUser.uid)
-
-                    const docsnap = await getDoc(ref);
-
-
-                    if (!docsnap.exists()) {
                         await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
                             uid: auth.currentUser.uid,
                             following: [],
                             followers: [],
 
                         })
-                    }
-
-                    setindicator(false)
 
 
-                })
+
+
+                        setindicator(false)
+
+
+                    })
+
+                }
 
             }
             catch (error) {
@@ -135,7 +136,7 @@ export default function SignUpScreen() {
     return (
         <SafeAreaView style={style.container}>
             {indicator ? <ActivityIndicators color={'blue'} /> :
-                <View style={{ marginHorizontal: 40 }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 40, marginBottom: 20 }}>
                     {/* {sign text} */}
 
                     <View style={style.textContainer}>
@@ -241,7 +242,7 @@ export default function SignUpScreen() {
 
 
 
-                </View>
+                </ScrollView>
             }
         </SafeAreaView>
     )
@@ -274,8 +275,8 @@ const style = StyleSheet.create({
     },
     facebookContainer: {
         backgroundColor: '#76a9ea',
-        width: 150,
-        height: 50,
+        paddingHorizontal: 30,
+        paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,

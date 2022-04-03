@@ -218,12 +218,12 @@ const Userprofile = () => {
                 </View>}
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 }}>
-                    {userDetails && userDetails.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: userDetails })} style={{ flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 40, borderRadius: 10, backgroundColor: color.extraColor, width: '42%' }}>
+                    {userDetails && userDetails.uid == auth.currentUser.uid ? null : <TouchableOpacity onPress={() => navigation.navigate('ChatMessages', { BlogUserDetail: userDetails })} style={{ flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 20, borderRadius: 10, backgroundColor: color.extraColor, width: '42%' }}>
                         <Ionicons name="md-chatbubbles-outline" size={20} color="white" />
                         <Text style={{ marginLeft: 10, color: 'white' }}>Message</Text>
                     </TouchableOpacity>}
 
-                    {(userDetails && authUserFollow) && <TouchableOpacity onPress={() => handleFollow(userDetails.email, userDetails.uid)} style={{ borderColor: color.extraColor, borderWidth: 1, paddingHorizontal: 50, paddingVertical: 5, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: color.extraColor, width: '42%' }}>
+                    {(userDetails && authUserFollow) && <TouchableOpacity onPress={() => handleFollow(userDetails.email, userDetails.uid)} style={{ borderColor: color.extraColor, borderWidth: 1, paddingVertical: 5, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: color.extraColor, width: '42%' }}>
                         {authUserFollow.following.includes(
                             userDetails.email) ? <Text style={{ color: color.secondaryColor, }}>Following</Text> : <Text style={{ color: color.secondaryColor, }}>Follow</Text>}
                     </TouchableOpacity>}

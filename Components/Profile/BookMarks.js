@@ -58,7 +58,7 @@ export default function BookMarks() {
         <>
             {
                 UserEmail && UserEmail == auth.currentUser.email ?
-                    <SafeAreaView>
+                    <SafeAreaView style={{ flex: 1 }}>
                         <FocusAwareStatusBar barStyle="light-content" backgroundColor={color.primaryColor} />
                         <Headers headerName={'Bookmarks'} />
 

@@ -99,7 +99,7 @@ const ProfileDetails = () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [6, 4],
+            // aspect: [6, 4],
             quality: 1,
         });
 
@@ -121,15 +121,15 @@ const ProfileDetails = () => {
 
             // const ref1 = collection(db, 'blogs')
             // const q = query(ref1, where('uid', '==', auth.currentUser.uid))
-            // onSnapshot(q, (Snapshot) => {
+            // // onSnapshot(q, (Snapshot) => {
 
-            //     Snapshot.docs.map(async (doc) => {
-            //         console.log(doc.data());
-            //         await updateDoc(doc, {
-            //             UserPic: downloadUrl
-            //         });
-            //     })
-            // })
+            // //     Snapshot.docs.map(async (doc) => {
+            // //         console.log(doc.data());
+            // //         await updateDoc(doc, {
+            // //             UserPic: downloadUrl
+            // //         });
+            // //     })
+            // // })
 
             // await updateDoc(q, {
             //     UserPic: downloadUrl
@@ -149,7 +149,7 @@ const ProfileDetails = () => {
             {/* {profile} */}
             {user && <>
 
-                <View View style={{ alignItems: 'center', marginTop: 20, marginHorizontal: 20, marginBottom: 30, }}>
+                <View View style={{ alignItems: 'center', marginTop: 20, marginHorizontal: 20, marginBottom: 10, }}>
 
                     <View style={{ height: 129, width: 120, alignItems: 'center' }}>
                         <Image style={{ height: '100%', width: '100%', borderRadius: 60 }} source={{ uri: user.pro_pic }} />
@@ -174,7 +174,7 @@ const ProfileDetails = () => {
                         {userPost && <Text style={{ fontSize: 18, fontWeight: 'bold', color: color.primaryColor }}>{userPost.length}</Text>}
                         <Text style={{ color: color.primaryColor, fontWeight: '700' }}>Posts</Text>
                     </View>
-                    <TouchableOpacity onPress={() => UserFollow.followers.length ? navigation.navigate('Followers', { UserFollowersEmail: UserFollow.followers }) : null} style={{ alignItems: 'center', padding: 20, backgroundColor: '#f4fcf9', borderRadius: 15, width: '27%' }}>
+                    <TouchableOpacity onPress={() => UserFollow.followers.length ? navigation.navigate('Followers', { UserFollowersEmail: UserFollow.followers }) : null} style={{ alignItems: 'center', paddingHorizontal: 10, paddingVertical: 20, backgroundColor: '#f4fcf9', borderRadius: 15, width: '27%' }}>
                         {UserFollow ? <Text style={{ fontSize: 18, fontWeight: 'bold', color: color.primaryColor }}>{UserFollow.followers.length}</Text> : <Text style={{ fontSize: 18, fontWeight: 'bold' }}>0</Text>}
                         <Text style={{ color: color.primaryColor, fontWeight: '700' }}>Followers</Text>
                     </TouchableOpacity>

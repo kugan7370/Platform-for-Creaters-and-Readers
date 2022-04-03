@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert, ActivityIndicator, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Image, Alert, ActivityIndicator, StatusBar, ScrollView } from 'react-native'
 
 import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik'
@@ -55,35 +55,36 @@ export default function SignInScreen() {
 
 
             try {
+                const ref = doc(db, "Follow", auth.currentUser.uid)
 
-                await setDoc(doc(db, 'users', auth.currentUser.uid), {
-                    uid: auth.currentUser.uid,
-                    username: user.name,
-                    pro_pic: user.photoUrl,
-                    email: user.email,
-                    isOnline: true,
+                const docsnap = await getDoc(ref);
+                if (!docsnap.exists()) {
+                    await setDoc(doc(db, 'users', auth.currentUser.uid), {
+                        uid: auth.currentUser.uid,
+                        username: user.name,
+                        pro_pic: user.photoUrl,
+                        email: user.email,
+                        isOnline: true,
 
-                }).then(async () => {
-                    const ref = doc(db, "Follow", auth.currentUser.uid)
+                    }).then(async () => {
 
-                    const docsnap = await getDoc(ref);
-
-
-                    if (!docsnap.exists()) {
                         await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
                             uid: auth.currentUser.uid,
                             following: [],
                             followers: [],
 
                         })
-                    }
 
 
 
-                    setindicater(false)
+
+                        setindicater(false)
 
 
-                })
+                    })
+
+                }
+
 
             }
             catch (error) {
@@ -154,7 +155,7 @@ export default function SignInScreen() {
         <SafeAreaView style={style.container}>
             <StatusBar backgroundColor={'white'} barStyle='dark-content' />
             {indicater ? <ActivityIndicators color={'blue'} /> :
-                <View style={{ marginHorizontal: 40 }}>
+                <ScrollView style={{ marginHorizontal: 40 }}>
                     {/* {sign text} */}
 
 
@@ -245,7 +246,7 @@ export default function SignInScreen() {
 
 
 
-                </View>
+                </ScrollView>
             }
         </SafeAreaView>
     )
@@ -279,8 +280,8 @@ const style = StyleSheet.create({
     },
     facebookContainer: {
         backgroundColor: '#76a9ea',
-        width: 150,
-        height: 50,
+        paddingHorizontal: 30,
+        paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,

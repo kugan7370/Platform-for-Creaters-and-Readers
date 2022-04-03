@@ -17,7 +17,7 @@ export default function BlogTopNavigation({ searchquery }) {
 
     return (
 
-        <View style={{ height: height * 0.78 }}>
+        <View style={{ height: height * 0.76 }}>
 
             <Tab.Navigator screenOptions={{
                 tabBarStyle: { borderTopRadius: 20, elevation: 0, backgroundColor: color.primaryColor },
