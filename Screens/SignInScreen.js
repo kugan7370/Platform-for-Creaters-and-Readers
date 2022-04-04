@@ -123,7 +123,7 @@ export default function SignInScreen() {
                 // type === 'cancel'
             }
         } catch ({ message }) {
-            alert(`Facebook Login Error: ${message}`);
+            Alert.alert(`Facebook Login Error: ${message}`);
         }
     }
 
@@ -137,15 +137,21 @@ export default function SignInScreen() {
 
 
     const userSign = (email, password) => {
+        try {
 
-        signInWithEmailAndPassword(auth, email, password).then(() => {
+            signInWithEmailAndPassword(auth, email, password).then(() => {
 
-            //  for update
+                //  for update
 
-            updateDoc(doc(db, 'users', auth.currentUser.uid), {
-                isOnline: true,
-            });
-        })
+                updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                    isOnline: true,
+                });
+            })
+        } catch (error) {
+            alert(error);
+            // Alert.alert(message)
+        }
+
 
     }
 
@@ -155,7 +161,7 @@ export default function SignInScreen() {
         <SafeAreaView style={style.container}>
             <StatusBar backgroundColor={'white'} barStyle='dark-content' />
             {indicater ? <ActivityIndicators color={'blue'} /> :
-                <ScrollView style={{ marginHorizontal: 40 }}>
+                <View style={{ marginHorizontal: 40 }}>
                     {/* {sign text} */}
 
 
@@ -204,9 +210,9 @@ export default function SignInScreen() {
                                     <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.password}</Text>
                                 }
 
-                                <View style={{ alignItems: 'flex-end' }}>
+                                <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={{ alignItems: 'flex-end' }}>
                                     <Text style={{ color: color.primaryColor }}>Forgot Password?</Text>
-                                </View>
+                                </TouchableOpacity>
 
                                 <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 10, alignItems: 'center', borderRadius: 5 }}>
                                     <Text style={{ color: 'white' }}>SIGN IN</Text>
@@ -246,7 +252,7 @@ export default function SignInScreen() {
 
 
 
-                </ScrollView>
+                </View>
             }
         </SafeAreaView>
     )

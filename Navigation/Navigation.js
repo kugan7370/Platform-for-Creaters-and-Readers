@@ -24,6 +24,8 @@ import EditProfile from '../Components/Profile/EditProfile';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import CommentScreen from '../Screens/CommentScreen';
 import ChatScreen from '../Screens/ChatScreen';
+import OnboardingScreen from '../Screens/OnboardingScreen';
+import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
 
 
 
@@ -64,9 +66,11 @@ export function SignInStack() {
 export function SignOutStack() {
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName='SignIn' screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName='Onboarding' screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Onboarding" component={OnboardingScreen} />
                 <Stack.Screen name="SignIn" component={SignInScreen} />
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
+                <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
 
             </Stack.Navigator>
         </NavigationContainer>

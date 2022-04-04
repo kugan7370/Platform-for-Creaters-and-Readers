@@ -6,7 +6,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
 import { auth, db, googleProvider } from '../Firebase';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithCredential } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithCredential, sendEmailVerification } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
@@ -98,7 +98,12 @@ export default function SignUpScreen() {
     const userSignUp = async (email, password, username) => {
 
         try {
-            await createUserWithEmailAndPassword(auth, email, password)
+            await createUserWithEmailAndPassword(auth, email, password).then(() => {
+                sendEmailVerification(auth.currentUser)
+                    .then(() => {
+                        alert('check your mail and verify')
+                    });
+            })
             await setDoc(doc(db, 'users', auth.currentUser.uid), {
                 uid: auth.currentUser.uid,
                 username,
@@ -122,7 +127,7 @@ export default function SignUpScreen() {
 
         }
         catch (error) {
-            Alert.alert(error);
+            alert(error);
         }
 
 
