@@ -22,9 +22,9 @@ export default function AuthNavigation() {
         onAuthStateChanged(auth, user => {
             setindicator(false)
             if (user) {
-                console.log(user.emailVerified);
-                // setCurrentUsers(true)
-                user.emailVerified ? setCurrentUsers(true) : setCurrentUsers(false)
+                // console.log(user.emailVerified);
+                setCurrentUsers(true)
+                // user.emailVerified ? setCurrentUsers(true) : setCurrentUsers(false)
             }
             else {
 

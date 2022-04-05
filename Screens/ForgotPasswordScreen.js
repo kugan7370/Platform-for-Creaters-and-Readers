@@ -64,7 +64,7 @@ export default function ForgotPasswordScreen() {
                     </View>
 
                     <View style={{ height: 200, width: '100%', alignItems: 'center', }}>
-                        <Image style={{ resizeMode: 'contain', width: '100%', height: '100%' }} source={require('../assets/undraw_Access_account_re_8spm.png')}></Image>
+                        <Image style={{ resizeMode: 'contain', width: '100%', height: '100%' }} source={require('../assets/undraw_Forgot_password_re_hxwm.png')}></Image>
                     </View>
 
 
@@ -94,6 +94,10 @@ export default function ForgotPasswordScreen() {
                                 {touched.email && errors.email &&
                                     <Text style={{ fontSize: 12, color: '#FF0D10', marginBottom: 10 }}>{errors.email}</Text>
                                 }
+
+                                <TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={{ alignItems: 'flex-end' }}>
+                                    <Text style={{ color: color.primaryColor }}>Sign In?</Text>
+                                </TouchableOpacity>
 
                                 <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 10, alignItems: 'center', borderRadius: 5 }}>
                                     <Text style={{ color: 'white' }}>Submit</Text>

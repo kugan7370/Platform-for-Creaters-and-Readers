@@ -84,11 +84,15 @@ export default function SignInScreen() {
                     })
 
                 }
+                //  for update
 
+                updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                    isOnline: true,
+                });
 
             }
             catch (error) {
-                Alert.alert(error);
+                alert(error);
             }
             /* Log-Out */
             //   await Google.logOutAsync({ accessToken, ...config });
@@ -97,35 +101,35 @@ export default function SignInScreen() {
         return Promise.reject();
     }
 
-    const facebookLogIn = async () => {
+    // const facebookLogIn = async () => {
 
-        try {
-            await Facebook.initializeAsync({
-                appId: '470142788187367'      // enter app id here
+    //     try {
+    //         await Facebook.initializeAsync({
+    //             appId: '470142788187367'      // enter app id here
 
-            });
-            const {
-                type,
-                token,
-            } = await Facebook.logInWithReadPermissionsAsync({
-                permissions: ['public_profile'],
-            });
-            if (type === 'success') {
-                // We are using facebook graph api
-                fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
-                    .then(response => response.json())
-                    .then(data => {
-                        setLoggedinStatus(true);
-                        setUserData(data);
-                    })
-                    .catch(e => console.log(e))
-            } else {
-                // type === 'cancel'
-            }
-        } catch ({ message }) {
-            Alert.alert(`Facebook Login Error: ${message}`);
-        }
-    }
+    //         });
+    //         const {
+    //             type,
+    //             token,
+    //         } = await Facebook.logInWithReadPermissionsAsync({
+    //             permissions: ['public_profile'],
+    //         });
+    //         if (type === 'success') {
+    //             // We are using facebook graph api
+    //             fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     setLoggedinStatus(true);
+    //                     setUserData(data);
+    //                 })
+    //                 .catch(e => console.log(e))
+    //         } else {
+    //             // type === 'cancel'
+    //         }
+    //     } catch ({ message }) {
+    //         Alert.alert(`Facebook Login Error: ${message}`);
+    //     }
+    // }
 
 
 
@@ -214,24 +218,25 @@ export default function SignInScreen() {
                                     <Text style={{ color: color.primaryColor }}>Forgot Password?</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 10, alignItems: 'center', borderRadius: 5 }}>
+                                <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 15, alignItems: 'center', borderRadius: 5 }}>
                                     <Text style={{ color: 'white' }}>SIGN IN</Text>
                                 </TouchableOpacity>
 
                                 <View style={{ alignItems: 'center', marginVertical: 20 }}>
-                                    <Text style={{ color: 'gray' }}>or connect using</Text>
+                                    <Text style={{ color: 'gray' }}>Or</Text>
                                 </View>
 
 
                                 {/* {social media} */}
                                 <View style={style.Social}>
-                                    <TouchableOpacity onPress={facebookLogIn} style={style.facebookContainer}>
+                                    {/* <TouchableOpacity onPress={facebookLogIn} style={style.facebookContainer}>
                                         <FontAwesome name="facebook" size={20} color="white" />
                                         <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
-                                        <FontAwesome name="google" size={20} color="white" />
-                                        <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
+                                    </TouchableOpacity> */}
+                                    <TouchableOpacity onPress={signInWithGoogle} style={style.facebookContainer}>
+                                        <Image style={{ height: 25, width: 25 }} source={{ uri: 'https://freesvg.org/img/1534129544.png' }} />
+                                        {/* <FontAwesome name="google" size={20} color="white" /> */}
+                                        <Text style={{ marginLeft: 15, color: 'gray', fontSize: 15 }}>Sign in with Google</Text>
                                     </TouchableOpacity>
 
                                 </View>
@@ -285,14 +290,18 @@ const style = StyleSheet.create({
 
     },
     facebookContainer: {
-        backgroundColor: '#76a9ea',
-        paddingHorizontal: 30,
+
+        width: '100%',
         paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        // borderRadius: 10,
         flexDirection: 'row',
-        backgroundColor: '#475993'
+        // backgroundColor: 'white',
+        // elevation: 1,
+        borderWidth: 0.2,
+        borderColor: color.primaryColor
+
 
 
 
@@ -305,18 +314,20 @@ const style = StyleSheet.create({
 
     },
     textBox: {
-        borderWidth: 1,
-        borderColor: '#FAFAFA',
+        borderWidth: .5,
+        // borderColor: color.primaryColor,
         height: 50,
         backgroundColor: 'white',
         borderRadius: 5,
         alignItems: 'center',
         marginBottom: 10,
-        elevation: 1,
+        // elevation: 1,
         flexDirection: 'row',
         paddingHorizontal: 10
+
     },
     textField: {
         paddingHorizontal: 10,
+        flex: 1
     }
 })

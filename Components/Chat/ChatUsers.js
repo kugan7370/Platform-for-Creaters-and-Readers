@@ -132,7 +132,7 @@ export default function ChatUsers() {
                     <Text style={{ marginBottom: 20, fontWeight: 'bold', color: color.primaryColor }}>Active</Text>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                         {user && <ActiveUser navigation={navigation} usersDetail={user} key={user.id} />}
-                        {FollowingUserDetails && FollowingUserDetails.map((usersDetail) => (usersDetail.isOnline ? <ActiveUser navigation={navigation} usersDetail={usersDetail} key={usersDetail.id} /> : null))}
+                        {usersID && usersID.map((user) => (user.isOnline ? <ActiveUser navigation={navigation} usersDetail={user} key={user.id} /> : null))}
 
                     </ScrollView>
                 </View>
@@ -140,8 +140,8 @@ export default function ChatUsers() {
                 <View >
                     <Text style={{ marginVertical: 10, fontWeight: 'bold', color: color.primaryColor, marginLeft: 20 }}>Contacts</Text>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {/* {usersID && usersID.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))} */}
-                        {FollowingUserDetails && FollowingUserDetails.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))}
+                        {usersID && usersID.map((user, i) => (<UserMessage key={i} usersID={user} />))}
+                        {/* {FollowingUserDetails && FollowingUserDetails.map((usersID, i) => (<UserMessage key={i} usersID={usersID} />))} */}
 
                     </ScrollView>
                 </View>

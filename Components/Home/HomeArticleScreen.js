@@ -21,7 +21,7 @@ const HomeArticleScreen = () => {
     const [FollowingBlogs, setFollowingBlogs] = useState();
     // get following details
 
-
+    // console.log(auth.currentUser.uid);
     useEffect(() => {
         let isMounted = true
         try {
@@ -93,7 +93,7 @@ const HomeArticleScreen = () => {
     const navigation = useNavigation();
     return (
         <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white' }} >
-            {FollowingBlogs && FollowingBlogs.map((FollowingBlog) => (
+            {FollowingBlogs && FollowingBlogs.filter((FollowingBlog) => FollowingBlog.type == 'Article').map((FollowingBlog) => (
                 <BlogPosts blog={FollowingBlog} key={FollowingBlog.id} />
             ))
 

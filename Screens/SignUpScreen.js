@@ -7,14 +7,14 @@ import * as yup from 'yup'
 import * as EmailValidator from 'email-validator';
 import { auth, db, googleProvider } from '../Firebase';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithCredential, sendEmailVerification } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import * as Google from 'expo-google-app-auth';
 import confiqs from '../confiq';
 import ActivityIndicators from '../Components/Common/ActivityIndicator';
 import { color } from '../Color';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-// const pro_pic = 'https://cdn.pixabay.com/photo/2015/12/23/14/56/man-profile-1105761_960_720.jpg'
+const pro_pic = 'https://register.pravasikerala.org/public/images/avatar5.png'
 
 // {Validation yup}
 const SignupSchema = yup.object().shape({
@@ -72,6 +72,11 @@ export default function SignUpScreen() {
                     })
 
                 }
+                //  for update
+
+                updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                    isOnline: true,
+                });
 
             }
             catch (error) {
@@ -107,13 +112,13 @@ export default function SignUpScreen() {
             await setDoc(doc(db, 'users', auth.currentUser.uid), {
                 uid: auth.currentUser.uid,
                 username,
-                pro_pic: await getRandomProfilePic(),
+                pro_pic: pro_pic,
                 email,
                 isOnline: true,
 
             }).then(async () => {
 
-                Alert.alert('Successfully Registered')
+                // Alert.alert('Successfully Registered')
                 await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
                     uid: auth.currentUser.uid,
                     following: [],
@@ -125,9 +130,16 @@ export default function SignUpScreen() {
 
             })
 
+            //  for update
+
+            updateDoc(doc(db, 'users', auth.currentUser.uid), {
+                isOnline: true,
+            });
+
         }
         catch (error) {
             alert(error);
+
         }
 
 
@@ -141,7 +153,7 @@ export default function SignUpScreen() {
     return (
         <SafeAreaView style={style.container}>
             {indicator ? <ActivityIndicators color={'blue'} /> :
-                <ScrollView showsVerticalScrollIndicator={false} style={{ marginHorizontal: 40, marginBottom: 20 }}>
+                <View showsVerticalScrollIndicator={false} style={{ marginHorizontal: 40, marginBottom: 20 }}>
                     {/* {sign text} */}
 
                     <View style={style.textContainer}>
@@ -209,30 +221,31 @@ export default function SignUpScreen() {
                                 }
 
 
-                                <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 10, alignItems: 'center', borderRadius: 5 }}>
+                                <TouchableOpacity disabled={!isValid} onPress={handleSubmit} style={{ marginTop: 40, backgroundColor: color.primaryColor, padding: 15, alignItems: 'center', borderRadius: 5 }}>
                                     <Text style={{ color: 'white' }}>SIGN UP</Text>
                                 </TouchableOpacity>
 
-                                <View style={{ alignItems: 'center', marginVertical: 40 }}>
-                                    <Text style={{ color: 'gray' }}>or connect using</Text>
+                                <View style={{ alignItems: 'center', marginVertical: 20 }}>
+                                    <Text style={{ color: 'gray' }}>Or</Text>
                                 </View>
 
 
                                 {/* {social media} */}
                                 <View style={style.Social}>
-                                    <View style={style.facebookContainer}>
+                                    {/* <View style={style.facebookContainer}>
                                         <FontAwesome name="facebook" size={20} color="white" />
                                         <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Facebook</Text>
-                                    </View>
-                                    <TouchableOpacity onPress={signInWithGoogle} style={{ ...style.facebookContainer, backgroundColor: '#c40e0e' }}>
-                                        <FontAwesome name="google" size={20} color="white" />
-                                        <Text style={{ marginLeft: 5, color: 'white', fontWeight: 'bold' }}>Google</Text>
+                                    </View> */}
+                                    <TouchableOpacity onPress={signInWithGoogle} style={style.facebookContainer}>
+                                        <Image style={{ height: 25, width: 25 }} source={{ uri: 'https://freesvg.org/img/1534129544.png' }} />
+                                        {/* <FontAwesome name="google" size={20} color="white" /> */}
+                                        <Text style={{ marginLeft: 15, color: 'gray', fontSize: 15 }}>Sign in with Google</Text>
                                     </TouchableOpacity>
 
                                 </View>
 
-                                <View style={{ flexDirection: 'row', marginTop: 40, justifyContent: 'center' }} >
-                                    <Text>Already have an account?</Text>
+                                <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: 'center' }} >
+                                    <Text style={{ color: 'gray' }}>Already have an account?</Text>
                                     <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
                                         <Text style={{ color: color.primaryColor }}> Sign In</Text>
                                     </TouchableOpacity>
@@ -247,7 +260,7 @@ export default function SignUpScreen() {
 
 
 
-                </ScrollView>
+                </View>
             }
         </SafeAreaView>
     )
@@ -279,34 +292,37 @@ const style = StyleSheet.create({
 
     },
     facebookContainer: {
-        backgroundColor: '#76a9ea',
-        paddingHorizontal: 30,
+        width: '100%',
         paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
+        // borderRadius: 10,
         flexDirection: 'row',
-        backgroundColor: '#475993'
+        // backgroundColor: 'white',
+        // elevation: 1,
+        borderWidth: 0.2,
+        borderColor: color.primaryColor
 
 
 
     },
 
     textBox: {
-        borderWidth: 1,
-        borderColor: '#FAFAFA',
+        borderWidth: .5,
+        // borderColor: color.primaryColor,
         height: 50,
         backgroundColor: 'white',
         borderRadius: 5,
         alignItems: 'center',
         marginBottom: 10,
-        elevation: 1,
+        // elevation: 1,
         flexDirection: 'row',
         paddingHorizontal: 10
 
     },
     textField: {
         paddingHorizontal: 10,
+        flex: 1
     }
 
 })

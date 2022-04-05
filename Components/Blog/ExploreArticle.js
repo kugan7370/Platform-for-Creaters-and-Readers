@@ -15,8 +15,9 @@ export default function ExploreArticle({ searchData }) {
 
     // const route = useRoute();
     const dispatch = useDispatch();
-    const blogs = useSelector(GetBlogs)
+    // const blogs = useSelector(GetBlogs)
     const navigation = useNavigation();
+    const [ArticleBlogs, setArticleBlogs] = useState()
     // const [searchText, setsearchText] = useState('')
 
     // useEffect(() => {
@@ -36,26 +37,27 @@ export default function ExploreArticle({ searchData }) {
             const ref = collection(db, 'blogs')
             const q = query(ref, orderBy('createAt', 'desc'))
             const snapdata = onSnapshot(q, (snapshot) => {
-                let blogdata = [];
+                let ArticleBlogs = [];
                 if (isMounted) {
                     snapshot.docs.map((doc) => {
-                        blogdata.push({ ...doc.data(), id: doc.id })
+                        ArticleBlogs.push({ ...doc.data(), id: doc.id })
                     })
-
-                    dispatch(SetBlogData({
-                        BlogDatas: blogdata,
-                    }))
+                    setArticleBlogs(ArticleBlogs)
+                    // dispatch(SetBlogData({
+                    //     BlogDatas: blogdata,
+                    // }))
                 }
 
             })
         } catch (error) {
-            let blogdata = [];
-            dispatch(SetBlogData({
-                BlogDatas: blogdata,
-            }))
+            let ArticleBlogs = [];
+            setArticleBlogs(ArticleBlogs)
+            // dispatch(SetBlogData({
+            //     BlogDatas: blogdata,
+            // }))
         }
         return () => { isMounted = false }
-    }, [db])
+    }, [])
 
 
 
@@ -63,8 +65,8 @@ export default function ExploreArticle({ searchData }) {
     return (
 
         <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white' }}>
-            {blogs && blogs.filter((item) => item.username.toLowerCase().includes(searchData) || item.usermail.toLowerCase().includes(searchData) || item.title.toLowerCase().includes(searchData)).map((blog) => (
-                blog.uid !== auth.currentUser.uid ? <BlogPosts blog={blog} key={blog.id} /> : null
+            {ArticleBlogs && ArticleBlogs.filter((item) => item.username.toLowerCase().includes(searchData) || item.usermail.toLowerCase().includes(searchData) || item.title.toLowerCase().includes(searchData)).map((blog) => (
+                (blog.uid !== auth.currentUser.uid && blog.type == 'Article') ? <BlogPosts blog={blog} key={blog.id} /> : null
             ))
 
             }

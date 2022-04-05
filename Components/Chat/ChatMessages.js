@@ -131,7 +131,7 @@ const ChatMessages = () => {
                 {/* {bottom} */}
                 <View  >
                     <View style={{
-                        flexDirection: 'row', backgroundColor: color.primaryColor, paddingHorizontal: 20, paddingVertical: 35, alignItems: 'center'
+                        flexDirection: 'row', backgroundColor: color.primaryColor, paddingHorizontal: 20, paddingVertical: 20, alignItems: 'center'
                     }}>
                         <TextInput style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 20, borderRadius: 10, paddingVertical: 15 }} multiline={true} placeholder='Type a message...' value={text} onChangeText={(text) => setText(text)} />
                         {BlogUser && <TouchableOpacity style={{ width: 55, height: 55, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: color.secondaryColor, marginLeft: 20 }} onPress={() => handleSubmit(BlogUser.uid)}>

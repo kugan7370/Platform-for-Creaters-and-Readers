@@ -28,7 +28,7 @@ export default function BlogTopNavigation({ searchquery }) {
             }} >
 
                 <Tab.Screen name="Article" children={() => <ExploreArticle searchData={searchquery} />} />
-                <Tab.Screen name="Books" component={ExploreBooks} />
+                <Tab.Screen name="Books" children={() => <ExploreBooks searchData={searchquery} />} />
 
             </Tab.Navigator>
 

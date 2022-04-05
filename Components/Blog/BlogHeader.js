@@ -30,18 +30,19 @@ export default function BlogHeader() {
     return (
 
 
-        <View style={{ backgroundColor: color.primaryColor, height: 100, paddingVertical: 20 }}>
+        <View style={{ backgroundColor: color.primaryColor, height: 80, paddingVertical: 20 }}>
             <View style={style.headContainer}>
-                <TouchableOpacity style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 0.5, borderRadius: 5 }} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={{ height: 30, width: 30, justifyContent: 'center', alignItems: 'center', borderColor: '#ebebeb', borderWidth: 1, borderRadius: 10 }} onPress={() => navigation.goBack()}>
 
                     <MaterialIcons name="keyboard-arrow-left" size={24} color="white" />
 
                 </TouchableOpacity>
 
                 <Text style={style.headText}>Explore</Text>
-                <TouchableOpacity style={style.imageContainer}>
+                {/* <TouchableOpacity style={style.imageContainer}>
                     {user && <Image style={style.image} source={{ uri: user.pro_pic }} />}
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <Text></Text>
 
             </View>
         </View >

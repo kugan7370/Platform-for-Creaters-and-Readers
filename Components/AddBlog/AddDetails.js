@@ -21,7 +21,8 @@ const AddBlogSchema = yup.object().shape({
     blogTitle: yup.string().required('requid'),
     description: yup.string().required('requid'),
     category: yup.string().required('required'),
-    language: yup.string().required('required')
+    language: yup.string().required('required'),
+    type: yup.string().required('required')
 })
 
 export default function AddDetails() {
@@ -72,7 +73,7 @@ export default function AddDetails() {
     };
 
 
-    const AddSubmit = async (blogTitle, description, category, language) => {
+    const AddSubmit = async (blogTitle, description, category, language, type) => {
         let ImgUrl;
         let DocUrl;
 
@@ -110,6 +111,7 @@ export default function AddDetails() {
             UserPic: user.pro_pic,
             book_mark_by: [],
             likes_by_users: [],
+            type: type
 
         }).then(() => {
             Alert.alert('Successfully Added');
@@ -138,11 +140,12 @@ export default function AddDetails() {
                     blogTitle: '',
                     description: '',
                     category: '',
-                    language: ''
+                    language: '',
+                    type: ''
                 }
             }
                 onSubmit={values => {
-                    AddSubmit(values.blogTitle, values.description, values.category, values.language);
+                    AddSubmit(values.blogTitle, values.description, values.category, values.language, values.type);
                 }}
                 validationSchema={AddBlogSchema}
             // validateOnMount={true}
@@ -177,6 +180,14 @@ export default function AddDetails() {
                             <Picker.Item label="Eng" value="Eng" />
                             <Picker.Item label="Tamil" value="Tamil" />
                             <Picker.Item label="Singalam" value="Singalam" />
+                        </Picker>
+
+                        <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Type</Text>
+                        <Picker style={style.textBox} selectedValue={values.type} onValueChange={handleChange('type')} >
+
+                            <Picker.Item label="Article" value="Artical" />
+                            <Picker.Item label="Book" value="Book" />
+
                         </Picker>
 
                         <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Upload File</Text>
