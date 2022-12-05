@@ -17,7 +17,7 @@ import { color } from '../Color';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import * as NavigationBar from 'expo-navigation-bar';
 // let navcolor = 'white'
-
+import { EXPO_CLIEND_ID, ANDROID_CLIEND_ID } from "@env"
 
 const LoginSchema = yup.object().shape({
     email: yup.string().email().required('Email is required'),
@@ -37,10 +37,10 @@ export default function SignInScreen() {
     NavigationBar.setBackgroundColorAsync(navcolor);
     useEffect(() => (setnavcolor(color.secondaryColor)), [])
 
-
     const config = {
-        expoClientId: confiqs.ANDROID_CLIENT_ID,
-        androidClientId: confiqs.EXPO_CLIENT_ID,
+
+        expoClientId: process.env.EXPO_CLIEND_ID,
+        androidClientId: process.env.ANDROID_CLIEND_ID,
 
         scopes: ['profile', 'email'],
         permissions: ["public_profile", "email", "gender", "location"],

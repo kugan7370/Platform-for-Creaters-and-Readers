@@ -29,8 +29,8 @@ export default function SignUpScreen() {
     const [indicator, setindicator] = useState(false)
     // signwith google
     const config = {
-        expoClientId: confiqs.ANDROID_CLIENT_ID,
-        androidClientId: confiqs.EXPO_CLIENT_ID,
+        expoClientId: process.env.EXPO_CLIEND_ID,
+        androidClientId: process.env.ANDROID_CLIEND_ID,
         scopes: ['profile', 'email'],
         permissions: ["public_profile", "email", "gender", "location"],
     };
