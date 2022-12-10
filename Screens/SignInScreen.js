@@ -140,10 +140,10 @@ export default function SignInScreen() {
 
 
 
-    const userSign = (email, password) => {
+    const userSign = async (email, password) => {
         try {
 
-            signInWithEmailAndPassword(auth, email, password).then(() => {
+            await signInWithEmailAndPassword(auth, email, password).then(() => {
 
                 //  for update
 
@@ -152,8 +152,8 @@ export default function SignInScreen() {
                 });
             })
         } catch (error) {
-            alert(error);
-            // Alert.alert(message)
+            // alert(error);
+            Alert.alert("Invalid email or password")
         }
 
 

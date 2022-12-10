@@ -93,9 +93,12 @@ const HomeBookScreen = () => {
     const navigation = useNavigation();
     return (
         <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white' }} >
-            {FollowingBlogs && FollowingBlogs.filter((FollowingBlog) => FollowingBlog.type == 'Book').map((FollowingBlog) => (
+            {FollowingBlogs?.length > 0 ? FollowingBlogs.filter((FollowingBlog) => FollowingBlog.type == 'Book').map((FollowingBlog) => (
                 <BlogPosts blog={FollowingBlog} key={FollowingBlog.id} />
-            ))
+            )) : <View style={{ alignItems: "center", marginTop: 200, }}>
+                <Text style={{ fontWeight: '800' }}>Nothing to Show</Text>
+
+            </View>
 
 
 

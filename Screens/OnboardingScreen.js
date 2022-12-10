@@ -70,26 +70,26 @@ const OnboardingScreen = () => {
                     {
 
                         backgroundColor: 'white',
-                        image: <Image style={styles.Images} source={{ uri: 'https://cdni.iconscout.com/illustration/premium/thumb/mobile-learning-app-4438995-3726690.png' }} />,
+                        image: <Image style={styles.Images} source={require('../assets/onbording/onboarding1.webp')} />,
                         title: 'Enrich Your Knowledge',
                         subtitle: 'Always provide resourceful blog, business perspective that helps you to grow your knowledge',
                     },
                     {
                         backgroundColor: 'white',
 
-                        image: <Image style={styles.Images} source={{ uri: 'https://img.freepik.com/free-vector/hand-holding-mobile-phone-with-chat-messages-screen_74855-19800.jpg' }} />,
+                        image: <Image style={styles.Images} source={require('../assets/onbording/onboarding2.webp')} />,
                         title: 'Connect With Chat',
                         subtitle: 'You can connect with anybody, connect with liked-minded people and share your experience with them',
                     },
                     {
                         backgroundColor: 'white',
-                        image: <Image style={styles.Images} source={{ uri: 'https://85uzg3qu8jl267uhl5va1h18-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Cap_Engage_Retain_New_App_1_05_08_19.jpg' }} />,
+                        image: <Image style={styles.Images} source={require('../assets/onbording/onboarding3.jpg')} />,
                         title: 'Learn From Experts',
                         subtitle: 'Our content creators are mostly professional in their fields. they more then work and research experience',
                     },
                     {
                         backgroundColor: 'white',
-                        image: <Image style={styles.Images} source={{ uri: 'https://media.istockphoto.com/vectors/planner-schedule-calendar-time-timetable-concept-vector-flat-graphic-vector-id1182304971?k=20&m=1182304971&s=612x612&w=0&h=IZjn3qLgwc-pxmcnJjRtci_1wYaOqK9EG71lUM7gOeY=' }} />,
+                        image: <Image style={styles.Images} source={require('../assets/onbording/onboarding4.jpg')} />,
                         title: 'Save Blogs That You Like',
                         subtitle: 'Just save that blogs that you wanna read in furture. you will find the saved blogs in one place',
                     },

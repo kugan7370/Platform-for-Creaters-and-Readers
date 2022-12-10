@@ -68,7 +68,6 @@ const HomeArticleScreen = () => {
 
                         FollowingBlog.push({ ...doc.data(), id: doc.id })
                     })
-
                     setFollowingBlogs(FollowingBlog)
                     setindicator(false);
                 }
@@ -92,10 +91,15 @@ const HomeArticleScreen = () => {
 
     const navigation = useNavigation();
     return (
-        <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white' }} >
-            {FollowingBlogs && FollowingBlogs.filter((FollowingBlog) => FollowingBlog.type == 'Article').map((FollowingBlog) => (
+        <ScrollView nestedScrollEnabled={true} style={{ backgroundColor: 'white', flex: 1 }} >
+            {FollowingBlogs?.length > 0 ? FollowingBlogs.filter((FollowingBlog) => FollowingBlog.type == 'Article').map((FollowingBlog) => (
                 <BlogPosts blog={FollowingBlog} key={FollowingBlog.id} />
-            ))
+            )) :
+                <View style={{ alignItems: "center", marginTop: 200, }}>
+                    <Text style={{ fontWeight: '800' }}>Nothing to Show</Text>
+
+                </View>
+
 
 
 

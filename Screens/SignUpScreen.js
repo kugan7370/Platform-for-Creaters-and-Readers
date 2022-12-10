@@ -105,9 +105,9 @@ export default function SignUpScreen() {
         try {
             await createUserWithEmailAndPassword(auth, email, password).then(() => {
                 sendEmailVerification(auth.currentUser)
-                    .then(() => {
-                        alert('check your mail and verify')
-                    });
+                // .then(() => {
+                //     alert('check your mail and verify')
+                // });
             })
             await setDoc(doc(db, 'users', auth.currentUser.uid), {
                 uid: auth.currentUser.uid,
@@ -118,7 +118,7 @@ export default function SignUpScreen() {
 
             }).then(async () => {
 
-                // Alert.alert('Successfully Registered')
+                Alert.alert('Successfully Registered')
                 await setDoc(doc(db, 'Follow', auth.currentUser.uid), {
                     uid: auth.currentUser.uid,
                     following: [],
