@@ -28,7 +28,7 @@ const AddBlogSchema = yup.object().shape({
 export default function AddDetails() {
     const navigation = useNavigation();
     const user = useSelector(SignInUser);
-
+    const [addLoad, setaddLoad] = useState(false)
 
 
     const [image, setImage] = useState(null);
@@ -74,6 +74,7 @@ export default function AddDetails() {
 
 
     const AddSubmit = async (blogTitle, description, category, language, type) => {
+        setaddLoad(true)
         let ImgUrl;
         let DocUrl;
 
@@ -114,8 +115,10 @@ export default function AddDetails() {
             type: type
 
         }).then(() => {
+            setaddLoad(false)
             Alert.alert('Successfully Added');
             navigation.navigate('Blog');
+
         })
 
     }
@@ -185,7 +188,7 @@ export default function AddDetails() {
                         <Text style={{ fontWeight: 'bold', letterSpacing: 1 }}>Type</Text>
                         <Picker style={style.textBox} selectedValue={values.type} onValueChange={handleChange('type')} >
 
-                            <Picker.Item label="Article" value="Artical" />
+                            <Picker.Item label="Article" value="Article" />
                             <Picker.Item label="Book" value="Book" />
 
                         </Picker>
@@ -196,7 +199,7 @@ export default function AddDetails() {
                         </TouchableOpacity>
 
                         <View style={{ marginTop: 30, marginBottom: 50 }}>
-                            <Button color={color.primaryColor} title='Add Book' disabled={!isValid} onPress={handleSubmit}></Button>
+                            <Button color={color.primaryColor} title={addLoad ? "Adding...." : "Add Content"} disabled={!isValid} onPress={handleSubmit}></Button>
                         </View>
 
 

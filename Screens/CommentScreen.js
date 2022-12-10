@@ -46,7 +46,7 @@ const CommentScreen = () => {
             username: user.username,
             userPro_Pic: user.pro_pic,
             comment: addComment,
-            createAt: serverTimestamp(),
+            createAt: new Date(),
         })
         setaddComment('');
     }

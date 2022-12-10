@@ -136,25 +136,28 @@ export const PostHeader = ({ navigation, handleBookMark, isBookmark, blog, handl
 );
 
 
-export const PostContent = ({ navigation, blog }) => (
+export const PostContent = ({ navigation, blog }) => {
 
-    <View style={style.flexDivider} >
-        <View style={style.imageContainer}>
-            <Image style={style.titleImage} source={{ uri: blog.titleImage }}></Image>
-        </View>
-
-        <View style={style.PostTitleContainer} >
-
-            <Text style={style.postTitle}>{blog.title}</Text>
-            <View style={{ marginTop: 20, alignSelf: 'flex-start', borderRadius: 5, paddingVertical: 6, paddingHorizontal: 10 }}>
-                <Text style={style.categoryText}>{blog.category}</Text>
+    return (
+        <View style={style.flexDivider} >
+            <View style={style.imageContainer}>
+                <Image style={style.titleImage} source={{ uri: blog.titleImage }}></Image>
             </View>
+
+            <View style={style.PostTitleContainer} >
+
+                <Text style={style.postTitle}>{blog.title}</Text>
+                <View style={{ marginTop: 20, alignSelf: 'flex-start', borderRadius: 5, paddingVertical: 6, paddingHorizontal: 10 }}>
+                    <Text style={style.categoryText}>{blog.category}</Text>
+                </View>
+            </View>
+
+
+
         </View>
+    )
+}
 
-
-
-    </View>
-);
 
 
 

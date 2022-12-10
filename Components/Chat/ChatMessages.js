@@ -69,7 +69,7 @@ const ChatMessages = () => {
             text,
             from: user1,
             to: user2,
-            createAt: serverTimestamp(),
+            createAt: new Date(),
         })
         setText('');
 

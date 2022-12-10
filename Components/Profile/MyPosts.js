@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Dimensions } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import BlogPosts from '../Blog/BlogPosts';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '../../Firebase';
 import BlogHeader from '../Blog/BlogHeader';
 import Headers from '../Common/Headers';
@@ -29,7 +29,7 @@ const MyPosts = () => {
         let isMounted = true
         try {
             const ref = collection(db, 'blogs')
-            const q = query(ref, where('uid', '==', UserIds))
+            const q = query(ref, where('uid', '==', UserIds), orderBy('createAt', 'desc'))
             const snap = onSnapshot(q, (snapshot) => {
 
                 let SignUserBlog = []
